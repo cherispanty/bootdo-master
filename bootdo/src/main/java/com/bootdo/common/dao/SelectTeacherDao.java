@@ -1,5 +1,6 @@
 package com.bootdo.common.dao;
 
+import com.bootdo.common.dto.TeacherDTO;
 import com.bootdo.system.domain.UserDO;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -12,5 +13,5 @@ import java.util.Map;
 @Mapper
 public interface SelectTeacherDao {
     //查询老师列表
-    List<UserDO> queryTeacherList(Map<String, Object> map);
+    List<TeacherDTO> queryTeacherList(Map<String, Object> map);
 }
