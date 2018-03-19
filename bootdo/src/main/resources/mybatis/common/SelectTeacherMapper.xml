@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.common.dao.SelectTeacherDao">
+	<select id="queryTeacherList" parameterType="map" resultType="com.bootdo.system.domain.UserDO">
+		select * from SYS_USER
+		<where>
+			<if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+			<if test="name != null and name != ''"> and name like concat('%',#{name},'%') </if>
+			<if test="researchDirection != null and researchDirection != ''"> and research_direction like concat('%',#{researchDirection},'%') </if>
+			and status = 1
+		</where>
+		<choose>
+			<when test="sort != null and sort.trim() != ''">
+				order by ${sort} ${order}
+			</when>
+			<otherwise>
+				order by user_id desc
+			</otherwise>
+		</choose>
+	</select>
+
+
+</mapper>
