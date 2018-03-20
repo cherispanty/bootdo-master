@@ -6,6 +6,16 @@ package com.bootdo.common.dto;
  * @Description ‘选择老师’页面展示老师信息
  */
 public class TeacherDTO {
+    private Long userId;        //用户id
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
     private String name;        //老师姓名
     private String deptName;    //部门名
     private String researchDirection;   //研究方向
@@ -102,7 +112,8 @@ public class TeacherDTO {
     @Override
     public String toString() {
         return "TeacherDTO{" +
-                "name='" + name + '\'' +
+                "userId=" + userId +
+                ", name='" + name + '\'' +
                 ", deptName='" + deptName + '\'' +
                 ", researchDirection='" + researchDirection + '\'' +
                 ", totalNum=" + totalNum +

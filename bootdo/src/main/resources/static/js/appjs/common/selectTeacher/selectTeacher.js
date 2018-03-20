@@ -89,69 +89,50 @@ function load() {
 				// sortOrder.
 				// 返回false将会终止请求
 				columns : [
-					{
-						checkbox : true
-					},
-					{
+                    {
+                        title: '序号',//标题  可不加
+                        formatter: function (value, row, index) {
+                            return index + 1;
+                        },
+						align: "center"
+                    },
+                    {
 						field : 'name',
 						title : '教师名'
 					},
 					{
-						field : 'name',
-						title : '标签名'
+						field : 'deptName',
+						title : '教研室'
 					},
 					{
-						field : 'value',
-						title : '数据值',
+						field : 'researchDirection',
+						title : '研究方向',
 						width : '100px'
 					},
 					{
-						field : 'type',
-						title : '类型'
+						field : 'totalNum',
+						title : '可带人数上限'
 					},
 					{
-						field : 'description',
-						title : '描述'
+						field : 'alreadyNum',
+						title : '已带学生'
 					},
 					{
-						visible : false,
-						field : 'sort',
-						title : '排序（升序）'
+						field : 'readyNum',
+						title : '正在申请的人数'
 					},
 					{
-						visible : false,
-						field : 'parentId',
-						title : '父级编号'
+						field : 'status',
+						title : '是否可带学生',
+						width : '100px'
 					},
 					{
-						visible : false,
-						field : 'createBy',
-						title : '创建者'
+						field : 'mobile',
+						title : '手机号'
 					},
 					{
-						visible : false,
-						field : 'createDate',
-						title : '创建时间'
-					},
-					{
-						visible : false,
-						field : 'updateBy',
-						title : '更新者'
-					},
-					{
-						visible : false,
-						field : 'updateDate',
-						title : '更新时间'
-					},
-					{
-						visible : false,
-						field : 'remarks',
-						title : '备注信息'
-					},
-					{
-						visible : false,
-						field : 'delFlag',
-						title : '删除标记'
+						field : 'email',
+						title : '邮箱'
 					},
 					{
 						title : '操作',

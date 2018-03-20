@@ -2,12 +2,15 @@ package com.bootdo.common.controller;
 
 import com.bootdo.common.config.Constant;
 import com.bootdo.common.domain.DictDO;
+import com.bootdo.common.dto.TeacherDTO;
 import com.bootdo.common.service.DictService;
 import com.bootdo.common.service.SelectTeacherService;
 import com.bootdo.common.utils.PageUtils;
 import com.bootdo.common.utils.Query;
 import com.bootdo.common.utils.R;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +30,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/common/selectTeacher")
 public class SelectTeacherController extends BaseController {
+	private Logger logger = LoggerFactory.getLogger(SelectTeacherController.class);
 	@Autowired
 	private SelectTeacherService selectTeacherService;
 
@@ -45,6 +49,13 @@ public class SelectTeacherController extends BaseController {
 //		int total = dictService.count(query);
 //		PageUtils pageUtils = new PageUtils(dictList, total);
 //		return pageUtils;
-		return null;
+		logger.info("SelectTeacherController.list|params = {}",params.toString());
+		Query query = new Query(params);
+		List<TeacherDTO> teacherList = selectTeacherService.queryTeacherList(query);
+		logger.info("SelectTeacherController.list|查询结果为 teacherList = {}",teacherList.toString());
+		int count = selectTeacherService.count(query);
+		logger.info("SelectTeacherController.list|查询条数为 count = {}",count);
+		PageUtils pageUtils = new PageUtils(teacherList,count);
+		return pageUtils;
 	}
 }

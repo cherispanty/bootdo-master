@@ -4,8 +4,9 @@
 <mapper namespace="com.bootdo.common.dao.SelectTeacherDao">
 	<select id="queryTeacherList" parameterType="map" resultType="com.bootdo.common.dto.TeacherDTO">
 		SELECT
-		su. NAME,
-		sd. NAME deptName,
+		su.user_id,
+		su.NAME,
+		sd.NAME deptName,
 		su.research_direction,
 		su.total_num,
 		su.already_num,
@@ -14,10 +15,10 @@
 		su.email
 		FROM
 		sys_user su
-		LEFT JOIN sys_dept sd ON su.dept_id = sd.dept_id;
+		LEFT JOIN sys_dept sd ON su.dept_id = sd.dept_id
 		<where>
-			<if test="name != null and name != ''"> and name like concat('%',#{name},'%') </if>
-			<if test="researchDirection != null and researchDirection != ''"> and research_direction like concat('%',#{researchDirection},'%') </if>
+			<if test="name != null and name.trim() != ''"> and name like concat('%',#{name},'%') </if>
+			<if test="researchDirection != null and researchDirection.trim() != ''"> and research_direction like concat('%',#{researchDirection},'%') </if>
 			and status = 1
 		</where>
 		<choose>
@@ -28,7 +29,22 @@
 				order by su.ready_num desc
 			</otherwise>
 		</choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
 
+	<select id="count" parameterType="map" resultType="int">
+		SELECT
+		count(1)
+		FROM
+		sys_user su
+		LEFT JOIN sys_dept sd ON su.dept_id = sd.dept_id
+		<where>
+			<if test="name != null and name.trim() != ''"> and name like concat('%',#{name},'%') </if>
+			<if test="researchDirection != null and researchDirection.trim() != ''"> and research_direction like concat('%',#{researchDirection},'%') </if>
+			and status = 1
+		</where>
 	</select>
 
 

@@ -14,4 +14,6 @@ import java.util.Map;
 public interface SelectTeacherDao {
     //查询老师列表
     List<TeacherDTO> queryTeacherList(Map<String, Object> map);
+    //统计记录条数
+    int count(Map<String, Object> map);
 }
