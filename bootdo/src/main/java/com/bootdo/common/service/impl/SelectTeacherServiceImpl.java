@@ -2,7 +2,9 @@ package com.bootdo.common.service.impl;
 
 import com.bootdo.common.dao.SelectTeacherDao;
 import com.bootdo.common.dto.TeacherDTO;
+import com.bootdo.common.dto.TeacherStudent;
 import com.bootdo.common.service.SelectTeacherService;
+import com.bootdo.common.utils.ConstantVal;
 import com.bootdo.system.domain.UserDO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,5 +45,31 @@ public class SelectTeacherServiceImpl implements SelectTeacherService {
         logger.info("SelectTeacherServiceImpl.count()| map = {}",map.toString());
         int count = selectTeacherDao.count(map);
         return count;
+    }
+
+    /**
+     * 根据userId查询老师信息
+     *
+     * @param userId
+     * @return
+     */
+    @Override
+    public TeacherDTO queryTeacherByUserId(Long userId) {
+        logger.info("SelectTeacherServiceImpl.queryTeacherByUserId()| userId = {}",userId);
+        return selectTeacherDao.queryTeacherByUserId(userId);
+    }
+
+    /**
+     * 添加申请记录
+     *
+     * @param teacherStudent
+     * @return
+     */
+    @Override
+    public Integer saveApplyRecord(TeacherStudent teacherStudent) {
+        logger.info("SelectTeacherServiceImpl.saveApplyRecord()|begin teacherStudent = {}",teacherStudent.toString());
+        teacherStudent.setLinkStatus(ConstantVal.LINK_STATUS_APPLY);
+        logger.info("SelectTeacherServiceImpl.saveApplyRecord()|after teacherStudent = {}",teacherStudent.toString());
+        return selectTeacherDao.insertTeacherStudent(teacherStudent);
     }
 }

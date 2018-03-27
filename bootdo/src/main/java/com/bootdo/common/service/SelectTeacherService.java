@@ -1,6 +1,7 @@
 package com.bootdo.common.service;
 
 import com.bootdo.common.dto.TeacherDTO;
+import com.bootdo.common.dto.TeacherStudent;
 import com.bootdo.system.domain.UserDO;
 
 import java.util.List;
@@ -14,4 +15,18 @@ public interface SelectTeacherService {
     List<TeacherDTO> queryTeacherList(Map<String, Object> map);
     //统计记录条数
     int count(Map<String, Object> map);
+
+    /**
+     * 根据userId查询老师信息
+     * @param userId
+     * @return
+     */
+    TeacherDTO queryTeacherByUserId(Long userId);
+
+    /**
+     * 添加申请记录
+     * @param teacherStudent
+     * @return
+     */
+    Integer saveApplyRecord(TeacherStudent teacherStudent);
 }

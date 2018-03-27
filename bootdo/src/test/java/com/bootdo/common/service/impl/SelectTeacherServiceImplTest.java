@@ -39,4 +39,10 @@ public class SelectTeacherServiceImplTest {
         logger.info("count = {}",count);
     }
 
+    @Test
+    public void queryTeacherByUserIdTest() {
+        TeacherDTO teacherDTO = selectTeacherService.queryTeacherByUserId(123L);
+        logger.info("teacherDTO = {}",teacherDTO.toString());
+    }
+
 }

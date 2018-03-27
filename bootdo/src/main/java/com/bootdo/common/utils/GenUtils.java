@@ -216,9 +216,9 @@ public class GenUtils {
             return "main" + File.separator + "resources" + File.separator + "templates" + File.separator
                     + packageName + File.separator + classname + File.separator + "add.html";
         }
-        if (template.contains("edit.html.vm")) {
+        if (template.contains("apply.html.vm")) {
             return "main" + File.separator + "resources" + File.separator + "templates" + File.separator
-                    + packageName + File.separator + classname + File.separator + "edit.html";
+                    + packageName + File.separator + classname + File.separator + "apply.html";
         }
 
         if (template.contains("list.js.vm")) {
@@ -230,9 +230,9 @@ public class GenUtils {
             return "main" + File.separator + "resources" + File.separator + "static" + File.separator + "js" + File.separator
                     + "appjs" + File.separator + packageName + File.separator + classname + File.separator + "add.js";
         }
-        if (template.contains("edit.js.vm")) {
+        if (template.contains("apply.js.vm")) {
             return "main" + File.separator + "resources" + File.separator + "static" + File.separator + "js" + File.separator
-                    + "appjs" + File.separator + packageName + File.separator + classname + File.separator + "edit.js";
+                    + "appjs" + File.separator + packageName + File.separator + classname + File.separator + "apply.js";
         }
 
 //		if(template.contains("menu.sql.vm")){

@@ -3,11 +3,13 @@ package com.bootdo.common.controller;
 import com.bootdo.common.config.Constant;
 import com.bootdo.common.domain.DictDO;
 import com.bootdo.common.dto.TeacherDTO;
+import com.bootdo.common.dto.TeacherStudent;
 import com.bootdo.common.service.DictService;
 import com.bootdo.common.service.SelectTeacherService;
 import com.bootdo.common.utils.PageUtils;
 import com.bootdo.common.utils.Query;
 import com.bootdo.common.utils.R;
+import com.bootdo.common.utils.ShiroUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,11 +46,6 @@ public class SelectTeacherController extends BaseController {
 	@RequiresPermissions("common:selectTeacher:selectTeacher")
 	public PageUtils list(@RequestParam Map<String, Object> params) {
 //		// 查询列表数据
-//		Query query = new Query(params);
-//		List<DictDO> dictList = dictService.list(query);
-//		int total = dictService.count(query);
-//		PageUtils pageUtils = new PageUtils(dictList, total);
-//		return pageUtils;
 		logger.info("SelectTeacherController.list|params = {}",params.toString());
 		Query query = new Query(params);
 		List<TeacherDTO> teacherList = selectTeacherService.queryTeacherList(query);
@@ -58,4 +55,41 @@ public class SelectTeacherController extends BaseController {
 		PageUtils pageUtils = new PageUtils(teacherList,count);
 		return pageUtils;
 	}
+
+	@GetMapping("/apply/{userId}")
+	String apply(@PathVariable("userId") Long userId, Model model) {
+//		DictDO dict = dictService.get(id);
+//		model.addAttribute("dict", dict);
+//		return "common/dict/edit";
+        TeacherDTO teacherDTO = selectTeacherService.queryTeacherByUserId(userId);
+        //组装申请记录
+        TeacherStudent ts = new TeacherStudent();
+        ts.setTeacherId(teacherDTO.getUserId());
+        ts.setStudentId(ShiroUtils.getUserId());
+        ts.setResearchDirection(teacherDTO.getResearchDirection());
+        ts.setDeptName(teacherDTO.getDeptName());
+        ts.setTeacherName(teacherDTO.getName());
+        logger.info("SelectTeacherController.apply()|ts = {}",ts.toString());
+        model.addAttribute("ts",ts);
+        return "common/selectTeacher/apply";
+    }
+
+    /**
+     * 保存一条申请记录
+     */
+    @ResponseBody
+    @PostMapping("/save")
+    public R save(TeacherStudent teacherStudent) {
+//        if (Constant.DEMO_ACCOUNT.equals(getUsername())) {
+//            return R.error(1, "演示系统不允许修改,完整体验请部署程序");
+//        }
+//        if (dictService.save(dict) > 0) {
+//            return R.ok();
+//        }
+        logger.info("SelectTeacherController.teacherStudent()|teacherStudent = {}",teacherStudent.toString());
+        if(selectTeacherService.saveApplyRecord(teacherStudent) > 0) {
+            return R.ok();
+        }
+        return R.error();
+    }
 }

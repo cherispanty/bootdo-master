@@ -15,11 +15,11 @@
 		su.email
 		FROM
 		sys_user su
-		LEFT JOIN sys_dept sd ON su.dept_id = sd.dept_id
+		LEFT JOIN sys_dept sd ON su.dept_id = sd.dept_id LEFT JOIN sys_user_role sur ON sur.user_id = su.user_id
 		<where>
 			<if test="name != null and name.trim() != ''"> and name like concat('%',#{name},'%') </if>
 			<if test="researchDirection != null and researchDirection.trim() != ''"> and research_direction like concat('%',#{researchDirection},'%') </if>
-			and status = 1
+			and status = 1 and sur.role_id = 59
 		</where>
 		<choose>
 			<when test="sort != null and sort.trim() != ''">
@@ -39,13 +39,65 @@
 		count(1)
 		FROM
 		sys_user su
-		LEFT JOIN sys_dept sd ON su.dept_id = sd.dept_id
+		LEFT JOIN sys_dept sd ON su.dept_id = sd.dept_id LEFT JOIN sys_user_role sur ON sur.user_id = su.user_id
 		<where>
 			<if test="name != null and name.trim() != ''"> and name like concat('%',#{name},'%') </if>
 			<if test="researchDirection != null and researchDirection.trim() != ''"> and research_direction like concat('%',#{researchDirection},'%') </if>
-			and status = 1
+			and status = 1 and sur.role_id = 59
 		</where>
 	</select>
+	<select id="queryTeacherByUserId" parameterType="Long" resultType="com.bootdo.common.dto.TeacherDTO">
+		SELECT
+		su.user_id,
+		su.NAME,
+		sd.NAME deptName,
+		su.research_direction,
+		su.total_num,
+		su.already_num,
+		su.ready_num,
+		su.mobile,
+		su.email
+		FROM
+		sys_user su LEFT JOIN sys_dept sd ON su.dept_id = sd.dept_id
+		where user_id = #{userId}
+	</select>
 
+	<insert id="insertTeacherStudent" parameterType="com.bootdo.common.dto.TeacherStudent">
+		insert into sys_teacher_student
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="teacherId != null">
+				teacher_id,
+			</if>
+			<if test="studentId != null">
+				student_id,
+			</if>
+			<if test="linkStatus != null">
+				link_status,
+			</if>
+			<if test="paperTitle != null and paperTitle.trim() != ''">
+				paper_title,
+			</if>
+			<if test="leaveMessage != null and leaveMessage.trim() != ''">
+				leave_message,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="teacherId != null">
+				#{teacherId},
+			</if>
+			<if test="studentId != null">
+				#{studentId},
+			</if>
+			<if test="linkStatus != null">
+				#{linkStatus},
+			</if>
+			<if test="paperTitle != null and paperTitle.trim() != ''">
+				#{paperTitle},
+			</if>
+			<if test="leaveMessage != null and leaveMessage.trim() != ''">
+				#{leaveMessage},
+			</if>
+		</trim>
+	</insert>
 
 </mapper>
