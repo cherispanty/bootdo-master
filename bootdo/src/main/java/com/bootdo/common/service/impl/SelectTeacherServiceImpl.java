@@ -5,6 +5,7 @@ import com.bootdo.common.dto.TeacherDTO;
 import com.bootdo.common.dto.TeacherStudent;
 import com.bootdo.common.service.SelectTeacherService;
 import com.bootdo.common.utils.ConstantVal;
+import com.bootdo.common.utils.ShiroUtils;
 import com.bootdo.system.domain.UserDO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

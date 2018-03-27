@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.common.dao.MyApplyDao">
+	<select id="queryTeacherStudent" parameterType="map" resultType="com.bootdo.common.dto.TeacherStudent">
+		SELECT
+			sts.id,
+			sts.teacher_id,
+			sts.student_id,
+			sts.link_status,
+			sts.paper_title,
+			sts.create_time,
+			sts.modify_time,
+			sts.leave_message,
+			su.name teacherName
+		FROM
+			sys_teacher_student sts
+		LEFT JOIN sys_user su ON su.user_id = sts.teacher_id
+		<where>
+			<if test="linkStatus != null and linkStatus != ''">
+				and sts.link_status = #{linkStatus}
+			</if>
+			and student_id = #{studentId}
+		</where>
+		<choose>
+			<when test="sort != null and sort.trim() != ''">
+				order by ${sort} ${order}
+			</when>
+			<otherwise>
+				order by sts.teacher_id desc
+			</otherwise>
+		</choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+	<select id="countTotal" parameterType="map" resultType="Integer">
+		SELECT
+		count(1)
+		FROM
+		sys_teacher_student sts
+		<where>
+			<if test="linkStatus != null and linkStatus != ''">
+				and sts.link_status = #{linkStatus}
+			</if>
+			and student_id = #{studentId}
+		</where>
+	</select>
+
+</mapper>

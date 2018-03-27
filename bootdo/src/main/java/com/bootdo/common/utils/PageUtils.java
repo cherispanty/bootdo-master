@@ -32,4 +32,11 @@ public class  PageUtils implements Serializable {
 		this.rows = rows;
 	}
 
+	@Override
+	public String toString() {
+		return "PageUtils{" +
+				"total=" + total +
+				", rows=" + rows +
+				'}';
+	}
 }

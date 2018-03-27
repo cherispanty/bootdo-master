@@ -17,7 +17,7 @@
 		sys_user su
 		LEFT JOIN sys_dept sd ON su.dept_id = sd.dept_id LEFT JOIN sys_user_role sur ON sur.user_id = su.user_id
 		<where>
-			<if test="name != null and name.trim() != ''"> and name like concat('%',#{name},'%') </if>
+			<if test="name != null and name.trim() != ''"> and su.name like concat('%',#{name},'%') </if>
 			<if test="researchDirection != null and researchDirection.trim() != ''"> and research_direction like concat('%',#{researchDirection},'%') </if>
 			and status = 1 and sur.role_id = 59
 		</where>
@@ -41,7 +41,7 @@
 		sys_user su
 		LEFT JOIN sys_dept sd ON su.dept_id = sd.dept_id LEFT JOIN sys_user_role sur ON sur.user_id = su.user_id
 		<where>
-			<if test="name != null and name.trim() != ''"> and name like concat('%',#{name},'%') </if>
+			<if test="name != null and name.trim() != ''"> and su.name like concat('%',#{name},'%') </if>
 			<if test="researchDirection != null and researchDirection.trim() != ''"> and research_direction like concat('%',#{researchDirection},'%') </if>
 			and status = 1 and sur.role_id = 59
 		</where>

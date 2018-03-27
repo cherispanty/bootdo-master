@@ -1,5 +1,5 @@
 
-var prefix = "/common/selectTeacher"
+var prefix = "/common/myApply"
 $(function() {
 	
 	//	var config = {
@@ -78,10 +78,7 @@ function load() {
 						//说明：传入后台的参数包括offset开始索引，limit步长，sort排序列，order：desc或者,以及所有列的键值对
 						limit : params.limit,
 						offset : params.offset,
-						// name:$('#searchName').val(),
-						/*type : $('#searchName').val(),*/
-                        name: $('#teacherName').val(),
-                        researchDirection: $('#researchDirection').val()
+						linkStatus : $('#linkStatus').val()
 					};
 				},
 				// //请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数，例如 toolbar 中的参数 如果
@@ -99,45 +96,34 @@ function load() {
 						align: "center"
                     },
                     {
-						field : 'name',
+						field : 'teacherName',
 						title : '教师名'
 					},
+                    {
+                        field : 'linkStatus',
+                        title : '申请状态',
+                        align : 'center',
+                        formatter : function(value, row, index) {
+                            if (value == '-1') {
+									return '<span class="label label-danger">已拒绝</span>';
+                            } else if (value == '1') {
+                                return '<span class="label label-primary">已同意</span>';
+                            }else if (value == '0') {
+                                return '<span class="label label-warning">待查看</span>';
+                            }
+                        }
+                    },
 					{
-						field : 'deptName',
-						title : '教研室'
-					},
-					{
-						field : 'researchDirection',
-						title : '研究方向',
+						field : 'createTime',
+						title : '申请时间',
 						width : '100px'
 					},
 					{
-						field : 'totalNum',
-						title : '可带人数上限'
+						field : 'leaveMessage',
+						title : '申请留言'
 					},
 					{
-						field : 'alreadyNum',
-						title : '已带学生'
-					},
-					{
-						field : 'readyNum',
-						title : '正在申请的人数'
-					},
-					{
-						field : 'status',
-						title : '是否可带学生',
-						width : '100px'
-					},
-					{
-						field : 'mobile',
-						title : '手机号'
-					},
-					{
-						field : 'email',
-						title : '邮箱'
-					},
-					{
-						title : '申请导师',
+						title : '操作',
 						field : 'userId',
 						align : 'center',
 						formatter : function(value, row, index) {
