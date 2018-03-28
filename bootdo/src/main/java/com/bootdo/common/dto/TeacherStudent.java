@@ -11,6 +11,7 @@ public class TeacherStudent {
     private Long teacherId;
     private String teacherName;
     private Long studentId;
+    private String studentName;
     private Byte linkStatus;
     private String paperTitle;
     private LocalDateTime createTime;
@@ -18,6 +19,15 @@ public class TeacherStudent {
     private String leaveMessage;
     private String deptName;    //部门名
     private String researchDirection;   //研究方向
+
+
+    public String getStudentName() {
+        return studentName;
+    }
+
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
+    }
 
     public String getTeacherName() {
         return teacherName;
@@ -114,6 +124,7 @@ public class TeacherStudent {
                 ", teacherId=" + teacherId +
                 ", teacherName='" + teacherName + '\'' +
                 ", studentId=" + studentId +
+                ", studentName='" + studentName + '\'' +
                 ", linkStatus=" + linkStatus +
                 ", paperTitle='" + paperTitle + '\'' +
                 ", createTime=" + createTime +

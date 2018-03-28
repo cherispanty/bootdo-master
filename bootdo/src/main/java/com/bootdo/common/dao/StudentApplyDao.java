@@ -11,31 +11,25 @@ import java.util.Map;
  * @date 2018/3/27 15:29
  */
 @Mapper
-public interface MyApplyDao {
+public interface StudentApplyDao {
     /**
-     * 所有申请记录条数
-     * @return
-     */
-    Integer countTotal(Map<String, Object> map);
-
-    /**
-     * 查询申请记录
+     * 查看学生的申请记录
      * @param map
      * @return
      */
     List<TeacherStudent> queryTeacherStudent(Map<String, Object> map);
 
     /**
-     * 通过id查询申请记录
-     * @param id
+     * 统计记录的条数，用于分页
+     * @param map
      * @return
      */
-    TeacherStudent queryTeacherStudentById(Long id);
+    Integer countTotal(Map<String, Object> map);
 
     /**
-     * 更新老师-学生连接状态
-     * @param ts
+     * 更新老师-学生关联状态
+     * @param teacherStudent
      * @return
      */
-    Integer updateTeacherStudent(TeacherStudent ts);
+    Integer updateLinkStatus(TeacherStudent teacherStudent);
 }

@@ -44,7 +44,27 @@ public class MyApplyService {
      * @return
      */
     public Integer countTotal(Map<String, Object> map) {
-        logger.info("MyApplyServicecountTotal|map = {}",map.toString());
+        logger.info("MyApplyService.countTotal|map = {}",map.toString());
         return myApplyDao.countTotal(map);
+    }
+
+    /**
+     * 通过id查询申请记录
+     * @param id
+     * @return
+     */
+    public TeacherStudent queryTeacherStudent(Long id) {
+        logger.info("MyApplyService.queryTeacherStudent()|id = {}",id);
+        return myApplyDao.queryTeacherStudentById(id);
+    }
+
+    /**
+     * 更新申请信息（申请状态）
+     * @param teacherStudent
+     * @return
+     */
+    public Integer updateTeacherStudent(TeacherStudent teacherStudent) {
+        logger.info("MyApplyService.updateTeacherStudent()|teacherStudent = {}",teacherStudent.toString());
+        return myApplyDao.updateTeacherStudent(teacherStudent);
     }
 }

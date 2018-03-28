@@ -42,6 +42,14 @@ public class MyApplyController {
         Query query = new Query(params);
         try{
             List<TeacherStudent> teacherStudentList = myApplyService.queryMyApply(query);
+            if(teacherStudentList != null && teacherStudentList.size() > 0){
+                String studentName = ShiroUtils.getUser().getName();
+                //添加学生信息
+                for (TeacherStudent ts:
+                        teacherStudentList) {
+                    ts.setStudentName(studentName);
+                }
+            }
             Integer total = myApplyService.countTotal(query);
             PageUtils pageUtils = new PageUtils(teacherStudentList,total);
             logger.info("MyApplyController.list()|pageUtils = {}",pageUtils.toString());
@@ -53,5 +61,49 @@ public class MyApplyController {
             logger.info("MyApplyController.list()|查询失败",e);
             throw e;
         }
+    }
+
+    /**
+     * 检测是否可以取消申请
+     * @param id
+     * @return
+     */
+    @PostMapping("/check")
+    @ResponseBody
+    public R check(Long id) {
+        TeacherStudent teacherStudent = myApplyService.queryTeacherStudent(id);
+        if(teacherStudent == null) {
+            return R.error("在该申请状态下不允许操作");
+        }
+        if(teacherStudent.getLinkStatus() == 0) {
+            return R.ok();
+        }
+        return R.error("在该申请状态下不允许操作");
+    }
+
+    /**
+     * 取消申请
+     * @param id
+     * @return
+     */
+    @PostMapping("/cancel")
+    @ResponseBody
+    public R cancel(Long id) {
+        logger.info("MyApplyController.cancel|id = {}",id);
+        TeacherStudent teacherStudent = myApplyService.queryTeacherStudent(id);
+        if(teacherStudent == null) {
+            return R.error("不存在该记录，修改失败");
+        }
+        //修改申请状态
+        teacherStudent.setLinkStatus(ConstantVal.LINK_STATUS_CANCEL);
+        Integer rows = myApplyService.updateTeacherStudent(teacherStudent);
+        if(rows > 0) {
+            logger.info("MyApplyController.cancel|修改成功");
+            return R.ok();
+        }else {
+            return R.error();
+        }
+
+
     }
 }

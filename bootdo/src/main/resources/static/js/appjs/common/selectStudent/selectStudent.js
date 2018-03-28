@@ -1,5 +1,5 @@
 
-var prefix = "/common/myApply"
+var prefix = "/common/selectStudent"
 $(function() {
 	
 	//	var config = {
@@ -78,7 +78,10 @@ function load() {
 						//说明：传入后台的参数包括offset开始索引，limit步长，sort排序列，order：desc或者,以及所有列的键值对
 						limit : params.limit,
 						offset : params.offset,
-						linkStatus : $('#linkStatus').val()
+						// name:$('#searchName').val(),
+						/*type : $('#searchName').val(),*/
+                        name: $('#teacherName').val(),
+                        researchDirection: $('#researchDirection').val()
 					};
 				},
 				// //请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数，例如 toolbar 中的参数 如果
@@ -96,51 +99,51 @@ function load() {
 						align: "center"
                     },
                     {
-						field : 'teacherName',
-						title : '教师名',
-                        align : 'center'
-					},
-                    {
-                        field : 'studentName',
-                        title : '申请人',
-                        align : 'center'
-                    },
-                    {
-                        field : 'linkStatus',
-                        title : '申请状态',
-                        align : 'center',
-                        formatter : function(value, row, index) {
-                            if (value == '-1') {
-									return '<span class="label label-danger">已拒绝</span>';
-                            } else if (value == '1') {
-                                return '<span class="label label-primary">已同意</span>';
-                            }else if (value == '0') {
-                                return '<span class="label label-warning">待查看</span>';
-                            }else if(value == '-2') {
-                            	return '<span class="label label-danger">已取消</span>';
-							}
-                        }
-                    },
-					{
-						field : 'createTime',
-						title : '申请时间',
-                        align : 'center',
-						width : '150px',
-						index : 'create_time',
-                        sortable : true
+						field : 'name',
+						title : '教师名'
 					},
 					{
-						field : 'leaveMessage',
-						title : '申请留言'
+						field : 'deptName',
+						title : '教研室'
 					},
 					{
-						title : '取消申请',
-						field : 'id',
+						field : 'researchDirection',
+						title : '研究方向',
+						width : '100px'
+					},
+					{
+						field : 'totalNum',
+						title : '可带人数上限'
+					},
+					{
+						field : 'alreadyNum',
+						title : '已带学生'
+					},
+					{
+						field : 'readyNum',
+						title : '正在申请的人数'
+					},
+					{
+						field : 'status',
+						title : '是否可带学生',
+						width : '100px'
+					},
+					{
+						field : 'mobile',
+						title : '手机号'
+					},
+					{
+						field : 'email',
+						title : '邮箱'
+					},
+					{
+						title : '申请导师',
+						field : 'userId',
 						align : 'center',
 						formatter : function(value, row, index) {
-							// console.log("row : "+JSON.stringify(JSON.stringify(row)));
-							var e = '<a  class="btn btn-primary btn-sm ' + s_cancel_h + '" href="#" mce_href="#" title="取消申请" onclick="check(\''
-								+ row.id
+							console.log("row : "+JSON.stringify(JSON.stringify(row)));
+							var e = '<a class="btn btn-primary btn-sm ' + s_apply_h + '" href="#" mce_href="#" title="申请导师" onclick="apply(\''
+								+ row.userId
 								+ '\')"><i class="fa fa-edit"></i></a> ';
 							return e;
 						}
@@ -170,49 +173,28 @@ function apply(userId) {
 		content : prefix + '/apply/' + userId // iframe的url
 	});
 }
-function check(id) {
-	console.log("id:"+id);
-	//检测该记录是否可以取消，只有待查看状态才能取消
-    $.ajax({
-        url : prefix + "/check",
-        type : "post",
-        data : {
-            'id' : id
-        },
-        success : function(r) {
-            if (r.code != 0) {
-            	//不可以取消申请
-                layer.msg(r.msg);
-                reLoad();
-            } else {
-                console.log("可以取消申请...");
-                //执行取消申请操作
-                cancel(id);
-            }
-        }
-    });
+function remove(id) {
+	layer.confirm('确定要删除选中的记录？', {
+		btn : [ '确定', '取消' ]
+	}, function() {
+		$.ajax({
+			url : prefix + "/remove",
+			type : "post",
+			data : {
+				'id' : id
+			},
+			success : function(r) {
+				if (r.code == 0) {
+					layer.msg(r.msg);
+					reLoad();
+				} else {
+					layer.msg(r.msg);
+				}
+			}
+		});
+	})
 }
-function cancel(id) {
-    layer.confirm('是否取消选中的申请？', {
-        btn : [ '确定', '取消' ]
-    }, function() {
-        $.ajax({
-            url : prefix + "/cancel",
-            type : "post",
-            data : {
-                'id' : id
-            },
-            success : function(r) {
-                if (r.code == 0) {
-                    layer.msg(r.msg);
-                    reLoad();
-                } else {
-                    layer.msg(r.msg);
-                }
-            }
-        });
-    })
-}
+
 function addD(type,description) {
 	layer.open({
 		type : 2,

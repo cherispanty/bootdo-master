@@ -1,5 +1,5 @@
 
-var prefix = "/common/myApply"
+var prefix = "/common/studentApply"
 $(function() {
 	
 	//	var config = {
@@ -96,13 +96,13 @@ function load() {
 						align: "center"
                     },
                     {
-						field : 'teacherName',
-						title : '教师名',
+						field : 'studentName',
+						title : '学生名',
                         align : 'center'
 					},
                     {
-                        field : 'studentName',
-                        title : '申请人',
+                        field : 'teacherName',
+                        title : '老师名',
                         align : 'center'
                     },
                     {
@@ -134,19 +134,71 @@ function load() {
 						title : '申请留言'
 					},
 					{
-						title : '取消申请',
+						title : '操作',
 						field : 'id',
 						align : 'center',
 						formatter : function(value, row, index) {
-							// console.log("row : "+JSON.stringify(JSON.stringify(row)));
-							var e = '<a  class="btn btn-primary btn-sm ' + s_cancel_h + '" href="#" mce_href="#" title="取消申请" onclick="check(\''
+							console.log("row : "+JSON.stringify(JSON.stringify(row)));
+							var e = '<button  class="btn btn-primary btn-sm" onclick="agree(\''
 								+ row.id
-								+ '\')"><i class="fa fa-edit"></i></a> ';
-							return e;
+								+ '\')"></i>同意</button> ';
+                            var f = '<button  class="btn btn-danger btn-sm" onclick="disagree(\''
+                                + row.id
+                                + '\')"></i>拒绝</button> ';
+							return e+f;
 						}
 					} ]
 			});
 }
+
+function agree(id) {
+    //检查该申请状态是否能够执行“同意”操作
+	check(id);
+    layer.confirm('确定同意该申请？', {
+        btn : [ '确定', '取消' ]
+    }, function() {
+        $.ajax({
+            url : prefix + "/agree",
+            type : "post",
+            data : {
+                'id' : id
+            },
+            success : function(r) {
+                if (r.code == 0) {
+                    layer.msg(r.msg);
+                    reLoad();
+                } else {
+                    layer.msg(r.msg);
+                }
+            }
+        });
+    })
+}
+function disagree(id) {
+    //检查该申请状态是否能够执行“拒绝”操作
+    check(id);
+    layer.confirm('确定拒绝该申请？', {
+        btn : [ '确定', '取消' ]
+    }, function() {
+        $.ajax({
+            url : prefix + "/disagree",
+            type : "post",
+            data : {
+                'id' : id
+            },
+            success : function(r) {
+                if (r.code == 0) {
+                    layer.msg(r.msg);
+                    reLoad();
+                } else {
+                    layer.msg(r.msg);
+                }
+            }
+        });
+    })
+}
+
+
 function reLoad() {
 	$('#exampleTable').bootstrapTable('refresh');
 }
@@ -174,7 +226,7 @@ function check(id) {
 	console.log("id:"+id);
 	//检测该记录是否可以取消，只有待查看状态才能取消
     $.ajax({
-        url : prefix + "/check",
+        url :  "/common/myApply/check",
         type : "post",
         data : {
             'id' : id
@@ -184,16 +236,13 @@ function check(id) {
             	//不可以取消申请
                 layer.msg(r.msg);
                 reLoad();
-            } else {
-                console.log("可以取消申请...");
-                //执行取消申请操作
-                cancel(id);
+                return;
             }
         }
     });
 }
 function cancel(id) {
-    layer.confirm('是否取消选中的申请？', {
+    layer.confirm('确定要取消选中的申请？', {
         btn : [ '确定', '取消' ]
     }, function() {
         $.ajax({

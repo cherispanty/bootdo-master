@@ -48,4 +48,28 @@
 		</where>
 	</select>
 
+	<select id="queryTeacherStudentById" parameterType="Long" resultType="com.bootdo.common.dto.TeacherStudent">
+		SELECT
+			sts.id,
+			sts.teacher_id,
+			sts.student_id,
+			sts.link_status,
+			sts.paper_title,
+			sts.create_time,
+			sts.modify_time,
+			sts.leave_message
+		FROM
+			sys_teacher_student sts
+		<where>
+				and id = #{id}
+		</where>
+	</select>
+
+	<update id="updateTeacherStudent" parameterType="com.bootdo.common.dto.TeacherStudent">
+		UPDATE sys_teacher_student
+		SET link_status = #{linkStatus}
+		WHERE
+			id = #{id}
+	</update>
+
 </mapper>
