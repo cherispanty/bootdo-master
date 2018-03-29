@@ -59,7 +59,7 @@ public class MyApplyService {
     }
 
     /**
-     * 更新申请信息（申请状态）
+     * 更新申请（邀请）状态
      * @param teacherStudent
      * @return
      */

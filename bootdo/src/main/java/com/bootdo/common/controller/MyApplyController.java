@@ -1,5 +1,6 @@
 package com.bootdo.common.controller;
 
+import com.bootdo.common.config.Constant;
 import com.bootdo.common.dto.TeacherStudent;
 import com.bootdo.common.service.impl.MyApplyService;
 import com.bootdo.common.utils.*;
@@ -38,6 +39,8 @@ public class MyApplyController {
     public PageUtils list(@RequestParam Map<String, Object> params) throws Exception {
         logger.info("MyApplyController.list()|params = {}",params.toString());
         params.put("studentId", ShiroUtils.getUserId());
+        //只筛选出我的申请，排除老师的邀请
+        params.put("type", ConstantVal.STUDENT_TYPE_APPLY);
         logger.info("MyApplyController.list()|params = {}",params.toString());
         Query query = new Query(params);
         try{
@@ -92,7 +95,7 @@ public class MyApplyController {
         logger.info("MyApplyController.cancel|id = {}",id);
         TeacherStudent teacherStudent = myApplyService.queryTeacherStudent(id);
         if(teacherStudent == null) {
-            return R.error("不存在该记录，修改失败");
+            return R.error("不存在该记录，取消失败");
         }
         //修改申请状态
         teacherStudent.setLinkStatus(ConstantVal.LINK_STATUS_CANCEL);

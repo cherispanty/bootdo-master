@@ -20,6 +20,7 @@
             <if test="linkStatus != null and linkStatus != ''">
                 and sts.link_status = #{linkStatus}
             </if>
+            and type = #{type}
             and teacher_id = #{teacherId}
         </where>
         <choose>
@@ -44,6 +45,7 @@
             <if test="linkStatus != null and linkStatus != ''">
                 and sts.link_status = #{linkStatus}
             </if>
+            and type = #{type}
             and teacher_id = #{teacherId}
         </where>
     </select>

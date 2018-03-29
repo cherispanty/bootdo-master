@@ -23,7 +23,7 @@ public class StudentApplyService {
     private StudentApplyDao studentApplyDao;
 
     /**
-     * 查询学生申请记录
+     * 查询老师-学生的绑定关系（type = 0表示学生的申请，type = 1表示老师的邀请）
      * @param map
      * @return
      */
@@ -35,7 +35,7 @@ public class StudentApplyService {
     }
 
     /**
-     * 学生申请记录条数
+     * 查询老师-学生的绑定关系记录条数
      * @param map
      * @return
      */

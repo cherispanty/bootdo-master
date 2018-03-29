@@ -13,7 +13,7 @@ import java.util.Map;
 @Mapper
 public interface StudentApplyDao {
     /**
-     * 查看学生的申请记录
+     * 查看老师学生的绑定关系（type = 0表示学生的申请，type = 1表示老师的邀请）
      * @param map
      * @return
      */
