@@ -29,4 +29,6 @@ public interface SelectTeacherService {
      * @return
      */
     Integer saveTeacherStudent(TeacherStudent teacherStudent);
+
+    List<TeacherStudent> queryRecordBySidAndTid(Map<String,Object> map);
 }

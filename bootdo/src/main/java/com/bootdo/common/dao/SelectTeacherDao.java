@@ -19,6 +19,8 @@ public interface SelectTeacherDao {
     int count(Map<String, Object> map);
     //根据userId查询老师信息
     TeacherDTO queryTeacherByUserId(Long userId);
+    //通过studentId和TeahcerId查询申请（邀请）记录
+    List<TeacherStudent> queryRecordBySidAndTid(Map<String, Object> map);
 
     /**
      * 添加一条学生-老师关联记录

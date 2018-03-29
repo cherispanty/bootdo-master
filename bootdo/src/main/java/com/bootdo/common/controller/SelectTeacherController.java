@@ -20,10 +20,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 字典表
- * @author chglee
- * @email 1992lcg@163.com
- * @date 2017-09-29 18:28:07
+ *
+ * @author linchong
+ * @email 714987173@qq.com
  */
 
 @Controller
@@ -83,5 +82,33 @@ public class SelectTeacherController extends BaseController {
             return R.ok();
         }
         return R.error();
+    }
+
+    /**
+     * 判断该老师是否邀请了自己，并且状态为未查看，如果邀请了并且为“未查看”状态就不可以再去申请
+     * @param userId
+     * @return
+     */
+    @PostMapping("/check")
+    @ResponseBody
+    public R check(Long userId) {
+        logger.info("SelectTeacherController.check|userId = {}",userId);
+        Map<String, Object> map = new HashMap<>();
+        map.put("teacherId",userId);
+        map.put("studentId",ShiroUtils.getUserId());
+        List<TeacherStudent> tsList = selectTeacherService.queryRecordBySidAndTid(map);
+        if(tsList != null && tsList.size() > 0) {
+            for (TeacherStudent ts:
+                    tsList) {
+                if(ts.getLinkStatus() == ConstantVal.LINK_STATUS_APPLY && ts.getType() == ConstantVal.STUDENT_TYPE_APPLY) {
+                    return R.error("你已经申请了该导师，请耐心等待老师回复");
+                }
+                if(ts.getLinkStatus() == ConstantVal.LINK_STATUS_APPLY && ts.getType() == ConstantVal.TEACHER_TYPE_INVITE) {
+                    return R.error("该导师已经邀请了你，快去看看吧");
+                }
+            }
+        }
+        //允许申请
+        return R.ok();
     }
 }

@@ -156,7 +156,7 @@ function load() {
 						align : 'center',
 						formatter : function(value, row, index) {
 							console.log("row : "+JSON.stringify(JSON.stringify(row)));
-                            var e = '<button  class="btn btn-primary btn-sm" onclick="apply(\''
+                            var e = '<button  class="btn btn-primary btn-sm" onclick="check(\''
                                 + row.userId
                                 + '\')"></i>申请导师</button> ';
 							return e;
@@ -167,6 +167,7 @@ function load() {
 function reLoad() {
 	$('#exampleTable').bootstrapTable('refresh');
 }
+
 function add() {
 	layer.open({
 		type : 2,
@@ -177,6 +178,28 @@ function add() {
 		content : prefix + '/add' // iframe的url
 	});
 }
+
+// 先判断该老师是否邀请了自己，并且状态为未查看，如果邀请了并且为“未查看”状态就不可以再去申请
+function check(userId) {
+    $.ajax({
+        url : prefix + "/check",
+        type : "post",
+        data : {
+            'userId' : userId
+        },
+        success : function(r) {
+            if (r.code != 0) {
+                //不允许申请
+                layer.msg(r.msg);
+                // reLoad();
+                return;
+            }else {
+            	apply(userId);
+			}
+        }
+    });
+}
+
 function apply(userId) {
 	layer.open({
 		type : 2,

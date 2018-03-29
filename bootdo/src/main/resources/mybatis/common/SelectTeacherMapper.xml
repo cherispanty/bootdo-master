@@ -106,4 +106,16 @@
 		</trim>
 	</insert>
 
+
+	<select id="queryRecordBySidAndTid" parameterType="map" resultType="com.bootdo.common.dto.TeacherStudent">
+		SELECT
+			*
+		FROM
+			sys_teacher_student
+		WHERE
+			teacher_id = #{teacherId}
+		AND student_id = #{studentId}
+	</select>
+
+
 </mapper>

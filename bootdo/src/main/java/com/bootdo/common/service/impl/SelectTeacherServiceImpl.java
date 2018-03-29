@@ -73,4 +73,10 @@ public class SelectTeacherServiceImpl implements SelectTeacherService {
         logger.info("SelectTeacherServiceImpl.saveApplyRecord()|after teacherStudent = {}",teacherStudent.toString());
         return selectTeacherDao.insertTeacherStudent(teacherStudent);
     }
+
+    @Override
+    public List<TeacherStudent> queryRecordBySidAndTid(Map<String, Object> map) {
+        logger.info("SelectTeacherServiceImpl.queryRecordBySidAndTid()|map = {}",map.toString());
+        return selectTeacherDao.queryRecordBySidAndTid(map);
+    }
 }
