@@ -21,7 +21,7 @@ public interface SelectTeacherDao {
     TeacherDTO queryTeacherByUserId(Long userId);
 
     /**
-     * 保存一条学生申请记录
+     * 添加一条学生-老师关联记录
      * @param teacherStudent
      * @return
      */

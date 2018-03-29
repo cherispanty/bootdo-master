@@ -19,7 +19,7 @@ public interface MyApplyDao {
     Integer countTotal(Map<String, Object> map);
 
     /**
-     * 查询申请记录
+     * 查询申请记录（我的申请）
      * @param map
      * @return
      */

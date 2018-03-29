@@ -6,10 +6,7 @@ import com.bootdo.common.dto.TeacherDTO;
 import com.bootdo.common.dto.TeacherStudent;
 import com.bootdo.common.service.DictService;
 import com.bootdo.common.service.SelectTeacherService;
-import com.bootdo.common.utils.PageUtils;
-import com.bootdo.common.utils.Query;
-import com.bootdo.common.utils.R;
-import com.bootdo.common.utils.ShiroUtils;
+import com.bootdo.common.utils.*;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,19 +71,15 @@ public class SelectTeacherController extends BaseController {
     }
 
     /**
-     * 保存一条申请记录
+     * 保存一条老师-学生关联记录
      */
     @ResponseBody
     @PostMapping("/save")
     public R save(TeacherStudent teacherStudent) {
-//        if (Constant.DEMO_ACCOUNT.equals(getUsername())) {
-//            return R.error(1, "演示系统不允许修改,完整体验请部署程序");
-//        }
-//        if (dictService.save(dict) > 0) {
-//            return R.ok();
-//        }
         logger.info("SelectTeacherController.teacherStudent()|teacherStudent = {}",teacherStudent.toString());
-        if(selectTeacherService.saveApplyRecord(teacherStudent) > 0) {
+        //添加学生申请标记 type = 0
+        teacherStudent.setType(ConstantVal.STUDENT_TYPE_APPLY);
+        if(selectTeacherService.saveTeacherStudent(teacherStudent) > 0) {
             return R.ok();
         }
         return R.error();

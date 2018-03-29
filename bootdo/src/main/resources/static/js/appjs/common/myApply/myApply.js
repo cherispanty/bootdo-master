@@ -125,7 +125,6 @@ function load() {
 						field : 'createTime',
 						title : '申请时间',
                         align : 'center',
-						width : '150px',
 						index : 'create_time',
                         sortable : true
 					},
@@ -134,15 +133,19 @@ function load() {
 						title : '申请留言'
 					},
 					{
-						title : '取消申请',
+						title : '操作',
 						field : 'id',
 						align : 'center',
 						formatter : function(value, row, index) {
-							// console.log("row : "+JSON.stringify(JSON.stringify(row)));
-							var e = '<a  class="btn btn-primary btn-sm ' + s_cancel_h + '" href="#" mce_href="#" title="取消申请" onclick="check(\''
-								+ row.id
-								+ '\')"><i class="fa fa-edit"></i></a> ';
-							return e;
+                            var e = '<button  class="btn btn-danger btn-sm" onclick="check(\''
+                                + row.id
+                                + '\')"></i>撤销申请</button> ';
+							if(row.linkStatus == 0) {
+                                return e;
+							}else {
+								return null;
+							}
+
 						}
 					} ]
 			});

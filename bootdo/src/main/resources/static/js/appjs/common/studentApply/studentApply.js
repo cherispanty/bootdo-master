@@ -145,7 +145,11 @@ function load() {
                             var f = '<button  class="btn btn-danger btn-sm" onclick="disagree(\''
                                 + row.id
                                 + '\')"></i>拒绝</button> ';
-							return e+f;
+                            if(row.linkStatus == 0) {
+                                return e+f;
+                            }else{
+                                return null;
+                            }
 						}
 					} ]
 			});

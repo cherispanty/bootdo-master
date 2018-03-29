@@ -17611,7 +17611,7 @@ ORYX.Plugins.Edit = Clazz.extend({
 //    keyHandler: function(event){
 //        //TODO document what event.which is.
 //        
-//        ORYX.Log.debug("apply.js handles a keyEvent.");
+//        ORYX.Log.debug("invite.js handles a keyEvent.");
 //        
 //        // assure we have the current event.
 //        if (!event) 
@@ -17627,7 +17627,7 @@ ORYX.Plugins.Edit = Clazz.extend({
 //        ((pressedKey == ORYX.CONFIG.KEY_CODE_BACKSPACE) &&
 //        (event.metaKey || event.appleMetaKey))) {
 //        
-//            ORYX.Log.debug("apply.js deletes the shape.");
+//            ORYX.Log.debug("invite.js deletes the shape.");
 //            this.editDelete();
 //            return;
 //        }

@@ -20,7 +20,7 @@
 			<if test="linkStatus != null and linkStatus != ''">
 				and sts.link_status = #{linkStatus}
 			</if>
-			and student_id = #{studentId}
+			and student_id = #{studentId} and type = 0
 		</where>
 		<choose>
 			<when test="sort != null and sort.trim() != ''">

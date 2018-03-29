@@ -1,12 +1,13 @@
 package com.bootdo.common.controller;
 
+import com.bootdo.common.dto.DeptDTO;
+import com.bootdo.common.dto.StudentDTO;
 import com.bootdo.common.dto.TeacherDTO;
 import com.bootdo.common.dto.TeacherStudent;
 import com.bootdo.common.service.SelectTeacherService;
-import com.bootdo.common.utils.PageUtils;
-import com.bootdo.common.utils.Query;
-import com.bootdo.common.utils.R;
-import com.bootdo.common.utils.ShiroUtils;
+import com.bootdo.common.service.impl.SelectStudentService;
+import com.bootdo.common.service.impl.SelectTeacherServiceImpl;
+import com.bootdo.common.utils.*;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,8 +20,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 字典表
- * @author chglee
+ *
+ * @author linchong
  * @email 1992lcg@163.com
  * @date 2017-09-29 18:28:07
  */
@@ -30,8 +31,9 @@ import java.util.Map;
 public class SelectStudentController extends BaseController {
 	private Logger logger = LoggerFactory.getLogger(SelectStudentController.class);
 	@Autowired
-	private SelectTeacherService selectTeacherService;
-
+	private SelectStudentService selectStudentService;
+	@Autowired
+	private SelectTeacherServiceImpl stsi;
 	@GetMapping()
 	String selectTeacher() {
 		return "common/selectStudent/selectStudent";
@@ -39,53 +41,53 @@ public class SelectStudentController extends BaseController {
 
 	@ResponseBody
 	@GetMapping("/list")
-	@RequiresPermissions("common:selectTeacher:selectTeacher")
 	public PageUtils list(@RequestParam Map<String, Object> params) {
 //		// 查询列表数据
-		logger.info("SelectTeacherController.list|params = {}",params.toString());
+		logger.info("SelectStudentController.list|params = {}",params.toString());
 		Query query = new Query(params);
-		List<TeacherDTO> teacherList = selectTeacherService.queryTeacherList(query);
-		logger.info("SelectTeacherController.list|查询结果为 teacherList = {}",teacherList.toString());
-		int count = selectTeacherService.count(query);
-		logger.info("SelectTeacherController.list|查询条数为 count = {}",count);
-		PageUtils pageUtils = new PageUtils(teacherList,count);
+		List<StudentDTO> studentList = selectStudentService.queryStudentList(query);
+		logger.info("SelectStudentController.list|查询结果为 studentList = {}",studentList.toString());
+		Integer count = selectStudentService.countTotal(query);
+		logger.info("SelectStudentController.list|查询条数为 count = {}",count);
+		PageUtils pageUtils = new PageUtils(studentList,count);
 		return pageUtils;
 	}
 
-	@GetMapping("/apply/{userId}")
-	String apply(@PathVariable("userId") Long userId, Model model) {
-//		DictDO dict = dictService.get(id);
-//		model.addAttribute("dict", dict);
-//		return "common/dict/edit";
-        TeacherDTO teacherDTO = selectTeacherService.queryTeacherByUserId(userId);
-        //组装申请记录
-        TeacherStudent ts = new TeacherStudent();
-        ts.setTeacherId(teacherDTO.getUserId());
-        ts.setStudentId(ShiroUtils.getUserId());
-        ts.setResearchDirection(teacherDTO.getResearchDirection());
-        ts.setDeptName(teacherDTO.getDeptName());
-        ts.setTeacherName(teacherDTO.getName());
-        logger.info("SelectTeacherController.apply()|ts = {}",ts.toString());
-        model.addAttribute("ts",ts);
-        return "common/selectTeacher/apply";
-    }
+	@GetMapping("/dept")
+	@ResponseBody
+	public List<DeptDTO> listAllClass() {
+		return selectStudentService.queryAllClass();
+	}
 
-    /**
-     * 保存一条申请记录
-     */
-    @ResponseBody
-    @PostMapping("/save")
-    public R save(TeacherStudent teacherStudent) {
-//        if (Constant.DEMO_ACCOUNT.equals(getUsername())) {
-//            return R.error(1, "演示系统不允许修改,完整体验请部署程序");
-//        }
-//        if (dictService.save(dict) > 0) {
-//            return R.ok();
-//        }
-        logger.info("SelectTeacherController.teacherStudent()|teacherStudent = {}",teacherStudent.toString());
-        if(selectTeacherService.saveApplyRecord(teacherStudent) > 0) {
-            return R.ok();
-        }
-        return R.error();
-    }
+	@GetMapping("/invite/{userId}")
+	String invite(@PathVariable("userId") Long userId, Model model) {
+		logger.info("SelectStudentController.invite|userId = {}",userId);
+		StudentDTO studentDTO = selectStudentService.queryStudentById(userId);
+		//组装邀请记录
+		TeacherStudent ts = new TeacherStudent();
+		ts.setStudentId(studentDTO.getUserId());
+		ts.setStudentName(studentDTO.getName());
+		ts.setClassName(studentDTO.getClassName());
+		ts.setTeacherId(ShiroUtils.getUserId());
+		logger.info("SelectStudentController.invite()|ts = {}",ts.toString());
+		model.addAttribute("ts",ts);
+		return "common/selectStudent/invite";
+	}
+
+
+	/**
+	 * 添加老师邀请记录
+	 */
+	@ResponseBody
+	@PostMapping("/save")
+	public R save(TeacherStudent teacherStudent) {
+		logger.info("SelectStudentController.save()|teacherStudent = {}",teacherStudent.toString());
+		//添加老师邀请标识，type = 1
+		teacherStudent.setType(ConstantVal.TEACHER_TYPE_INVITE);
+		if(stsi.saveTeacherStudent(teacherStudent) > 0) {
+			return R.ok();
+		}
+		return R.error();
+	}
+
 }

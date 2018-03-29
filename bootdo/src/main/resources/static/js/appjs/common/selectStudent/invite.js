@@ -11,7 +11,7 @@ function update() {
 	$.ajax({
 		cache : true,
 		type : "POST",
-		url : "/common/selectTeacher/save",
+		url : "/common/selectStudent/save",
 		data : $('#signupForm').serialize(),// 你的formid
 		async : false,
 		error : function(request) {

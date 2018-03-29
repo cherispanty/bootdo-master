@@ -74,6 +74,9 @@
 			<if test="linkStatus != null">
 				link_status,
 			</if>
+            <if test="type != null and type != ''">
+                type,
+            </if>
 			<if test="paperTitle != null and paperTitle.trim() != ''">
 				paper_title,
 			</if>
@@ -91,6 +94,9 @@
 			<if test="linkStatus != null">
 				#{linkStatus},
 			</if>
+            <if test="type != null and type != ''">
+                #{type},
+            </if>
 			<if test="paperTitle != null and paperTitle.trim() != ''">
 				#{paperTitle},
 			</if>

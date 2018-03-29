@@ -1,6 +1,7 @@
 package com.bootdo.common.dto;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * @author Linchong
@@ -12,14 +13,31 @@ public class TeacherStudent {
     private String teacherName;
     private Long studentId;
     private String studentName;
+    private String className;
     private Byte linkStatus;
     private String paperTitle;
-    private LocalDateTime createTime;
-    private LocalDateTime modifyTime;
+    private Date createTime;
+    private Date modifyTime;
     private String leaveMessage;
+    private Byte type;          //标识是老师邀请还是学生申请
     private String deptName;    //部门名
     private String researchDirection;   //研究方向
 
+    public Byte getType() {
+        return type;
+    }
+
+    public void setType(Byte type) {
+        this.type = type;
+    }
+
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
+    }
 
     public String getStudentName() {
         return studentName;
@@ -93,19 +111,19 @@ public class TeacherStudent {
         this.paperTitle = paperTitle;
     }
 
-    public LocalDateTime getCreateTime() {
+    public Date getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(LocalDateTime createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
-    public LocalDateTime getModifyTime() {
+    public Date getModifyTime() {
         return modifyTime;
     }
 
-    public void setModifyTime(LocalDateTime modifyTime) {
+    public void setModifyTime(Date modifyTime) {
         this.modifyTime = modifyTime;
     }
 
@@ -125,11 +143,13 @@ public class TeacherStudent {
                 ", teacherName='" + teacherName + '\'' +
                 ", studentId=" + studentId +
                 ", studentName='" + studentName + '\'' +
+                ", className='" + className + '\'' +
                 ", linkStatus=" + linkStatus +
                 ", paperTitle='" + paperTitle + '\'' +
                 ", createTime=" + createTime +
                 ", modifyTime=" + modifyTime +
                 ", leaveMessage='" + leaveMessage + '\'' +
+                ", type=" + type +
                 ", deptName='" + deptName + '\'' +
                 ", researchDirection='" + researchDirection + '\'' +
                 '}';

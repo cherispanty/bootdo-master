@@ -24,9 +24,9 @@ public interface SelectTeacherService {
     TeacherDTO queryTeacherByUserId(Long userId);
 
     /**
-     * 添加申请记录
+     * 添加老师-学生关联记录
      * @param teacherStudent
      * @return
      */
-    Integer saveApplyRecord(TeacherStudent teacherStudent);
+    Integer saveTeacherStudent(TeacherStudent teacherStudent);
 }

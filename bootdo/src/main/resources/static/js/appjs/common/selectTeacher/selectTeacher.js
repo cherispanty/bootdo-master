@@ -100,51 +100,65 @@ function load() {
                     },
                     {
 						field : 'name',
-						title : '教师名'
+						title : '教师名',
+                        width: '50px',
+                        align: "center"
 					},
 					{
 						field : 'deptName',
-						title : '教研室'
+						title : '教研室',
+                        align: "center",
+                        width : '200px'
 					},
 					{
 						field : 'researchDirection',
 						title : '研究方向',
-						width : '100px'
+                        align: "center",
+						width : '250px'
 					},
 					{
 						field : 'totalNum',
-						title : '可带人数上限'
+						title : '可带人数上限',
+                        align: "center",
+                        width : '50px'
 					},
 					{
 						field : 'alreadyNum',
-						title : '已带学生'
+						title : '已带学生',
+                        align: "center",
+                        width : '50px'
 					},
 					{
 						field : 'readyNum',
-						title : '正在申请的人数'
+						title : '正在申请的人数',
+                        align: "center",
+                        width : '50px'
 					},
 					{
 						field : 'status',
 						title : '是否可带学生',
+                        align: "center",
 						width : '100px'
 					},
 					{
 						field : 'mobile',
+                        align: "center",
 						title : '手机号'
 					},
 					{
 						field : 'email',
+                        align: "center",
 						title : '邮箱'
 					},
 					{
-						title : '申请导师',
+						title : '操作',
 						field : 'userId',
 						align : 'center',
 						formatter : function(value, row, index) {
 							console.log("row : "+JSON.stringify(JSON.stringify(row)));
-							var e = '<a class="btn btn-primary btn-sm ' + s_apply_h + '" href="#" mce_href="#" title="申请导师" onclick="apply(\''
-								+ row.userId
-								+ '\')"><i class="fa fa-edit"></i></a> ';
+                            var e = '<button  class="btn btn-primary btn-sm" onclick="apply(\''
+                                + row.userId
+                                + '\')"></i>申请导师</button> ';
 							return e;
 						}
 					} ]

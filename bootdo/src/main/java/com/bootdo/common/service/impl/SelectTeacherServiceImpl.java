@@ -61,13 +61,13 @@ public class SelectTeacherServiceImpl implements SelectTeacherService {
     }
 
     /**
-     * 添加申请记录
+     * 添加一条学生-老师关联记录
      *
      * @param teacherStudent
      * @return
      */
     @Override
-    public Integer saveApplyRecord(TeacherStudent teacherStudent) {
+    public Integer saveTeacherStudent(TeacherStudent teacherStudent) {
         logger.info("SelectTeacherServiceImpl.saveApplyRecord()|begin teacherStudent = {}",teacherStudent.toString());
         teacherStudent.setLinkStatus(ConstantVal.LINK_STATUS_APPLY);
         logger.info("SelectTeacherServiceImpl.saveApplyRecord()|after teacherStudent = {}",teacherStudent.toString());
