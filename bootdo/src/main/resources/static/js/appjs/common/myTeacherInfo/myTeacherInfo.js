@@ -1,5 +1,5 @@
 
-var prefix = "/common/selectStudent"
+var prefix = "/common/myTeacherInfo"
 $(function() {
 	
 	//	var config = {
@@ -22,34 +22,8 @@ $(function() {
 	//	}
 	load();
 });
-function selectLoad() {
-	var html = "";
-	$.ajax({
-		url : prefix + '/dept',
-		success : function(data) {
-			//加载数据
-			for (var i = 0; i < data.length; i++) {
-				html += '<option value="' + data[i].deptId + '">' + data[i].name + '</option>'
-			}
-			$(".chosen-select").append(html);
-			$(".chosen-select").chosen({
-				maxHeight : 200
-			});
-			// 点击事件
-			// $('.chosen-select').on('change', function(e, params) {
-			// 	console.log(params.selected);
-			// 	var opt = {
-			// 		query : {
-			// 			type : params.selected,
-			// 		}
-			// 	}
-			// 	$('#exampleTable').bootstrapTable('refresh', opt);
-			// });
-		}
-	});
-}
+
 function load() {
-	selectLoad();
 	$('#exampleTable')
 		.bootstrapTable(
 			{
@@ -76,11 +50,6 @@ function load() {
 				queryParams : function(params) {
 					return {
 						//说明：传入后台的参数包括offset开始索引，limit步长，sort排序列，order：desc或者,以及所有列的键值对
-						limit : params.limit,
-						offset : params.offset,
-                        userId: $('#userId').val(),
-                        name: $('#name').val(),
-						deptId: $('.chosen-select').val()
 					};
 				},
 				// //请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数，例如 toolbar 中的参数 如果
@@ -99,45 +68,43 @@ function load() {
                     },
                     {
 						field : 'name',
-						title : '学生姓名',
-                        align: "center"
+						title : '导师姓名',
+                        align : 'center'
 					},
                     {
-                        field : 'userId',
-                        title : '学号',
-                        align: "center"
-                    },
-                    {
-                        field : 'className',
-                        title : '班级名称',
-                        align: "center"
+                        field : 'deptName',
+                        title : '教研室',
+                        align : 'center'
                     },
 					{
-						field : 'graduateYear',
-						title : '毕业年份',
-                        align: "center"
+						field : 'researchDirection',
+						title : '研究方向',
+                        align : 'center',
+                        sortable : true
 					},
 					{
 						field : 'mobile',
-						title : '手机号',
-                        align: "center"
+						title : '电话'
 					},
 					{
 						field : 'email',
-						title : '邮箱',
-                        align: "center"
+						title : '邮箱'
 					},
 					{
-						title : '邀请学生',
-						field : 'userId',
+						title : '操作',
+						field : 'id',
 						align : 'center',
-                        formatter : function(value, row, index) {
-                            console.log("row : "+JSON.stringify(JSON.stringify(row)));
-                            var e = '<button  class="btn btn-primary btn-sm" onclick="check(\''
-                                + row.userId
-                                + '\')"></i>邀请</button> ';
-                            return e;
-                        }
+						formatter : function(value, row, index) {
+                            var e = '<button  class="btn btn-danger btn-sm" onclick="check(\''
+                                + row.id
+                                + '\')"></i>撤销申请</button> ';
+							if(row.linkStatus == 0) {
+                                return e;
+							}else {
+								return null;
+							}
+
+						}
 					} ]
 			});
 }
@@ -154,60 +121,59 @@ function add() {
 		content : prefix + '/add' // iframe的url
 	});
 }
-
-// 先判断该学生是否申请了自己，并且状态为未查看，如果邀请了并且为“未查看”状态就不可以再去邀请
-function check(userId) {
+function apply(userId) {
+	layer.open({
+		type : 2,
+		title : '申请导师',
+		maxmin : true,
+		shadeClose : false, // 点击遮罩关闭层
+		area : [ '800px', '520px' ],
+		content : prefix + '/apply/' + userId // iframe的url
+	});
+}
+function check(id) {
+	console.log("id:"+id);
+	//检测该记录是否可以取消，只有待查看状态才能取消
     $.ajax({
         url : prefix + "/check",
         type : "post",
         data : {
-            'userId' : userId
+            'id' : id
         },
         success : function(r) {
             if (r.code != 0) {
-                //不允许申请
+            	//不可以取消申请
                 layer.msg(r.msg);
-                // reLoad();
-                return;
-            }else {
-                invite(userId);
+                reLoad();
+            } else {
+                console.log("可以取消申请...");
+                //执行取消申请操作
+                cancel(id);
             }
         }
     });
 }
-
-function invite(userId) {
-    layer.open({
-        type : 2,
-        title : '邀请学生',
-        maxmin : true,
-        shadeClose : false, // 点击遮罩关闭层
-        area : [ '800px', '520px' ],
-        content : prefix + '/invite/' + userId // iframe的url
-    });
+function cancel(id) {
+    layer.confirm('是否取消选中的申请？', {
+        btn : [ '确定', '取消' ]
+    }, function() {
+        $.ajax({
+            url : prefix + "/cancel",
+            type : "post",
+            data : {
+                'id' : id
+            },
+            success : function(r) {
+                if (r.code == 0) {
+                    layer.msg(r.msg);
+                    reLoad();
+                } else {
+                    layer.msg(r.msg);
+                }
+            }
+        });
+    })
 }
-function remove(id) {
-	layer.confirm('确定要删除选中的记录？', {
-		btn : [ '确定', '取消' ]
-	}, function() {
-		$.ajax({
-			url : prefix + "/remove",
-			type : "post",
-			data : {
-				'id' : id
-			},
-			success : function(r) {
-				if (r.code == 0) {
-					layer.msg(r.msg);
-					reLoad();
-				} else {
-					layer.msg(r.msg);
-				}
-			}
-		});
-	})
-}
-
 function addD(type,description) {
 	layer.open({
 		type : 2,

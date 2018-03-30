@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.common.dao.MyTeacherInfoDao">
+    <select id="queryMyTeacherId" parameterType="Long" resultType="Long">
+        SELECT
+            teacher_id
+        FROM
+            sys_teacher_student
+        WHERE
+            student_id = #{studentId}
+        AND link_status = 1
+    </select>
+
+    <select id="queryMyTeacherById" parameterType="Long" resultType="com.bootdo.common.dto.TeacherDTO">
+        SELECT
+            su.user_id,
+            su.name,
+            su.research_direction,
+            su.mobile,
+            su.email,
+            sd. NAME deptName
+        FROM
+            sys_user su
+        LEFT JOIN sys_dept sd ON sd.dept_id = su.dept_id
+        WHERE
+            user_id = #{teacherId}
+    </select>
+</mapper>

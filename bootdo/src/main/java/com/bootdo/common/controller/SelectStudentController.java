@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,6 +35,8 @@ public class SelectStudentController extends BaseController {
 	private SelectStudentService selectStudentService;
 	@Autowired
 	private SelectTeacherServiceImpl stsi;
+	@Autowired
+	private SelectTeacherService selectTeacherService;
 	@GetMapping()
 	String selectTeacher() {
 		return "common/selectStudent/selectStudent";
@@ -88,6 +91,34 @@ public class SelectStudentController extends BaseController {
 			return R.ok();
 		}
 		return R.error();
+	}
+
+	/**
+	 * 判断该老师是否邀请了自己，并且状态为未查看，如果邀请了并且为“未查看”状态就不可以再去申请
+	 * @param userId
+	 * @return
+	 */
+	@PostMapping("/check")
+	@ResponseBody
+	public R check(Long userId) {
+		logger.info("SelectStudentController.check|userId = {}",userId);
+		Map<String, Object> map = new HashMap<>();
+		map.put("studentId",userId);
+		map.put("teacherId",ShiroUtils.getUserId());
+		List<TeacherStudent> tsList = selectTeacherService.queryRecordBySidAndTid(map);
+		if(tsList != null && tsList.size() > 0) {
+			for (TeacherStudent ts:
+					tsList) {
+				if(ts.getLinkStatus() == ConstantVal.LINK_STATUS_APPLY && ts.getType() == ConstantVal.STUDENT_TYPE_APPLY) {
+					return R.error("该学生已经申请了你，快去回复他吧");
+				}
+				if(ts.getLinkStatus() == ConstantVal.LINK_STATUS_APPLY && ts.getType() == ConstantVal.TEACHER_TYPE_INVITE) {
+					return R.error("你已经邀请了该学生，请等待他的回复");
+				}
+			}
+		}
+		//允许申请
+		return R.ok();
 	}
 
 }

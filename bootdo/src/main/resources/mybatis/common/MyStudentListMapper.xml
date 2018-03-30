@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.common.dao.MyStudentListDao">
+	<select id="querySidAndPt" parameterType="map" resultType="com.bootdo.common.dto.TeacherStudent">
+		SELECT
+			sts.student_id,
+			sts.paper_title
+		FROM
+			sys_teacher_student sts
+		WHERE
+			teacher_id = #{teacherId}
+		AND link_status = 1
+		<choose>
+			<when test="sort != null and sort.trim() != ''">
+				order by ${sort} ${order}
+			</when>
+			<otherwise>
+				order by sts.student_id desc
+			</otherwise>
+		</choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+	<select id="countTotal" parameterType="map" resultType="Integer">
+		SELECT
+		count(1)
+		FROM
+		sys_teacher_student sts
+		WHERE
+		teacher_id = #{teacherId}
+		AND link_status = 1
+	</select>
+
+	<select id="queryStudent" parameterType="Long" resultType="com.bootdo.common.dto.StudentDTO">
+		SELECT
+			su.user_id,
+			su. NAME,
+			su.dept_id,
+			su.username,
+			su.graduate_year,
+			su.email,
+			su.mobile,
+			sd. NAME className
+		FROM
+			sys_user su
+		LEFT JOIN sys_dept sd ON sd.dept_id = su.dept_id
+		WHERE
+			user_id = #{studentId}
+	</select>
+
+	<update id="updatePaperTitle" parameterType="com.bootdo.common.dto.TeacherStudent">
+		UPDATE sys_teacher_student
+		SET paper_title = #{paperTitle}
+		where teacher_id = #{teacherId}
+		and student_id = #{studentId}
+		and link_status = 1
+	</update>
+
+	<update id="updateLinkStatus" parameterType="map">
+		UPDATE sys_teacher_student
+		SET link_status = #{linkStatus}
+		WHERE
+			student_id = #{studentId}
+		AND teacher_id = #{teacherId}
+		AND link_status = 1
+	</update>
+
+</mapper>

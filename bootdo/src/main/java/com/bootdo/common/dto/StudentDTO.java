@@ -13,6 +13,15 @@ public class StudentDTO {
     private String graduateYear;    //毕业年份
     private String email;
     private String mobile;
+    private String paperTitle;  //学生的论文题目
+
+    public String getPaperTitle() {
+        return paperTitle;
+    }
+
+    public void setPaperTitle(String paperTitle) {
+        this.paperTitle = paperTitle;
+    }
 
     public Long getUserId() {
         return userId;
@@ -89,6 +98,7 @@ public class StudentDTO {
                 ", graduateYear='" + graduateYear + '\'' +
                 ", email='" + email + '\'' +
                 ", mobile='" + mobile + '\'' +
+                ", paperTitle='" + paperTitle + '\'' +
                 '}';
     }
 }
