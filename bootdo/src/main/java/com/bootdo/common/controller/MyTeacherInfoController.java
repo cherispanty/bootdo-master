@@ -46,18 +46,19 @@ public class MyTeacherInfoController {
             logger.info("我还没有导师，赶快去申请");
             return null;
         }
-        if(idList.size() > 1) {
+        /*if(idList.size() > 1) {
             logger.info("逻辑异常，该学生拥有多个导师！");
             return null;
-        }
-        //拥有一个导师
-        if(idList.size() == 1) {
-            Long teacherId = idList.get(0);
-            TeacherDTO teacherDTO = myTeacherInfoService.queryMyTeacherByTeacherId(teacherId);
-            logger.info("MyTeacherInfoController.list|我的老师信息： teacherDTO = {}",teacherDTO.toString());
+        }*/
+
+        //拥有至少一位导师（我们要尽力避免出现超过一位老师的情况）
+        if(idList.size() > 0) {
             List<TeacherDTO> teacherList = new ArrayList<>();
-            teacherList.add(teacherDTO);
-            PageUtils pageUtils = new PageUtils(teacherList,1);
+            for (Long tid: idList) {
+                TeacherDTO teacherDTO = myTeacherInfoService.queryMyTeacherByTeacherId(tid);
+                teacherList.add(teacherDTO);
+            }
+            PageUtils pageUtils = new PageUtils(teacherList,idList.size());
             return pageUtils;
         }
         return null;

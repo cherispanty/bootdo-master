@@ -120,7 +120,8 @@ function load() {
 						field : 'totalNum',
 						title : '可带人数上限',
                         align: "center",
-                        width : '50px'
+                        width : '50px',
+						visible: false
 					},
 					{
 						field : 'alreadyNum',
@@ -138,7 +139,8 @@ function load() {
 						field : 'status',
 						title : '是否可带学生',
                         align: "center",
-						width : '100px'
+						width : '100px',
+                        visible: false
 					},
 					{
 						field : 'mobile',
@@ -179,7 +181,9 @@ function add() {
 	});
 }
 
-// 先判断该老师是否邀请了自己，并且状态为未查看，如果邀请了并且为“未查看”状态就不可以再去申请
+
+//1 判断当前学生是否已有了导师，如果有了就不能申请
+//2 判断该老师是否邀请了自己，并且状态为未查看，如果邀请了并且为“未查看”状态就不可以再去申请
 function check(userId) {
     $.ajax({
         url : prefix + "/check",

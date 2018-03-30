@@ -28,4 +28,6 @@ public interface SelectTeacherDao {
      * @return
      */
     Integer insertTeacherStudent(TeacherStudent teacherStudent);
+    //查询老师已带(已申请)学生
+    Integer queryKindsOfNum(Map<String, Object> map);
 }

@@ -11,12 +11,29 @@ public class TeacherDTO {
     private String deptName;    //部门名
     private String researchDirection;   //研究方向
     private Long totalNum;      //可带人数上限（不显示）
-    private Long alreadyNum;    //已带学生（不显示）
-    private Long readyNum;      //正在申请的人数
+    private Integer alreadyNum;    //已带学生（不显示）
+    private Integer readyNum;      //正在申请的人数
     private Long valueNum;      //剩余可带人数
     private Integer status;     //显示是否可带（0：可申请1：已满）
     private String mobile;      //手机号
     private String email;       //邮箱
+
+
+    public Integer getAlreadyNum() {
+        return alreadyNum;
+    }
+
+    public void setAlreadyNum(Integer alreadyNum) {
+        this.alreadyNum = alreadyNum;
+    }
+
+    public Integer getReadyNum() {
+        return readyNum;
+    }
+
+    public void setReadyNum(Integer readyNum) {
+        this.readyNum = readyNum;
+    }
 
     public Long getUserId() {
         return userId;
@@ -58,21 +75,6 @@ public class TeacherDTO {
         this.totalNum = totalNum;
     }
 
-    public Long getAlreadyNum() {
-        return alreadyNum;
-    }
-
-    public void setAlreadyNum(Long alreadyNum) {
-        this.alreadyNum = alreadyNum;
-    }
-
-    public Long getReadyNum() {
-        return readyNum;
-    }
-
-    public void setReadyNum(Long readyNum) {
-        this.readyNum = readyNum;
-    }
 
     public Long getValueNum() {
         return valueNum;
@@ -105,7 +107,6 @@ public class TeacherDTO {
     public void setEmail(String email) {
         this.email = email;
     }
-
 
     @Override
     public String toString() {

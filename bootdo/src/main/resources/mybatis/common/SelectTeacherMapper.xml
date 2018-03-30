@@ -117,5 +117,15 @@
 		AND student_id = #{studentId}
 	</select>
 
+	<select id="queryKindsOfNum" parameterType="map" resultType="Integer">
+		SELECT
+			count(1)
+		FROM
+			sys_teacher_student
+		WHERE
+			teacher_id = #{teacherId}
+		AND link_status = #{linkStatus}
+	</select>
+
 
 </mapper>

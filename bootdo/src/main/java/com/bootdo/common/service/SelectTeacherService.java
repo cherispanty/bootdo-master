@@ -30,5 +30,17 @@ public interface SelectTeacherService {
      */
     Integer saveTeacherStudent(TeacherStudent teacherStudent);
 
+    /**
+     * 通过老师id和学生id查询记录
+      * @param map
+     * @return
+     */
     List<TeacherStudent> queryRecordBySidAndTid(Map<String,Object> map);
+
+    /**
+     * 查询有关老师的各种数据（已带学生，申请学生）
+     * @param map
+     * @return
+     */
+    Integer findNumsOfTeacher(Map<String, Object> map);
 }

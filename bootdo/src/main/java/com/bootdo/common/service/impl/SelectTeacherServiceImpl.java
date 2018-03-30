@@ -79,4 +79,16 @@ public class SelectTeacherServiceImpl implements SelectTeacherService {
         logger.info("SelectTeacherServiceImpl.queryRecordBySidAndTid()|map = {}",map.toString());
         return selectTeacherDao.queryRecordBySidAndTid(map);
     }
+
+    /**
+     * 查询有关老师的各种数据（已带学生，申请学生）
+     *
+     * @param map
+     * @return
+     */
+    @Override
+    public Integer findNumsOfTeacher(Map<String, Object> map) {
+        logger.info("SelectTeacherServiceImpl.findNumsOfTeacher|map = {}",map.toString());
+        return selectTeacherDao.queryKindsOfNum(map);
+    }
 }

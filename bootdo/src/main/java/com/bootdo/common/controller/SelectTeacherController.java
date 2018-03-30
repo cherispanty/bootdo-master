@@ -44,6 +44,23 @@ public class SelectTeacherController extends BaseController {
 		logger.info("SelectTeacherController.list|params = {}",params.toString());
 		Query query = new Query(params);
 		List<TeacherDTO> teacherList = selectTeacherService.queryTeacherList(query);
+		Map<String, Object> map = new HashMap<>();
+		//查找老师所带学生人数和正在申请该老师的人数
+		if(teacherList != null && teacherList.size() >0) {
+            for (TeacherDTO t:
+                    teacherList) {
+                map.put("teacherId",t.getUserId());
+                //查找正在申请该老师的学生人数
+                map.put("linkStatus",ConstantVal.LINK_STATUS_APPLY);
+                Integer readyNum = selectTeacherService.findNumsOfTeacher(map);
+                t.setReadyNum(readyNum);
+                //查找该老师已经带了多少学生
+                map.put("linkStatus",ConstantVal.LINK_STATUS_CONN);
+                Integer alreadyNum = selectTeacherService.findNumsOfTeacher(map);
+                t.setAlreadyNum(alreadyNum);
+            }
+        }
+
 		logger.info("SelectTeacherController.list|查询结果为 teacherList = {}",teacherList.toString());
 		int count = selectTeacherService.count(query);
 		logger.info("SelectTeacherController.list|查询条数为 count = {}",count);
@@ -85,6 +102,7 @@ public class SelectTeacherController extends BaseController {
     }
 
     /**
+     * 判断当前学生是否已有了导师，如果有了就不能申请
      * 判断该老师是否邀请了自己，并且状态为未查看，如果邀请了并且为“未查看”状态就不可以再去申请
      * @param userId
      * @return
@@ -93,6 +111,9 @@ public class SelectTeacherController extends BaseController {
     @ResponseBody
     public R check(Long userId) {
         logger.info("SelectTeacherController.check|userId = {}",userId);
+        //判断当前学生是否已有了导师，如果有了就不能申请
+
+        //判断该老师是否邀请了自己，并且状态为未查看，如果邀请了并且为“未查看”状态就不可以再去申请
         Map<String, Object> map = new HashMap<>();
         map.put("teacherId",userId);
         map.put("studentId",ShiroUtils.getUserId());
