@@ -1,13 +1,21 @@
 package com.bootdo.common.domain;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 /**
  * Created by Linchong on 2018/3/18.
  */
 public class PaperDO {
-    //文档编号（论文编号）
-    private Long docId;
+    private Long id;
+    //论文名称
+    private String name;
+    //上传者编号
+    private Long studentId;
+    //上传路径
+    private String url;
+    //创建时间
+    private LocalDateTime createTime;
     //指导老师编号
     private Long teacherId;
     //收录情况
@@ -22,14 +30,48 @@ public class PaperDO {
     private BigDecimal score;
     //评审意见
     private String reviewOpinion;
+    //删除状态
+    private Byte delFlag;
 
 
-    public Long getDocId() {
-        return docId;
+    public Long getId() {
+        return id;
     }
 
-    public void setDocId(Long docId) {
-        this.docId = docId;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Long getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(Long studentId) {
+        this.studentId = studentId;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public LocalDateTime getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
     }
 
     public Long getTeacherId() {
@@ -88,11 +130,22 @@ public class PaperDO {
         this.reviewOpinion = reviewOpinion;
     }
 
+    public Byte getDelFlag() {
+        return delFlag;
+    }
+
+    public void setDelFlag(Byte delFlag) {
+        this.delFlag = delFlag;
+    }
 
     @Override
     public String toString() {
         return "PaperDO{" +
-                "docId=" + docId +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", studentId=" + studentId +
+                ", url='" + url + '\'' +
+                ", createTime=" + createTime +
                 ", teacherId=" + teacherId +
                 ", collection='" + collection + '\'' +
                 ", influence='" + influence + '\'' +
@@ -100,6 +153,7 @@ public class PaperDO {
                 ", reference_count=" + reference_count +
                 ", score=" + score +
                 ", reviewOpinion='" + reviewOpinion + '\'' +
+                ", delFlag=" + delFlag +
                 '}';
     }
 }

@@ -2,9 +2,8 @@ package com.bootdo.common.controller;
 
 import com.bootdo.common.config.BootdoConfig;
 import com.bootdo.common.domain.FileDO;
-import com.bootdo.common.service.FileService;
+import com.bootdo.common.service.impl.MyDocumentServiceImpl;
 import com.bootdo.common.utils.*;
-import javax.servlet.http.HttpServletRequest;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,43 +11,43 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
- * 文件上传
- * 
- * @author chglee
- * @email 1992lcg@163.com
- * @date 2017-09-19 16:02:20
+ * 管理我的文档
+ * @author linchong
+ * @email 13298684463@163.com
  */
 @Controller
-@RequestMapping("/common/sysFile")
-public class FileController extends BaseController {
+@RequestMapping("/common/myDocument")
+public class MyDocumentController extends BaseController {
 
+//	@Autowired
+//	private FileService mdsi;
 	@Autowired
-	private FileService sysFileService;
-
+	private MyDocumentServiceImpl mdsi;
 	@Autowired
 	private BootdoConfig bootdoConfig;
 
 	@GetMapping()
-	@RequiresPermissions("common:sysFile:sysFile")
+//	@RequiresPermissions("common:sysFile:sysFile")
 	String sysFile(Model model) {
 		Map<String, Object> params = new HashMap<>(16);
-		return "common/file/file";
+		return "common/myDocument/myDocument";
 	}
 
 	@ResponseBody
 	@GetMapping("/list")
-	@RequiresPermissions("common:sysFile:sysFile")
+//	@RequiresPermissions("common:sysFile:sysFile")
 	public PageUtils list(@RequestParam Map<String, Object> params) {
 		// 查询列表数据
 		Query query = new Query(params);
-		List<FileDO> sysFileList = sysFileService.list(query);
-		int total = sysFileService.count(query);
+		List<FileDO> sysFileList = mdsi.list(query);
+		int total = mdsi.count(query);
 		PageUtils pageUtils = new PageUtils(sysFileList, total);
 		return pageUtils;
 	}
@@ -62,7 +61,7 @@ public class FileController extends BaseController {
 	@GetMapping("/edit")
 	// @RequiresPermissions("common:bComments")
 	String edit(Long id, Model model) {
-		FileDO sysFile = sysFileService.get(id);
+		FileDO sysFile = mdsi.get(id);
 		model.addAttribute("sysFile", sysFile);
 		return "common/sysFile/edit";
 	}
@@ -71,9 +70,9 @@ public class FileController extends BaseController {
 	 * 信息
 	 */
 	@RequestMapping("/info/{id}")
-	@RequiresPermissions("common:info")
+//	@RequiresPermissions("common:info")
 	public R info(@PathVariable("id") Long id) {
-		FileDO sysFile = sysFileService.get(id);
+		FileDO sysFile = mdsi.get(id);
 		return R.ok().put("sysFile", sysFile);
 	}
 
@@ -82,9 +81,9 @@ public class FileController extends BaseController {
 	 */
 	@ResponseBody
 	@PostMapping("/save")
-	@RequiresPermissions("common:save")
+//	@RequiresPermissions("common:save")
 	public R save(FileDO sysFile) {
-		if (sysFileService.save(sysFile) > 0) {
+		if (mdsi.save(sysFile) > 0) {
 			return R.ok();
 		}
 		return R.error();
@@ -94,9 +93,9 @@ public class FileController extends BaseController {
 	 * 修改
 	 */
 	@RequestMapping("/update")
-	@RequiresPermissions("common:update")
+//	@RequiresPermissions("common:update")
 	public R update(@RequestBody FileDO sysFile) {
-		sysFileService.update(sysFile);
+		mdsi.update(sysFile);
 
 		return R.ok();
 	}
@@ -111,8 +110,8 @@ public class FileController extends BaseController {
 		if ("test".equals(getUsername())) {
 			return R.error(1, "演示系统不允许修改,完整体验请部署程序");
 		}
-		String fileName = bootdoConfig.getUploadPath() + sysFileService.get(id).getUrl().replace("/files/", "");
-		if (sysFileService.remove(id) > 0) {
+		String fileName = bootdoConfig.getUploadPath() + mdsi.get(id).getUrl().replace("/files/", "");
+		if (mdsi.remove(id) > 0) {
 			boolean b = FileUtil.deleteFile(fileName);
 			if (!b) {
 				return R.error("数据库记录删除成功，文件删除失败");
@@ -128,12 +127,12 @@ public class FileController extends BaseController {
 	 */
 	@PostMapping("/batchRemove")
 	@ResponseBody
-	@RequiresPermissions("common:remove")
+//	@RequiresPermissions("common:remove")
 	public R remove(@RequestParam("ids[]") Long[] ids) {
 		if ("test".equals(getUsername())) {
 			return R.error(1, "演示系统不允许修改,完整体验请部署程序");
 		}
-		sysFileService.batchRemove(ids);
+		mdsi.batchRemove(ids);
 		return R.ok();
 	}
 
@@ -154,7 +153,7 @@ public class FileController extends BaseController {
 			return R.error();
 		}
 
-		if (sysFileService.save(sysFile) > 0) {
+		if (mdsi.save(sysFile) > 0) {
 			return R.ok().put("fileName",sysFile.getUrl());
 		}
 		return R.error();

@@ -21,6 +21,16 @@ public class FileDO implements Serializable {
     private String url;
     // 创建时间
     private Date createDate;
+    //文档名称
+    private String name;
+    //上传者id
+    private Long userId;
+    //查看状态（0：未查看，1：已查看）
+    private Byte readStatus;
+    //老师点评
+    private String teacherComment;
+    //删除状态
+    private Byte delFlag;
 
 
     public FileDO() {
@@ -35,6 +45,53 @@ public class FileDO implements Serializable {
         this.createDate = createDate;
     }
 
+    public FileDO(Integer type, String url, Date createDate, String name, Long userId) {
+        this.type = type;
+        this.url = url;
+        this.createDate = createDate;
+        this.name = name;
+        this.userId = userId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public Byte getReadStatus() {
+        return readStatus;
+    }
+
+    public void setReadStatus(Byte readStatus) {
+        this.readStatus = readStatus;
+    }
+
+    public String getTeacherComment() {
+        return teacherComment;
+    }
+
+    public void setTeacherComment(String teacherComment) {
+        this.teacherComment = teacherComment;
+    }
+
+    public Byte getDelFlag() {
+        return delFlag;
+    }
+
+    public void setDelFlag(Byte delFlag) {
+        this.delFlag = delFlag;
+    }
 
     /**
      * 设置：
@@ -99,6 +156,11 @@ public class FileDO implements Serializable {
                 ", type=" + type +
                 ", url='" + url + '\'' +
                 ", createDate=" + createDate +
+                ", name='" + name + '\'' +
+                ", userId=" + userId +
+                ", readStatus=" + readStatus +
+                ", teacherComment='" + teacherComment + '\'' +
+                ", delFlag=" + delFlag +
                 '}';
     }
 }
