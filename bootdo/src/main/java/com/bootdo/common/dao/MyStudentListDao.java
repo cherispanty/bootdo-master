@@ -23,4 +23,6 @@ public interface MyStudentListDao {
     public Integer updatePaperTitle(TeacherStudent teacherStudent);
     //解除老师-学生的导师学生关系
     public Integer updateLinkStatus(Map<String, Object> map);
+    //将被解除关系的学生设置为无导师状态
+    public Integer updateHasTeacher(Long studentId);
 }

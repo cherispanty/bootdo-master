@@ -58,4 +58,18 @@
             id = #{id}
     </update>
 
+    <update id="updateHasTeacher" parameterType="map">
+        UPDATE sys_user
+        SET has_teacher = #{hasTeacher}
+        WHERE
+            user_id = #{studentId}
+    </update>
+
+    <update id="updateOtherLinkStatus" parameterType="long">
+        update sys_teacher_student
+        set link_status = -4
+        where student_id = #{studentId}
+              and link_status = 0
+    </update>
+
 </mapper>

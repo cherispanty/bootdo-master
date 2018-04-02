@@ -80,7 +80,8 @@ function load() {
 						offset : params.offset,
                         userId: $('#userId').val(),
                         name: $('#name').val(),
-						deptId: $('.chosen-select').val()
+						deptId: $('.chosen-select').val(),
+                        hasTeacher: $('#hasTeacher').val()
 					};
 				},
 				// //请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数，例如 toolbar 中的参数 如果
@@ -113,6 +114,7 @@ function load() {
                         align: "center"
                     },
 					{
+						visible: false,
 						field : 'graduateYear',
 						title : '毕业年份',
                         align: "center"
@@ -136,7 +138,12 @@ function load() {
                             var e = '<button  class="btn btn-primary btn-sm" onclick="check(\''
                                 + row.userId
                                 + '\')"></i>邀请</button> ';
-                            return e;
+                            var f = '<span  class="btn btn-warning btn-sm">已有导师</span>';
+                            if(row.hasTeacher === 1){
+                            	return f;
+							}else {
+                            	return e;
+							}
                         }
 					} ]
 			});

@@ -111,14 +111,20 @@ function load() {
                         align : 'center',
                         formatter : function(value, row, index) {
                             if (value == '-1') {
-									return '<span class="label label-danger">已拒绝</span>';
+                            	return '<span class="label label-danger">已拒绝</span>';
                             } else if (value == '1') {
                                 return '<span class="label label-primary">已同意</span>';
                             }else if (value == '0') {
                                 return '<span class="label label-warning">待查看</span>';
-                            }else if(value == '-2') {
-                            	return '<span class="label label-danger">已取消</span>';
-							}
+                            }else if(value == '-1') {
+                                return '<span class="label label-danger">未接受</span>';
+                            } else if(value == '-2') {
+                                return '<span class="label label-danger">已取消</span>';
+                            }else if(value == '-3') {
+                                return '<span class="label label-danger">已解除</span>';
+                            }else if(value == '-4') {
+                                return '<span class="label label-danger">已失效</span>';
+                            }
                         }
                     },
 					{

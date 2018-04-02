@@ -94,7 +94,8 @@ public class SelectStudentController extends BaseController {
 	}
 
 	/**
-	 * 判断该老师是否邀请了自己，并且状态为未查看，如果邀请了并且为“未查看”状态就不可以再去申请
+	 *
+	 * 判断该学生是否申请了自己，并且状态为未查看，如果申请了并且为“未查看”状态就不可以再去邀请
 	 * @param userId
 	 * @return
 	 */

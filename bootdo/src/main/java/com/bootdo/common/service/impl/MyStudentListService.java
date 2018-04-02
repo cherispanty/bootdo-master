@@ -73,4 +73,14 @@ public class MyStudentListService {
         logger.info("MyStudentListService.dismissTeacherAndStudent|map = {}",map.toString());
         return msld.updateLinkStatus(map);
     }
+
+    /**
+     * 将学生设置为无导师状态（执行解绑操作的后续动作）
+     * @param studentId
+     * @return
+     */
+    public Integer updateHasTeacher(Long studentId) {
+        logger.info("MyStudentListService.updateHasTeacher|studentId = {}",studentId);
+        return msld.updateHasTeacher(studentId);
+    }
 }

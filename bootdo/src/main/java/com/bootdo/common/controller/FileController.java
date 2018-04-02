@@ -144,7 +144,9 @@ public class FileController extends BaseController {
 			return R.error(1, "演示系统不允许修改,完整体验请部署程序");
 		}
 		String fileName = file.getOriginalFilename();
+		System.out.println("filename:"+fileName);
 		fileName = FileUtil.renameToUUID(fileName);
+		System.out.println("filename:"+fileName);
 		FileDO sysFile = new FileDO(FileType.fileType(fileName), "/files/" + fileName, new Date());
 		try {
 			FileUtil.uploadFile(file.getBytes(), bootdoConfig.getUploadPath(), fileName);

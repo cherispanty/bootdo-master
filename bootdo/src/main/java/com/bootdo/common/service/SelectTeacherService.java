@@ -43,4 +43,11 @@ public interface SelectTeacherService {
      * @return
      */
     Integer findNumsOfTeacher(Map<String, Object> map);
+
+    /**
+     * 查询该学生已经有几个导师
+     * @param studentId
+     * @return
+     */
+    Integer queryByStudentId(Long studentId);
 }

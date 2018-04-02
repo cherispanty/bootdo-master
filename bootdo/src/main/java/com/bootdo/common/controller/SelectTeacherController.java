@@ -112,11 +112,20 @@ public class SelectTeacherController extends BaseController {
     public R check(Long userId) {
         logger.info("SelectTeacherController.check|userId = {}",userId);
         //判断当前学生是否已有了导师，如果有了就不能申请
-
+        Long studentId = ShiroUtils.getUserId();
+        Integer rows = selectTeacherService.queryByStudentId(studentId);
+        if(rows == 1){
+            logger.info("检测到该学生已经有了导师");
+            return R.error("你已经有了导师，不能再申请");
+        }
+        if(rows > 1) {
+            logger.info("异常，该学生有超过一名导师");
+            return R.error("系统检测你有超过一名导师，请联系管理员");
+        }
         //判断该老师是否邀请了自己，并且状态为未查看，如果邀请了并且为“未查看”状态就不可以再去申请
         Map<String, Object> map = new HashMap<>();
         map.put("teacherId",userId);
-        map.put("studentId",ShiroUtils.getUserId());
+        map.put("studentId",studentId);
         List<TeacherStudent> tsList = selectTeacherService.queryRecordBySidAndTid(map);
         if(tsList != null && tsList.size() > 0) {
             for (TeacherStudent ts:

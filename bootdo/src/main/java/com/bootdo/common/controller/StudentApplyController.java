@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -85,11 +86,23 @@ public class StudentApplyController {
             logger.info("MyApplyController.agree|teacherStudent = {}",teacherStudent);
             return R.error("操作失败，该记录不存在");
         }
+
         //修改link_status状态为同意状态
         teacherStudent.setLinkStatus(ConstantVal.LINK_STATUS_CONN);
         Integer rows = studentApplyService.updateLinkStatus(teacherStudent);
         if(rows > 0) {
-            logger.info("MyApplyController.agree|操作成功");
+            logger.info("MyApplyController.agree|link_status状态操作成功");
+            //设置学生为已有导师状态（hasTeacher=1）
+            Long studentId = teacherStudent.getStudentId();
+            Map<String, Object> map = new HashMap<>();
+            map.put("studentId",studentId);
+            map.put("hasTeacher",ConstantVal.STUDENT_HAS_TEACHER);
+            Integer result = studentApplyService.updateHasTeacher(map);
+            if(result < 1) {
+                logger.info("MyApplyController.agree|has_teacher状态修改不成功");
+            }
+            //将该学生的待查看的申请都设置为失效状态
+            studentApplyService.clearOtherApply(studentId);
             return R.ok();
         }
         return R.error("操作失败");

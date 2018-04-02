@@ -11,7 +11,8 @@
 			su.username,
 			su.graduate_year,
 			su.email,
-			su.mobile
+			su.mobile,
+			su.has_teacher
 		FROM
 			sys_user su
 		LEFT JOIN sys_user_role sur ON sur.user_id = su.user_id
@@ -26,7 +27,9 @@
 			<if test="deptId != null and deptId != ''">
 				and su.dept_id = #{deptId}
 			</if>
-
+			<if test="hasTeacher != null and hasTeacher != ''">
+				and su.has_teacher = #{hasTeacher}
+			</if>
 			and status = 1 and sur.role_id = 60
 		</where>
 		<choose>

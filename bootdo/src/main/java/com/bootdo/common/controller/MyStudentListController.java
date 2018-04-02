@@ -121,6 +121,7 @@ public class MyStudentListController {
 
     /**
      * 解除老师和学生的绑定（link_status: 1 -> -3）
+     * 将学生设置为无导师状态（has_teacher=0）
      * @param userId
      * @return
      */
@@ -135,6 +136,8 @@ public class MyStudentListController {
         Integer rows = msls.dismissTeacherAndStudent(map);
         if(rows > 0) {
             logger.info("MyStudentListController.dismiss|解除绑定成功");
+            //将学生设置为无导师状态（has_teacher=0）
+            msls.updateHasTeacher(userId);
             return R.ok();
         }else {
             logger.info("MyStudentListController.dismiss|解除绑定失败");

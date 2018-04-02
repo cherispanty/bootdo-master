@@ -91,4 +91,16 @@ public class SelectTeacherServiceImpl implements SelectTeacherService {
         logger.info("SelectTeacherServiceImpl.findNumsOfTeacher|map = {}",map.toString());
         return selectTeacherDao.queryKindsOfNum(map);
     }
+
+    /**
+     * 查询该学生已经有几个导师
+     *
+     * @param studentId
+     * @return
+     */
+    @Override
+    public Integer queryByStudentId(Long studentId) {
+        logger.info("SelectTeacherServiceImpl.queryByStudentId|studentId = {}",studentId);
+        return selectTeacherDao.queryByStudentId(studentId);
+    }
 }

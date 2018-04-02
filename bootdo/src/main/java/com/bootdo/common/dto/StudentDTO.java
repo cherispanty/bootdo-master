@@ -15,6 +15,16 @@ public class StudentDTO {
     private String mobile;
     private String paperTitle;  //学生的论文题目
 
+    private Byte hasTeacher;    //是否已有导师（0：没有，1：有）
+
+    public Byte getHasTeacher() {
+        return hasTeacher;
+    }
+
+    public void setHasTeacher(Byte hasTeacher) {
+        this.hasTeacher = hasTeacher;
+    }
+
     public String getPaperTitle() {
         return paperTitle;
     }
@@ -99,6 +109,7 @@ public class StudentDTO {
                 ", email='" + email + '\'' +
                 ", mobile='" + mobile + '\'' +
                 ", paperTitle='" + paperTitle + '\'' +
+                ", hasTeacher=" + hasTeacher +
                 '}';
     }
 }

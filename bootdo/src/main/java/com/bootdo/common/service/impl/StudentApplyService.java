@@ -56,4 +56,23 @@ public class StudentApplyService {
         return studentApplyDao.updateLinkStatus(teacherStudent);
     }
 
+    /**
+     * 修改学生拥有导师的状态（同意：has_teacher=1,解绑：has_teacher=0）
+     * @param map
+     * @return
+     */
+    public Integer updateHasTeacher(Map<String, Object> map){
+        logger.info("StudentApplyService.updateHasTeacher|map = {}",map.toString());
+        return studentApplyDao.updateHasTeacher(map);
+    }
+
+    /**
+     * 将该学生的其他申请都设置为失效状态
+     * @return
+     */
+    public Integer clearOtherApply(Long studentId){
+        logger.info("StudentApplyService.clearOtherApply|studentId = {}",studentId);
+        return studentApplyDao.updateOtherLinkStatus(studentId);
+    }
+
 }

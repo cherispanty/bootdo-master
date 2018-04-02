@@ -68,4 +68,10 @@
 		AND link_status = 1
 	</update>
 
+	<update id="updateHasTeacher" parameterType="long">
+		update sys_user
+		set has_teacher = 0
+		where user_id = #{studentId}
+	</update>
+
 </mapper>

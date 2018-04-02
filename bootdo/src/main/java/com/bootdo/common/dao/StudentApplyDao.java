@@ -32,4 +32,18 @@ public interface StudentApplyDao {
      * @return
      */
     Integer updateLinkStatus(TeacherStudent teacherStudent);
+
+    /**
+     * 修改学生拥有导师的状态（同意：has_teacher=1,解绑：has_teacher=0）
+     * @param map
+     * @return
+     */
+    Integer updateHasTeacher(Map<String, Object> map);
+
+    /**
+     * 将该学生的其他申请的待查看状态都设置为失效状态（在执行同意该学生申请后执行该操作）
+     * @param studentId
+     * @return
+     */
+    Integer updateOtherLinkStatus(long studentId);
 }

@@ -118,7 +118,11 @@ function load() {
                                 return '<span class="label label-warning">待查看</span>';
                             }else if(value == '-2') {
                             	return '<span class="label label-danger">已取消</span>';
-							}
+							}else if(value == '-3') {
+                                return '<span class="label label-danger">已解除</span>';
+                            }else if(value == '-4') {
+                                return '<span class="label label-danger">已失效</span>';
+                            }
                         }
                     },
 					{

@@ -127,5 +127,15 @@
 		AND link_status = #{linkStatus}
 	</select>
 
+	<select id="queryByStudentId" parameterType="Long" resultType="Integer">
+		SELECT
+			count(1)
+		FROM
+			sys_teacher_student
+		WHERE
+			student_id = #{studentId}
+		AND link_status = 1
+	</select>
+
 
 </mapper>

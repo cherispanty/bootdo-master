@@ -21,13 +21,10 @@ public interface SelectTeacherDao {
     TeacherDTO queryTeacherByUserId(Long userId);
     //通过studentId和TeahcerId查询申请（邀请）记录
     List<TeacherStudent> queryRecordBySidAndTid(Map<String, Object> map);
-
-    /**
-     * 添加一条学生-老师关联记录
-     * @param teacherStudent
-     * @return
-     */
+    //添加一条学生-老师关联记录
     Integer insertTeacherStudent(TeacherStudent teacherStudent);
     //查询老师已带(已申请)学生
     Integer queryKindsOfNum(Map<String, Object> map);
+    //查询该学生有几个导师（num > 0有了导师，不能再申请）
+    Integer queryByStudentId(Long studentId);
 }
