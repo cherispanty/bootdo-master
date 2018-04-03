@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.common.dao.MyPaperDao">
+	<select id="list" parameterType="map" resultType="com.bootdo.common.dto.PaperDTO">
+		SELECT
+        <include refid="BaseColumnList"/>
+		FROM
+		paper
+		LEFT JOIN sys_teacher_student sts ON sts.student_id = paper.student_id
+		LEFT JOIN sys_user su ON su.user_id = sts.teacher_id
+		LEFT JOIN sys_user su2 ON su2.user_id = sts.student_id
+		<where>
+			<if test="status != null and status != ''">
+				paper.status = #{status}
+			</if>
+			<if test="createTime != null and createTime != ''">
+				paper.create_time = #{createTime}
+			</if>
+			paper.student_id = #{studentId}
+			AND sts.link_status = 1
+		</where>
+		<choose>
+			<when test="sort != null and sort.trim() != ''">
+				order by ${sort} ${order}
+			</when>
+			<otherwise>
+				order by paper.id desc
+			</otherwise>
+		</choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	<select id="countTotal" parameterType="map" resultType="Integer">
+		SELECT count(1)
+		FROM
+			paper
+        LEFT JOIN sys_teacher_student sts ON sts.student_id = paper.student_id
+        LEFT JOIN sys_user su ON su.user_id = sts.teacher_id
+        LEFT JOIN sys_user su2 ON su2.user_id = sts.student_id
+		<where>
+			<if test="status != null and status != ''">
+				paper.status = #{status}
+			</if>
+			<if test="createTime != null and createTime != ''">
+				paper.create_time = #{createTime}
+			</if>
+			paper.student_id = #{studentId}
+			AND sts.link_status = 1
+		</where>
+	</select>
+
+
+	<sql id="BaseColumnList">
+		paper.id,
+		paper. NAME,
+        paper.student_id,
+        paper.teacher_id,
+        paper.url,
+        paper.create_time,
+        paper.collection,
+        paper.influence,
+        paper.factor,
+        paper.reference_count,
+        paper.score,
+        paper.review_opinion,
+        paper.del_flag,
+        paper.`status`,
+        su. NAME teacherName,
+        su2. NAME studentName,
+        sts.paper_title
+	</sql>
+</mapper>

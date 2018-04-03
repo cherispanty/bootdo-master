@@ -25,6 +25,8 @@ public class FileDO implements Serializable {
     private String name;
     //上传者id
     private Long userId;
+    //上传者姓名
+    private String userName;
     //查看状态（0：未查看，1：已查看）
     private Byte readStatus;
     //老师点评
@@ -45,12 +47,21 @@ public class FileDO implements Serializable {
         this.createDate = createDate;
     }
 
-    public FileDO(Integer type, String url, Date createDate, String name, Long userId) {
+    public FileDO(Integer type, String url, Date createDate, String name, Long userId, String userName) {
         this.type = type;
         this.url = url;
         this.createDate = createDate;
         this.name = name;
         this.userId = userId;
+        this.userName = userName;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getName() {
@@ -158,6 +169,7 @@ public class FileDO implements Serializable {
                 ", createDate=" + createDate +
                 ", name='" + name + '\'' +
                 ", userId=" + userId +
+                ", userName='" + userName + '\'' +
                 ", readStatus=" + readStatus +
                 ", teacherComment='" + teacherComment + '\'' +
                 ", delFlag=" + delFlag +

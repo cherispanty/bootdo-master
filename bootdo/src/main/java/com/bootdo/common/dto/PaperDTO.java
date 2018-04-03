@@ -1,23 +1,28 @@
-package com.bootdo.common.domain;
+package com.bootdo.common.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
- * Created by Linchong on 2018/3/18.
+ * @author Linchong
+ * @date 2018/4/3 10:04
  */
-public class PaperDO {
+public class PaperDTO {
     private Long id;
-    //论文名称
+    //论文题目
+    private String paperTitle;
+    //论文文档名称
     private String name;
     //上传者编号
     private Long studentId;
+    private String studentName;
     //上传路径
     private String url;
     //创建时间
-    private LocalDateTime createTime;
+    private String createTime;
     //指导老师编号
     private Long teacherId;
+    private String teacherName;
     //收录情况
     private String collection;
     //影响力
@@ -43,6 +48,14 @@ public class PaperDO {
         this.id = id;
     }
 
+    public String getPaperTitle() {
+        return paperTitle;
+    }
+
+    public void setPaperTitle(String paperTitle) {
+        this.paperTitle = paperTitle;
+    }
+
     public String getName() {
         return name;
     }
@@ -59,6 +72,14 @@ public class PaperDO {
         this.studentId = studentId;
     }
 
+    public String getStudentName() {
+        return studentName;
+    }
+
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
+    }
+
     public String getUrl() {
         return url;
     }
@@ -67,11 +88,11 @@ public class PaperDO {
         this.url = url;
     }
 
-    public LocalDateTime getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(LocalDateTime createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 
@@ -81,6 +102,14 @@ public class PaperDO {
 
     public void setTeacherId(Long teacherId) {
         this.teacherId = teacherId;
+    }
+
+    public String getTeacherName() {
+        return teacherName;
+    }
+
+    public void setTeacherName(String teacherName) {
+        this.teacherName = teacherName;
     }
 
     public String getCollection() {
@@ -149,13 +178,16 @@ public class PaperDO {
 
     @Override
     public String toString() {
-        return "PaperDO{" +
+        return "PaperDTO{" +
                 "id=" + id +
+                ", paperTitle='" + paperTitle + '\'' +
                 ", name='" + name + '\'' +
                 ", studentId=" + studentId +
+                ", studentName='" + studentName + '\'' +
                 ", url='" + url + '\'' +
                 ", createTime=" + createTime +
                 ", teacherId=" + teacherId +
+                ", teacherName='" + teacherName + '\'' +
                 ", collection='" + collection + '\'' +
                 ", influence='" + influence + '\'' +
                 ", factor='" + factor + '\'' +

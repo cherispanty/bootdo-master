@@ -142,11 +142,16 @@ public class MyDocumentController extends BaseController {
 		if ("test".equals(getUsername())) {
 			return R.error(1, "演示系统不允许修改,完整体验请部署程序");
 		}
-		String fileName = file.getOriginalFilename();
+		//原始文档名
+		String name = file.getOriginalFilename();
+		System.out.println("name:"+name);
+		String fileName = FileUtil.renameToUUID(name);
 		System.out.println("filename:"+fileName);
-//		fileName = FileUtil.renameToUUID(fileName);
-//		System.out.println("filename:"+fileName);
-		FileDO sysFile = new FileDO(FileType.fileType(fileName), "/files/" + fileName, new Date());
+		Long userId = ShiroUtils.getUserId();
+        System.out.println("userId:"+userId);
+        String userName = ShiroUtils.getUser().getName();
+        System.out.println("userName:"+userName);
+        FileDO sysFile = new FileDO(FileType.fileType(fileName), "/files/" + fileName, new Date(),name,userId,userName);
 		try {
 			FileUtil.uploadFile(file.getBytes(), bootdoConfig.getUploadPath(), fileName);
 		} catch (Exception e) {

@@ -8,7 +8,7 @@
 	</select>
 
 	<select id="list" resultType="com.bootdo.common.domain.FileDO">
-		select `id`,`type`,`url`,`create_date` ,name,user_id,read_status,teacher_comment,del_flag
+		select `id`,`type`,`url`,`create_date` ,name,user_id,user_name,read_status,teacher_comment,del_flag
 		from sys_file
         <where>  
 		  <if test="id != null and id != ''"> and id = #{id} </if>
@@ -17,6 +17,7 @@
 		  <if test="createDate != null and createDate != ''"> and create_date = #{createDate} </if>
 		  <if test="name != null and name.trim() != ''"> and name = #{name} </if>
 		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+			<if test="userName != null and userName.trim() != ''"> and user_name = #{userName} </if>
 		  <if test="readStatus != null and readStatus != ''"> and read_status = #{readStatus} </if>
 		  <if test="teacherComment != null and teacherComment.trim() != ''"> and teacher_comment = #{teacherComment} </if>
 		  <if test="delFlag != null and delFlag != ''"> and del_flag = #{delFlag} </if>
@@ -36,12 +37,17 @@
 	
  	<select id="count" resultType="int">
 		select count(*) from sys_file
-		 <where>  
-		  		  <if test="id != null and id != ''"> and id = #{id} </if>
-		  		  <if test="type != null and type != ''"> and type = #{type} </if>
-		  		  <if test="url != null and url != ''"> and url = #{url} </if>
-		  		  <if test="createDate != null and createDate != ''"> and create_date = #{createDate} </if>
-		  		</where>
+		 <where>
+			 <if test="id != null and id != ''"> and id = #{id} </if>
+			 <if test="type != null and type != ''"> and type = #{type} </if>
+			 <if test="url != null and url != ''"> and url = #{url} </if>
+			 <if test="createDate != null and createDate != ''"> and create_date = #{createDate} </if>
+			 <if test="name != null and name.trim() != ''"> and name = #{name} </if>
+			 <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+			 <if test="readStatus != null and readStatus != ''"> and read_status = #{readStatus} </if>
+			 <if test="teacherComment != null and teacherComment.trim() != ''"> and teacher_comment = #{teacherComment} </if>
+			 <if test="delFlag != null and delFlag != ''"> and del_flag = #{delFlag} </if>
+		 </where>
 	</select>
 	 
 	<insert id="save" parameterType="com.bootdo.common.domain.FileDO" useGeneratedKeys="true" keyProperty="id">
@@ -49,13 +55,19 @@
 		(
 			`type`, 
 			`url`, 
-			`create_date`
+			`create_date`,
+			`name`,
+			`user_id`,
+			`user_name`
 		)
 		values
 		(
 			#{type}, 
 			#{url}, 
-			#{createDate}
+			#{createDate},
+			#{name},
+			#{userId},
+			#{userName}
 		)
 	</insert>
 	 
