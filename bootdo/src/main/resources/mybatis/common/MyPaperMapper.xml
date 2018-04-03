@@ -11,14 +11,17 @@
 		LEFT JOIN sys_user su ON su.user_id = sts.teacher_id
 		LEFT JOIN sys_user su2 ON su2.user_id = sts.student_id
 		<where>
+			AND paper.student_id = #{studentId}
+			AND sts.link_status = 1 AND del_flag = 0
+			<if test="name != null and name.trim() != ''">
+				AND paper.name like concat('%',#{name},'%')
+			</if>
 			<if test="status != null and status != ''">
-				paper.status = #{status}
+				AND paper.status = #{status}
 			</if>
 			<if test="createTime != null and createTime != ''">
-				paper.create_time = #{createTime}
+				AND paper.create_time LIKE concat('%',#{createTime},'%')
 			</if>
-			paper.student_id = #{studentId}
-			AND sts.link_status = 1
 		</where>
 		<choose>
 			<when test="sort != null and sort.trim() != ''">
@@ -40,17 +43,65 @@
         LEFT JOIN sys_user su ON su.user_id = sts.teacher_id
         LEFT JOIN sys_user su2 ON su2.user_id = sts.student_id
 		<where>
+			AND paper.student_id = #{studentId}
+			AND sts.link_status = 1 AND del_flag = 0
+			<if test="name != null and name.trim() != ''">
+				AND paper.name like concat('%',#{name},'%')
+			</if>
 			<if test="status != null and status != ''">
-				paper.status = #{status}
+				AND paper.status = #{status}
 			</if>
 			<if test="createTime != null and createTime != ''">
-				paper.create_time = #{createTime}
+				AND paper.create_time LIKE concat('%',#{createTime},'%')
 			</if>
-			paper.student_id = #{studentId}
-			AND sts.link_status = 1
 		</where>
 	</select>
+    <insert id="save" parameterType="com.bootdo.common.domain.PaperDO" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO paper (
+            NAME,
+            student_id,
+            teacher_id,
+            url,
+            type
+        )
+        VALUES
+            (
+                #{name},
+                #{studentId},
+                #{teacherId},
+                #{url},
+                #{type}
+            )
+    </insert>
 
+    <select id="queryMyTeacherId" parameterType="long" resultType="long">
+        SELECT
+            teacher_id
+        FROM
+            sys_teacher_student
+        WHERE
+            student_id = #{studentId}
+        AND link_status = 1;
+    </select>
+
+	<select id="queryPaperDetail" parameterType="long" resultType="com.bootdo.common.domain.PaperDO">
+		SELECT
+			*
+		FROM
+			paper
+		WHERE
+			id = #{id}  AND del_flag = 0;
+	</select>
+
+    <update id="cancelPaper" parameterType="long">
+        update paper set status = -2
+        where id = #{id}
+    </update>
+
+	<update id="removePaper" parameterType="long">
+		update paper set del_flag = -1
+		where id = #{id}
+	</update>
 
 	<sql id="BaseColumnList">
 		paper.id,

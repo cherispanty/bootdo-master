@@ -34,6 +34,26 @@ public class PaperDO {
     private Byte delFlag;
     //论文状态
     private Byte status;
+    //文件类型
+    private Integer type;
+    public  PaperDO(){
+
+    }
+    public PaperDO(String name, Long studentId, String url,  Long teacherId, Integer type) {
+        this.name = name;
+        this.studentId = studentId;
+        this.url = url;
+        this.teacherId = teacherId;
+        this.type = type;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
 
     public Long getId() {
         return id;

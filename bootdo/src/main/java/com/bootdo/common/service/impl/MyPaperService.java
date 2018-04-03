@@ -1,6 +1,7 @@
 package com.bootdo.common.service.impl;
 
 import com.bootdo.common.dao.MyPaperDao;
+import com.bootdo.common.domain.PaperDO;
 import com.bootdo.common.dto.PaperDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,5 +37,36 @@ public class MyPaperService {
         Integer total = myPaperDao.countTotal(map);
         logger.info("MyPaperService.countTotal|total = {}",total);
         return total;
+    }
+
+    //保存论文
+    public Integer save(PaperDO paperDO){
+        logger.info("MyPaperService.save|paperDO = {}",paperDO.toString());
+        Integer rows = myPaperDao.save(paperDO);
+        return rows;
+    }
+
+    //获得指导老师id
+    public Long queryMyteacherId(Long studentId) {
+        logger.info("MyPaperService.save|studentId = {}",studentId);
+        return myPaperDao.queryMyTeacherId(studentId);
+    }
+
+    //查看论文明细
+    public PaperDO queryPaperDetail(Long id) {
+        logger.info("MyPaperService.queryPaperDetail|id = {}",id);
+        return myPaperDao.queryPaperDetail(id);
+    }
+
+    //撤销上传的论文
+    public Integer cancelPaper(Long id) {
+        logger.info("MyPaperService.cancelPaper|id = {}",id);
+        return myPaperDao.cancelPaper(id);
+    }
+
+    //删除上传的论文
+    public Integer removePaper(Long id) {
+        logger.info("MyPaperService.removePaper|id = {}",id);
+        return myPaperDao.removePaper(id);
     }
 }

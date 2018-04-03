@@ -70,9 +70,6 @@ public class SelectTeacherController extends BaseController {
 
 	@GetMapping("/apply/{userId}")
 	String apply(@PathVariable("userId") Long userId, Model model) {
-//		DictDO dict = dictService.get(id);
-//		model.addAttribute("dict", dict);
-//		return "common/dict/edit";
         TeacherDTO teacherDTO = selectTeacherService.queryTeacherByUserId(userId);
         //组装申请记录
         TeacherStudent ts = new TeacherStudent();
