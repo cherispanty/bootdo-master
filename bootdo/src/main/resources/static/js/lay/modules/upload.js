@@ -353,7 +353,7 @@ layui.define('layer' , function(exports){
           
         }
       });
-      if(limitSize) return that.msg('文件不能超过'+ limitSize);
+      if(limitSize) return that.msg('文件不能超过10M');
     }
     send();
   };

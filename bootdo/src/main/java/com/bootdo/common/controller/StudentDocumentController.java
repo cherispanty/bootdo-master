@@ -4,7 +4,6 @@ import com.bootdo.common.config.BootdoConfig;
 import com.bootdo.common.domain.FileDO;
 import com.bootdo.common.service.impl.MyDocumentServiceImpl;
 import com.bootdo.common.utils.*;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +24,9 @@ import java.util.Map;
  * @email 13298684463@163.com
  */
 @Controller
-@RequestMapping("/common/myDocument")
-public class MyDocumentController extends BaseController {
-    private Logger logger = LoggerFactory.getLogger(MyDocumentController.class);
+@RequestMapping("/common/studentDocument")
+public class StudentDocumentController extends BaseController {
+    private Logger logger = LoggerFactory.getLogger(StudentDocumentController.class);
 //	@Autowired
 //	private FileService mdsi;
 	@Autowired
@@ -39,7 +38,7 @@ public class MyDocumentController extends BaseController {
 //	@RequiresPermissions("common:sysFile:sysFile")
 	String sysFile(Model model) {
 		Map<String, Object> params = new HashMap<>(16);
-		return "common/myDocument/myDocument";
+		return "common/studentDocument/studentDocument";
 	}
 
 	@ResponseBody

@@ -88,7 +88,8 @@ public class MyStudentListController {
         Long studentId = studentDTO.getUserId();
         for (TeacherStudent ts:
                 tsList) {
-           if(studentId == ts.getStudentId()) {
+            logger.info("studentId = {},ts.studentId = {}",studentId,ts.getStudentId());
+           if(studentId == ts.getStudentId() || studentId.equals(ts.getStudentId())) {
                studentDTO.setPaperTitle(ts.getPaperTitle());
                break;
            }
