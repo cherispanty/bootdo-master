@@ -1,5 +1,5 @@
 
-var prefix = "/common/studentDocument"
+var prefix = "/common/studentPaper"
 $(function() {
 	
 	//	var config = {
@@ -79,9 +79,9 @@ function load() {
 						//说明：传入后台的参数包括offset开始索引，limit步长，sort排序列，order：desc或者,以及所有列的键值对
 						limit : params.limit,
 						offset : params.offset,
-						name: $('#name').val(),
-                        createDate: $('#createDate').val(),
-                        readStatus: $('#readStatus').val()
+                        name: $('#name').val(),
+                        createTime: $('#createTime').val(),
+                        status: $('#status').val()
 					};
 				},
 				// //请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数，例如 toolbar 中的参数 如果
@@ -96,46 +96,80 @@ function load() {
                         formatter: function (value, row, index) {
                             return index + 1;
                         },
-                        width: '60px',
 						align: "center"
                     },
                     {
-						field : 'name',
-						title : '文档名',
-                        width: '200px',
+                        field : 'paperTitle',
+                        title : '论文题目',
+                        align: "center"
+                    },
+                    {
+                        field : 'name',
+                        title : '论文名称',
+                        align: "center"
+                    },
+                    {
+                        field : 'status',
+                        title : '论文状态',
+                        align : 'center',
+                        formatter : function(value, row, index) {
+                            if (value == '0') {
+                                return '<span class="label label-warning">待审核</span>';
+                            } else if (value == '1') {
+                                return '<span class="label label-primary">通过</span>';
+                            }else if (value == '-1') {
+                                return '<span class="label label-danger">驳回</span>';
+                            }else if (value == '-2') {
+                                return '<span class="label label-danger">已撤销</span>';
+                            }
+                        }
+                    },
+					{
+						field : 'studentName',
+						title : '学生',
+                        align: "center"
+					},
+                    {
+                        field : 'teacherName',
+                        title : '指导老师',
+                        align: "center"
+                    },
+					{
+						field : 'createTime',
+						title : '上传时间',
+                        align: "center"
+					},
+
+					{
+						visible: false,
+						field : 'collection',
+						title : '收录情况',
                         align: "center"
 					},
 					{
-						field : 'userName',
-						title : '学生',
-                        align: "center",
-                        width : '100px'
-					},
+                        visible: false,
+                        field : 'influence',
+                        title : '影响力',
+                        align: "center"
+                    },
 					{
-						field : 'createDate',
-						title : '上传时间',
-                        align: "center",
-						width : '200px'
-					},
+                        visible: false,
+                        field : 'factor',
+                        title : '影响因子',
+                        align: "center"
+                    },
 					{
-                        field : 'readStatus',
-                        title : '查看状态',
-                        align : 'center',
-                        width : '250px',
-                        formatter : function(value, row, index) {
-                            if (value == '0') {
-                                return '<span class="label label-warning">未评阅</span>';
-                            } else if (value == '1') {
-                                return '<span class="label label-primary">已评阅</span>';
-                            }
-                        }
-					},
-					{
-						field : 'teacherComment',
-						title : '我的评论',
-                        align: "center",
-                        width : '250px'
-					},
+                        visible: false,
+                        field : 'score',
+                        title : '答辩分数',
+                        align: "center"
+                    },
+                    {
+                        visible: false,
+                        field : 'reviewOpinion',
+                        title : '评审意见',
+                        align: "center"
+                    },
 					{
 						title : '操作',
 						field : 'userId',
@@ -143,10 +177,28 @@ function load() {
 						formatter : function(value, row, index) {
 							console.log("row : "+JSON.stringify(JSON.stringify(row)));
                             var e = '<a  class="btn btn-primary btn-sm" href="' + row.url + '" download="' + row.name + '"></i>下载</a>';
-                            var f = '<button  class="btn btn-primary btn-sm" onclick="comment(\''
+                            var f = '<button  class="btn btn-primary btn-sm" onclick="detail(\''
                                 + row.id
-                                + '\')"></i>评论</button> ';
-							return e+' '+f;
+                                + '\')"></i>详情</button> ';
+                            var g = '<button  class="btn btn-danger btn-sm" onclick="cancel(\''
+                                + row.id
+                                + '\')"></i>撤销</button> ';
+                            var h = '<button  class="btn btn-danger btn-sm" onclick="remove(\''
+                                + row.id
+                                + '\')"></i>删除</button> ';
+                            if(row.status == 1) {
+                            	//论文通过
+                            	return e+' '+f;
+							}else if(row.status == 0) {
+                            	//论文待查看，此时可以取消撤销重新上传
+                            	return e+' '+g;
+							}else if(row.status == -1) {
+                            	//被驳回，暂时也展示详情
+								return e+' '+f;
+							}else if(row.status == -2) {
+                            	//已撤销
+                            	return e+ ' '+h;
+							}
 						}
 					} ]
 			});
@@ -155,15 +207,39 @@ function reLoad() {
 	$('#exampleTable').bootstrapTable('refresh');
 }
 
-function comment(id) {
+function detail(id) {
+	console.log("id:"+id);
     layer.open({
         type : 2,
-        title : '文档点评',
+        title : '论文明细',
         maxmin : true,
         shadeClose : false, // 点击遮罩关闭层
         area : [ '800px', '520px' ],
-        content : prefix + '/comment/' + id // iframe的url
+        content : prefix + '/detail/' + id // iframe的url
     });
+}
+
+function cancel(id) {
+    layer.confirm('撤销后老师将看不到论文，确定撤销？', {
+        btn : [ '确定', '取消' ]
+    }, function() {
+        $.ajax({
+            url : prefix + "/cancel",
+            type : "post",
+            data : {
+                'id' : id
+            },
+            success : function(r) {
+                if (r.code == 0) {
+                    layer.msg(r.msg);
+                    reLoad();
+                }else {
+                    layer.msg(r.msg);
+                }
+            }
+        });
+    })
+
 }
 
 function add() {
@@ -211,7 +287,7 @@ function apply(userId) {
 	});
 }
 function remove(id) {
-	layer.confirm('确定要删除选中的记录？', {
+	layer.confirm('文件删除后不可恢复，确定删除？', {
 		btn : [ '确定', '取消' ]
 	}, function() {
 		$.ajax({

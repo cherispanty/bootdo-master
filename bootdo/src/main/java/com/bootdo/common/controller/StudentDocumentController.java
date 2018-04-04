@@ -2,7 +2,10 @@ package com.bootdo.common.controller;
 
 import com.bootdo.common.config.BootdoConfig;
 import com.bootdo.common.domain.FileDO;
+import com.bootdo.common.dto.TeacherDTO;
+import com.bootdo.common.dto.TeacherStudent;
 import com.bootdo.common.service.impl.MyDocumentServiceImpl;
+import com.bootdo.common.service.impl.StudentDocumentService;
 import com.bootdo.common.utils.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +33,7 @@ public class StudentDocumentController extends BaseController {
 //	@Autowired
 //	private FileService mdsi;
 	@Autowired
-	private MyDocumentServiceImpl mdsi;
+	private StudentDocumentService sds;
 	@Autowired
 	private BootdoConfig bootdoConfig;
 
@@ -46,138 +49,45 @@ public class StudentDocumentController extends BaseController {
 //	@RequiresPermissions("common:sysFile:sysFile")
 	public PageUtils list(@RequestParam Map<String, Object> params) {
 		// 查询列表数据
-        params.put("userId",ShiroUtils.getUserId());
+        params.put("teacherId",ShiroUtils.getUserId());
 		Query query = new Query(params);
-		List<FileDO> sysFileList = mdsi.list(query);
-		int total = mdsi.count(query);
+		List<FileDO> sysFileList = sds.list(query);
+		int total = sds.countTotal(query);
 		PageUtils pageUtils = new PageUtils(sysFileList, total);
 		return pageUtils;
 	}
 
-	@GetMapping("/add")
-	// @RequiresPermissions("common:bComments")
-	String add() {
-		return "common/sysFile/add";
-	}
-
-	@GetMapping("/edit")
-	// @RequiresPermissions("common:bComments")
-	String edit(Long id, Model model) {
-		FileDO sysFile = mdsi.get(id);
-		model.addAttribute("sysFile", sysFile);
-		return "common/sysFile/edit";
-	}
-
 	/**
-	 * 信息
+	 * 老师评论前回显文档信息
+	 * @param id
+	 * @param model
+	 * @return
 	 */
-	@RequestMapping("/info/{id}")
-//	@RequiresPermissions("common:info")
-	public R info(@PathVariable("id") Long id) {
-		FileDO sysFile = mdsi.get(id);
-		return R.ok().put("sysFile", sysFile);
+	@GetMapping("/comment/{id}")
+	String comment(@PathVariable("id") Long id, Model model) {
+		logger.info("StudentDocumentController.comment|id = {}",id);
+        FileDO file = sds.queryFileById(id);
+        model.addAttribute("file",file);
+        return "common/studentDocument/comment";
 	}
 
-	/**
-	 * 保存
-	 */
-	@ResponseBody
-	@PostMapping("/save")
-//	@RequiresPermissions("common:save")
-	public R save(FileDO sysFile) {
-		if (mdsi.save(sysFile) > 0) {
-			return R.ok();
-		}
-		return R.error();
-	}
 
-	/**
-	 * 修改
-	 */
-	@RequestMapping("/update")
-//	@RequiresPermissions("common:update")
-	public R update(@RequestBody FileDO sysFile) {
-		mdsi.update(sysFile);
-
-		return R.ok();
-	}
-
-	/**
-	 * 删除
-	 */
-	@PostMapping("/remove")
-	@ResponseBody
-	// @RequiresPermissions("common:remove")
-	public R remove(Long id, HttpServletRequest request) {
-		if ("test".equals(getUsername())) {
-			return R.error(1, "演示系统不允许修改,完整体验请部署程序");
-		}
-		String fileName = bootdoConfig.getUploadPath() + mdsi.get(id).getUrl().replace("/files/", "");
-		if (mdsi.remove(id) > 0) {
-			boolean b = FileUtil.deleteFile(fileName);
-			if (!b) {
-				return R.error("数据库记录删除成功，文件删除失败");
-			}
-			return R.ok();
-		} else {
-			return R.error();
-		}
-	}
-
-	/**
-	 * 删除
-	 */
-	@PostMapping("/batchRemove")
-	@ResponseBody
-//	@RequiresPermissions("common:remove")
-	public R remove(@RequestParam("ids[]") Long[] ids) {
-		if ("test".equals(getUsername())) {
-			return R.error(1, "演示系统不允许修改,完整体验请部署程序");
-		}
-		mdsi.batchRemove(ids);
-		return R.ok();
-	}
-
-	@ResponseBody
-	@PostMapping("/upload")
-	R upload(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
-		if ("test".equals(getUsername())) {
-			return R.error(1, "演示系统不允许修改,完整体验请部署程序");
-		}
-		//原始文档名
-		String name = file.getOriginalFilename();
-		System.out.println("name:"+name);
-		String fileName = FileUtil.renameToUUID(name);
-		System.out.println("filename:"+fileName);
-		Long userId = ShiroUtils.getUserId();
-        System.out.println("userId:"+userId);
-        String userName = ShiroUtils.getUser().getName();
-        System.out.println("userName:"+userName);
-        FileDO sysFile = new FileDO(FileType.fileType(fileName), "/files/" + fileName, new Date(),name,userId,userName);
-		try {
-			FileUtil.uploadFile(file.getBytes(), bootdoConfig.getUploadPath(), fileName);
-		} catch (Exception e) {
-			return R.error();
-		}
-
-		if (mdsi.save(sysFile) > 0) {
-			return R.ok().put("fileName",sysFile.getUrl());
-		}
-		return R.error();
-	}
-
-    //删除上传的文档（物理删除）
-//    @PostMapping("/remove")
-//    @ResponseBody
-//    public R remove(Long id) {
-//        logger.info("MyDocumentController.remove|id = {}",id);
-//        int rows = mdsi.remove(id);
-//        if(rows > 0) {
-//            return R.ok();
-//        }else {
-//            return R.error();
-//        }
-//    }
-
+    /**
+     * 保存老师评论信息
+     */
+    @ResponseBody
+    @PostMapping("/save")
+    public R save(FileDO fileDO) {
+        logger.info("StudentDocumentController.save()|fileDO = {}",fileDO.toString());
+        Map<String, Object> map = new HashMap<>();
+        map.put("id",fileDO.getId());
+        map.put("teacherComment",fileDO.getTeacherComment());
+        logger.info("StudentDocumentController.save()|map = {}",map.toString());
+        Integer rows = sds.updateComment(map);
+        if(rows > 0) {
+            return R.ok();
+        }
+        return R.error();
+    }
 
 }

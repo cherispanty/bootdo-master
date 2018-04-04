@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.common.dao.StudentDocumentDao">
+    <select id="list" parameterType="map" resultType="com.bootdo.common.domain.FileDO">
+        SELECT
+            sf.*, su.`name` studentName
+        FROM
+            sys_file sf
+        LEFT JOIN sys_user su ON su.user_id = sf.user_id
+        <where>
+            AND sf.user_id IN (
+            SELECT
+            student_id
+            FROM
+            sys_teacher_student
+            WHERE
+            teacher_id = #{teacherId}
+            )
+            <if test="userId != null and userId != ''">
+                and sf.user_id = #{userId}
+            </if>
+            <if test="name != null and name.trim() != ''">
+                and sf.name LIKE concat('%',#{name},'%')
+            </if>
+            <if test="createDate != null and createDate != ''">
+                and sf.create_date LIKE concat('%',#{createDate},'%')
+            </if>
+            <if test="readStatus != null and readStatus != ''">
+                and sf.read_status = #{readStatus}
+            </if>
+        </where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+            <otherwise>
+                order by sf.user_id desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit ${offset}, ${limit}
+        </if>
+    </select>
+
+    <select id="countTotal" parameterType="map" resultType="Integer">
+        SELECT
+        count(1)
+        FROM
+        sys_file sf
+        LEFT JOIN sys_user su ON su.user_id = sf.user_id
+        <where>
+            AND sf.user_id IN (
+            SELECT
+            student_id
+            FROM
+            sys_teacher_student
+            WHERE
+            teacher_id = #{teacherId}
+            )
+            <if test="userId != null and userId != ''">
+                and sf.user_id = #{userId}
+            </if>
+            <if test="name != null and name.trim() != ''">
+                and sf.name LIKE concat('%',#{name},'%')
+            </if>
+            <if test="createDate != null and createDate != ''">
+                and sf.create_date LIKE concat('%',#{createDate},'%')
+            </if>
+            <if test="readStatus != null and readStatus != ''">
+                and sf.read_status = #{readStatus}
+            </if>
+        </where>
+    </select>
+
+    <update id="updateComment" parameterType="map">
+        update sys_file set teacher_comment = #{teacherComment}, read_status = 1
+        where id = #{id}
+    </update>
+
+    <select id="queryFileById" parameterType="long" resultType="com.bootdo.common.domain.FileDO">
+       SELECT
+            *
+        FROM
+            sys_file
+        WHERE
+            id = #{id}
+    </select>
+
+</mapper>
