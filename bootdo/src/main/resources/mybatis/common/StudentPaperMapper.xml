@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.common.dao.StudentPaperDao">
+
+    <select id="listPaper" resultType="com.bootdo.common.dto.PaperDTO" parameterType="map">
+        SELECT
+            p.id,
+            p. NAME,
+            p.student_id,
+            p.teacher_id,
+            p.url,
+            p.create_time,
+            p.collection,
+            p.influence,
+            p.factor,
+            p.reference_count,
+            p.score,
+            p. STATUS,
+            p.review_opinion,
+            p.del_flag,
+            su1. NAME studentName,
+            su2. NAME teacherName,
+            sts.paper_title
+        FROM
+            paper p
+        LEFT JOIN sys_user su1 ON su1.user_id = p.student_id
+        LEFT JOIN sys_user su2 ON su2.user_id = p.teacher_id
+        LEFT JOIN sys_teacher_student sts ON sts.student_id = p.student_id
+        <where>
+            AND p.teacher_id = #{teacherId}
+            AND sts.link_status = 1
+            <if test="name != null and name.trim() != ''">
+                and p.name like concat('%',#{name},'%')
+            </if>
+            <if test="createTime != null and createTime != ''">
+                and p.create_time like concat('%',#{createTime},'%')
+            </if>
+            <if test="status != null and status != ''">
+                and p.status = #{status}
+            </if>
+            <if test="studentId != null and studentId != ''">
+                and p.student_id = #{studentId}
+            </if>
+        </where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+            <otherwise>
+                order by p.create_time desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="countTotal" parameterType="map" resultType="Integer">
+        SELECT
+        count(1)
+        FROM
+        paper p
+        <where>
+            AND p.teacher_id = #{teacherId}
+            <if test="name != null and name.trim() != ''">
+                and p.name like concat('%',#{name},'%')
+            </if>
+            <if test="createTime != null and createTime != ''">
+                and p.create_time like concat('%',#{createTime},'%')
+            </if>
+            <if test="status != null and status != ''">
+                and p.status = #{status}
+            </if>
+            <if test="studentId != null and studentId != ''">
+                and p.student_id = #{studentId}
+            </if>
+        </where>
+    </select>
+
+</mapper>
