@@ -74,4 +74,10 @@
 			id = #{id}
 	</update>
 
+	<update id="updateHasTeacher" parameterType="map">
+		update sys_user
+		set has_teacher = #{hasTeacher}
+		where user_id = #{studentId}
+	</update>
+
 </mapper>

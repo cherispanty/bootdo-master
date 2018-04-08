@@ -52,4 +52,9 @@ public class TeacherInviteService {
         logger.info("TeacherInviteService.updateLinkStatus|teacherStudent = {}",teacherStudent.toString());
         return tid.updateTeacherStudent(teacherStudent);
     }
+
+    public Integer updateHasTeacher(Map<String, Object> map) {
+        logger.info("TeacherInviteService.updateHasTeacher|map = {}",map.toString());
+        return tid.updateHasTeacher(map);
+    }
 }

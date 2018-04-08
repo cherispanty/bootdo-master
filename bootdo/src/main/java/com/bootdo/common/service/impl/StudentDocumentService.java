@@ -2,6 +2,7 @@ package com.bootdo.common.service.impl;
 
 import com.bootdo.common.dao.StudentDocumentDao;
 import com.bootdo.common.domain.FileDO;
+import com.bootdo.common.dto.StudentDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,5 +48,11 @@ public class StudentDocumentService {
     public FileDO queryFileById(Long id) {
         logger.info("StudentDocumentService.queryFileById|id = {}",id);
         return sdd.queryFileById(id);
+    }
+
+    //查询我的学生
+    public List<StudentDTO> queryStudentList(Long teacherId) {
+        logger.info("StudentDocumentService.queryStudentList|teacherId = {}",teacherId);
+        return sdd.queryStudentList(teacherId);
     }
 }

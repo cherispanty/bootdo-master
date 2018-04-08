@@ -1,6 +1,7 @@
 package com.bootdo.common.dao;
 
 import com.bootdo.common.domain.FileDO;
+import com.bootdo.common.dto.StudentDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -19,4 +20,6 @@ public interface StudentDocumentDao {
     Integer updateComment(Map<String, Object> map);
     //通过id查询学生上传单个文件的记录
     FileDO queryFileById(Long id);
+    //查询我的学生
+    List<StudentDTO> queryStudentList(Long teacherId);
 }

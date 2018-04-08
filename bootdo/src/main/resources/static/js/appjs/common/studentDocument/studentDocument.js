@@ -25,32 +25,33 @@ $(function() {
 
 function selectLoad() {
 	var html = "";
-	$.ajax({
-		url : '/common/dict/type',
-		success : function(data) {
-			//加载数据
-			for (var i = 0; i < data.length; i++) {
-				html += '<option value="' + data[i].type + '">' + data[i].description + '</option>'
-			}
-			$(".chosen-select").append(html);
-			$(".chosen-select").chosen({
-				maxHeight : 200
-			});
-			//点击事件
-			$('.chosen-select').on('change', function(e, params) {
-				console.log(params.selected);
-				var opt = {
-					query : {
-						type : params.selected,
-					}
-				}
-				$('#exampleTable').bootstrapTable('refresh', opt);
-			});
-		}
-	});
+    $.ajax({
+        url : prefix + '/stuList',
+        success : function(data) {
+            //加载数据
+            for (var i = 0; i < data.length; i++) {
+                html += '<option value="' + data[i].userId + '">' + data[i].name + '</option>';
+                console.log("userId:"+data[i].userId+"name:"+data[i].name);
+            }
+            $(".chosen-select").append(html);
+            $(".chosen-select").chosen({
+                maxHeight : 200
+            });
+            // 点击事件
+            // $('.chosen-select').on('change', function(e, params) {
+            // 	console.log(params.selected);
+            // 	var opt = {
+            // 		query : {
+            // 			type : params.selected,
+            // 		}
+            // 	}
+            // 	$('#exampleTable').bootstrapTable('refresh', opt);
+            // });
+        }
+    });
 }
 function load() {
-	// selectLoad();
+	selectLoad();
 	$('#exampleTable')
 		.bootstrapTable(
 			{
@@ -81,7 +82,8 @@ function load() {
 						offset : params.offset,
 						name: $('#name').val(),
                         createDate: $('#createDate').val(),
-                        readStatus: $('#readStatus').val()
+                        readStatus: $('#readStatus').val(),
+						userId: $('.chosen-select').val()
 					};
 				},
 				// //请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数，例如 toolbar 中的参数 如果

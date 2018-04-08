@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -88,6 +89,11 @@ public class TeacherInviteController {
         //修改link_status状态为同意状态
         teacherStudent.setLinkStatus(ConstantVal.LINK_STATUS_CONN);
         Integer rows = tis.updateLinkStatus(teacherStudent);
+        //修改该学生的是否有导师的状态（hasTeacher = 1）
+        Map<String, Object> map = new HashMap<>();
+        map.put("studentId",ShiroUtils.getUserId());
+        map.put("hasTeacher",ConstantVal.STUDENT_HAS_TEACHER);
+        tis.updateHasTeacher(map);
         if(rows > 0) {
             logger.info("MyApplyController.agree|操作成功");
             return R.ok();

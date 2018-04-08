@@ -2,6 +2,7 @@ package com.bootdo.common.controller;
 
 import com.bootdo.common.config.BootdoConfig;
 import com.bootdo.common.domain.FileDO;
+import com.bootdo.common.dto.StudentDTO;
 import com.bootdo.common.dto.TeacherDTO;
 import com.bootdo.common.dto.TeacherStudent;
 import com.bootdo.common.service.impl.MyDocumentServiceImpl;
@@ -48,6 +49,7 @@ public class StudentDocumentController extends BaseController {
 	@GetMapping("/list")
 //	@RequiresPermissions("common:sysFile:sysFile")
 	public PageUtils list(@RequestParam Map<String, Object> params) {
+	    logger.info("StudentDocumentController.list|params = {}",params.toString());
 		// 查询列表数据
         params.put("teacherId",ShiroUtils.getUserId());
 		Query query = new Query(params);
@@ -89,5 +91,14 @@ public class StudentDocumentController extends BaseController {
         }
         return R.error();
     }
+
+	@GetMapping("/stuList")
+	@ResponseBody
+	public List<StudentDTO> listStudent() {
+
+        Long teacherId = ShiroUtils.getUserId();
+        logger.info("StudentDocumentController.listStudent()|teacherId = {}",teacherId);
+        return sds.queryStudentList(teacherId);
+	}
 
 }

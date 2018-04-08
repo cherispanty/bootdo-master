@@ -15,7 +15,7 @@
             FROM
             sys_teacher_student
             WHERE
-            teacher_id = #{teacherId}
+            teacher_id = #{teacherId} and link_status = 1
             )
             <if test="userId != null and userId != ''">
                 and sf.user_id = #{userId}
@@ -85,6 +85,17 @@
             sys_file
         WHERE
             id = #{id}
+    </select>
+    <select id="queryStudentList" parameterType="long" resultType="com.bootdo.common.dto.StudentDTO">
+        SELECT
+            sts.student_id userId,
+            su. NAME
+        FROM
+            sys_teacher_student sts
+        LEFT JOIN sys_user su ON sts.student_id = su.user_id
+        WHERE
+            teacher_id = #{teacherId}
+        AND link_status = 1
     </select>
 
 </mapper>

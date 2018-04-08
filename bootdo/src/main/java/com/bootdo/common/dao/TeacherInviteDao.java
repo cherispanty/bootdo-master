@@ -30,4 +30,6 @@ public interface TeacherInviteDao {
     TeacherStudent queryTeacherStudentById(Long id);
 
     Integer updateTeacherStudent(TeacherStudent teacherStudent);
+    //修改我的“是否拥有导师”状态
+    Integer updateHasTeacher(Map<String, Object> map);
 }
