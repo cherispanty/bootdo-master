@@ -1,4 +1,5 @@
-var prefix = "/common/sysDocument"
+
+var prefix = "/common/paperManage"
 $(function() {
 	
 	//	var config = {
@@ -22,35 +23,34 @@ $(function() {
 	load();
 });
 
-
 function selectLoad() {
 	var html = "";
-	$.ajax({
-		url : '/common/dict/type',
-		success : function(data) {
-			//加载数据
-			for (var i = 0; i < data.length; i++) {
-				html += '<option value="' + data[i].type + '">' + data[i].description + '</option>'
-			}
-			$(".chosen-select").append(html);
-			$(".chosen-select").chosen({
-				maxHeight : 200
-			});
-			//点击事件
-			$('.chosen-select').on('change', function(e, params) {
-				console.log(params.selected);
-				var opt = {
-					query : {
-						type : params.selected,
-					}
-				}
-				$('#exampleTable').bootstrapTable('refresh', opt);
-			});
-		}
-	});
+    $.ajax({
+        url : '/common/selectStudent/dept',
+        success : function(data) {
+            //加载数据
+            for (var i = 0; i < data.length; i++) {
+                html += '<option value="' + data[i].deptId + '">' + data[i].name + '</option>';
+            }
+            $(".chosen-select").append(html);
+            $(".chosen-select").chosen({
+                maxHeight : 200
+            });
+            // 点击事件
+            // $('.chosen-select').on('change', function(e, params) {
+            // 	console.log(params.selected);
+            // 	var opt = {
+            // 		query : {
+            // 			type : params.selected,
+            // 		}
+            // 	}
+            // 	$('#exampleTable').bootstrapTable('refresh', opt);
+            // });
+        }
+    });
 }
 function load() {
-	// selectLoad();
+	selectLoad();
 	$('#exampleTable')
 		.bootstrapTable(
 			{
@@ -79,11 +79,11 @@ function load() {
 						//说明：传入后台的参数包括offset开始索引，limit步长，sort排序列，order：desc或者,以及所有列的键值对
 						limit : params.limit,
 						offset : params.offset,
-						userId: $('#userId').val(),
-						userName: $('#userName').val(),
-						name: $('#name').val(),
-                        createDate: $('#createDate').val()
-
+                        name: $('#name').val(),
+						studentId: $('#studentId').val(),
+						teacherId: $('#teacherId').val(),
+                        createTime: $('#createTime').val(),
+                        deptId: $('.chosen-select').val()
 					};
 				},
 				// //请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数，例如 toolbar 中的参数 如果
@@ -94,9 +94,6 @@ function load() {
 				// 返回false将会终止请求
 				columns : [
                     {
-                        checkbox : true
-                    },
-                    {
                         title: '序号',//标题  可不加
                         formatter: function (value, row, index) {
                             return index + 1;
@@ -104,57 +101,99 @@ function load() {
 						align: "center"
                     },
                     {
-						field : 'name',
-						title : '文档名'
-					},
-					{
-						field : 'userName',
-						title : '上传者姓名',
-                        align: "center",
-					},
+                    	visible: false,
+                        field : 'paperTitle',
+                        title : '论文题目',
+                        align: "center"
+                    },
                     {
-                        field : 'userId',
-                        title : '上传者编号',
-                        align: "center",
+                        field : 'name',
+                        title : '论文名称',
+                        align: "center"
                     },
 					{
-						field : 'createDate',
-						title : '上传时间',
-                        align: "center",
+						field : 'studentName',
+						title : '学生',
+                        align: "center"
 					},
+                    {
+                        field : 'className',
+                        title : '班级',
+                        align: "center"
+                    },
+                    {
+                        field : 'teacherName',
+                        title : '指导老师',
+                        align: "center"
+                    },
 					{
-					    visible: false,
-                        field : 'readStatus',
-                        title : '查看状态',
+						field : 'createTime',
+						title : '上传时间',
+                        align: "center"
+					},
+                    {
+                        field : 'status',
+                        title : '论文状态',
                         align : 'center',
-                        width : '250px',
                         formatter : function(value, row, index) {
                             if (value == '0') {
-                                return '<span class="label label-warning">未评阅</span>';
+                                return '<span class="label label-warning">待审核</span>';
                             } else if (value == '1') {
-                                return '<span class="label label-primary">已评阅</span>';
+                                return '<span class="label label-primary">通过</span>';
+                            }else if (value == '-1') {
+                                return '<span class="label label-danger">驳回</span>';
+                            }else if (value == '-2') {
+                                return '<span class="label label-danger">已撤销</span>';
                             }
                         }
+                    },
+					{
+						visible: false,
+						field : 'collection',
+						title : '收录情况',
+                        align: "center"
 					},
 					{
                         visible: false,
-						field : 'teacherComment',
-						title : '老师评论',
-                        align: "center",
-                        width : '250px'
-					},
+                        field : 'influence',
+                        title : '影响力',
+                        align: "center"
+                    },
+					{
+                        visible: false,
+                        field : 'factor',
+                        title : '影响因子',
+                        align: "center"
+                    },
+					{
+                        visible: true,
+                        field : 'score',
+                        title : '答辩分数',
+                        align: "center"
+                    },
+                    {
+                        visible: false,
+                        field : 'reviewOpinion',
+                        title : '评审意见',
+                        align: "center"
+                    },
 					{
 						title : '操作',
 						field : 'userId',
 						align : 'center',
 						formatter : function(value, row, index) {
 							console.log("row : "+JSON.stringify(JSON.stringify(row)));
-							// var e = '<a class="btn btn-primary btn-sm" href="\\\'\' + row.url + \'\\\'" download="\\\'\' + row.url + \'\\\'">下载</a>';
                             var e = '<a  class="btn btn-primary btn-sm" href="' + row.url + '" download="' + row.name + '"></i>下载</a>';
-                            var f = '<button  class="btn btn-danger btn-sm" onclick="remove(\''
+                            var f = '<button  class="btn btn-primary btn-sm" onclick="detail(\''
+                                + row.id
+                                + '\')"></i>录入详情</button> ';
+                            var g = '<button  class="btn btn-danger btn-sm" onclick="cancel(\''
+                                + row.id
+                                + '\')"></i>撤销</button> ';
+                            var h = '<button  class="btn btn-danger btn-sm" onclick="remove(\''
                                 + row.id
                                 + '\')"></i>删除</button> ';
-							return e+' '+f;
+                            return e+' '+f;
 						}
 					} ]
 			});
@@ -163,6 +202,40 @@ function reLoad() {
 	$('#exampleTable').bootstrapTable('refresh');
 }
 
+function detail(id) {
+	console.log("id:"+id);
+    layer.open({
+        type : 2,
+        title : '录入论文详细',
+        maxmin : true,
+        shadeClose : false, // 点击遮罩关闭层
+        area : [ '800px', '520px' ],
+        content : prefix + '/detail/' + id // iframe的url
+    });
+}
+
+function cancel(id) {
+    layer.confirm('撤销后老师将看不到论文，确定撤销？', {
+        btn : [ '确定', '取消' ]
+    }, function() {
+        $.ajax({
+            url : prefix + "/cancel",
+            type : "post",
+            data : {
+                'id' : id
+            },
+            success : function(r) {
+                if (r.code == 0) {
+                    layer.msg(r.msg);
+                    reLoad();
+                }else {
+                    layer.msg(r.msg);
+                }
+            }
+        });
+    })
+
+}
 
 function add() {
 	layer.open({
@@ -209,11 +282,11 @@ function apply(userId) {
 	});
 }
 function remove(id) {
-	layer.confirm('确定删除该文件？', {
+	layer.confirm('文件删除后不可恢复，确定删除？', {
 		btn : [ '确定', '取消' ]
 	}, function() {
 		$.ajax({
-			url : "/common/myDocument/remove",
+			url : prefix + "/remove",
 			type : "post",
 			data : {
 				'id' : id

@@ -15,13 +15,17 @@ public class PaperDTO {
     private String name;
     //上传者编号
     private Long studentId;
+    //学生姓名
     private String studentName;
+    //学生班级
+    private String className;
     //上传路径
     private String url;
     //创建时间
     private String createTime;
     //指导老师编号
     private Long teacherId;
+    //老师姓名
     private String teacherName;
     //收录情况
     private String collection;
@@ -39,6 +43,7 @@ public class PaperDTO {
     private Byte delFlag;
     //论文状态
     private Byte status;
+
 
     public Long getId() {
         return id;
@@ -78,6 +83,14 @@ public class PaperDTO {
 
     public void setStudentName(String studentName) {
         this.studentName = studentName;
+    }
+
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
     }
 
     public String getUrl() {
@@ -184,8 +197,9 @@ public class PaperDTO {
                 ", name='" + name + '\'' +
                 ", studentId=" + studentId +
                 ", studentName='" + studentName + '\'' +
+                ", className='" + className + '\'' +
                 ", url='" + url + '\'' +
-                ", createTime=" + createTime +
+                ", createTime='" + createTime + '\'' +
                 ", teacherId=" + teacherId +
                 ", teacherName='" + teacherName + '\'' +
                 ", collection='" + collection + '\'' +
