@@ -65,6 +65,7 @@ public class AnswerCheckController extends BaseController {
     String detail(@PathVariable("id") Long id, Model model) {
         logger.info("AnswerCheckController.detail|id = {}",id);
         PaperDTO paper = acs.findPaperById(id);
+        logger.info("AnswerCheckController.detail|paper = {}",paper.toString());
         model.addAttribute("paper",paper);
         return "common/answerCheck/detail";
     }
@@ -72,6 +73,10 @@ public class AnswerCheckController extends BaseController {
     @ResponseBody
     @PostMapping("/save")
     public R save(PaperDTO paperDTO) {
+        String reviewOpinion = paperDTO.getReviewOpinion();
+        reviewOpinion = reviewOpinion.trim();
+        logger.info("'"+reviewOpinion+"'");
+        paperDTO.setReviewOpinion(reviewOpinion);
         logger.info("AnswerCheckController.save()|paperDTO = {}",paperDTO.toString());
         acs.savePaper(paperDTO);
         return R.ok();
