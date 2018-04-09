@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,5 +46,13 @@ public class MyApplyServiceTest {
         map.put("limit",10);
         Integer total = myApplyService.countTotal(map);
         logger.info("total = {}",total);
+    }
+
+    @Test
+    public void test() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+        Date date = new Date();
+//        return sdf.format(date);
+        logger.info("year = {}",sdf.format(date));
     }
 }

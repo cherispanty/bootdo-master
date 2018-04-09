@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.bootdo.common.dao.PaperManagerDao">
+<mapper namespace="com.bootdo.common.dao.AnswerCheckDao">
 
 	<select id="listPaper" parameterType="map" resultType="com.bootdo.common.dto.PaperDTO">
 		SELECT
@@ -29,7 +29,10 @@
 		LEFT JOIN sys_user su2 ON su2.user_id = p.student_id
         LEFT JOIN sys_dept sd ON sd.dept_id = su2.dept_id
 		<where>
-            and p.status = 1
+            and p.status != -2
+			<if test="createTime != null and createTime.trim() != ''">
+				and p.create_time like concat('%',#{createTime},'%')
+			</if>
 			<if test="name != null and name.trim() != ''">
 				and p.name like concat('%',#{name},'%')
 			</if>
@@ -39,8 +42,8 @@
 			<if test="teacherId != null and teacherId != ''">
 				and p.teacher_id like concat('%',#{teacherId},'%')
 			</if>
-			<if test="createTime != null and createTime.trim() != ''">
-				and p.create_time like concat('%',#{createTime},'%')
+			<if test="status != null and status != ''">
+				and p.status = #{status}
 			</if>
 			<if test="deptId != null and deptId != ''">
 				and su2.dept_id = #{deptId}
@@ -67,7 +70,10 @@
         LEFT JOIN sys_user su1 ON su1.user_id = p.teacher_id
         LEFT JOIN sys_user su2 ON su2.user_id = p.student_id
         <where>
-            and p.status = 1
+			and p.status != -2
+			<if test="createTime != null and createTime.trim() != ''">
+				and p.create_time like concat('%',#{createTime},'%')
+			</if>
             <if test="name != null and name.trim() != ''">
                 and p.name like concat('%',#{name},'%')
             </if>
@@ -77,9 +83,9 @@
             <if test="teacherId != null and teacherId != ''">
                 and p.teacher_id like concat('%',#{teacherId},'%')
             </if>
-            <if test="createTime != null and createTime.trim() != ''">
-                and p.create_time like concat('%',#{createTime},'%')
-            </if>
+			<if test="status != null and status != ''">
+				and p.status = #{status}
+			</if>
             <if test="deptId != null and deptId != ''">
                 and su2.dept_id = #{deptId}
             </if>
@@ -87,8 +93,8 @@
     </select>
 
     <select id="queryPaperById" parameterType="long" resultType="com.bootdo.common.dto.PaperDTO">
-        select
-            p.id,
+        SELECT
+			p.id,
 			p. NAME,
 			p.student_id,
 			p.teacher_id,
@@ -102,13 +108,19 @@
 			p.review_opinion,
 			p.del_flag,
 			p.`status`,
-			p.type
-		from paper p
-		where id = #{id}
+			p.type,
+			su1. NAME studentName,
+			su2. NAME teacherName
+		FROM
+			paper p
+		LEFT JOIN sys_user su1 ON su1.user_id = p.student_id
+		LEFT JOIN sys_user su2 ON su2.user_id = p.teacher_id
+		WHERE
+			id = #{id}
     </select>
 
-    <update id="savePaperDetail" parameterType="com.bootdo.common.dto.PaperDTO">
-        update paper set collection = #{collection},factor = #{factor}
+    <update id="savePaper" parameterType="com.bootdo.common.dto.PaperDTO">
+        update paper set score = #{score},review_opinion = #{reviewOpinion},status = #{status}
         where id = #{id}
     </update>
 </mapper>
