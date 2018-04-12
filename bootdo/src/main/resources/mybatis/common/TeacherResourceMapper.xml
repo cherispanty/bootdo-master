@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.common.dao.TeacherResourceDAO">
+    <select id="listFile" parameterType="map" resultType="com.bootdo.common.domain.FileDO">
+        SELECT
+            sf.id,
+            sf.`name`,
+            sf.user_id,
+            sf.user_name,
+            sf.type,
+            sf.url,
+            sf.create_date,
+            sf.read_status,
+            sf.teacher_comment,
+            sf.del_flag
+        FROM
+            sys_file sf
+        <where>
+            and user_id = (
+                SELECT
+                teacher_id
+                FROM
+                sys_teacher_student
+                WHERE
+                student_id = #{studentId}
+                AND link_status = 1
+                )
+            <if test="name != null and name.trim() != ''">
+               AND name LIKE  concat('%',#{name},'%')
+            </if>
+            <if test="teacherComment != null and teacherComment.trim() != ''">
+                AND teacher_comment LIKE  concat('%',#{teacherComment},'%')
+            </if>
+            <if test="createDate != null and createDate != ''">
+                AND create_date LIKE concat('%',#{createDate},'%')
+            </if>
+        </where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+            <otherwise>
+                order by create_date desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+
+    </select>
+
+    <select id="countTotal" parameterType="map" resultType="Integer">
+        SELECT
+            count(1)
+        FROM
+        sys_file sf
+        <where>
+            and user_id = (
+            SELECT
+            teacher_id
+            FROM
+            sys_teacher_student
+            WHERE
+            student_id = #{studentId}
+            AND link_status = 1
+            )
+            <if test="name != null and name.trim() != ''">
+                AND  name LIKE  concat('%',#{name},'%')
+            </if>
+            <if test="teacherComment != null and teacherComment.trim() != ''">
+                AND  teacher_comment LIKE  concat('%',#{teacherComment},'%')
+            </if>
+            <if test="createDate != null and createDate != ''">
+                AND  create_date LIKE concat('%',#{createDate},'%')
+            </if>
+        </where>
+    </select>
+</mapper>
