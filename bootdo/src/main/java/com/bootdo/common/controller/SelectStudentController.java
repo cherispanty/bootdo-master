@@ -68,6 +68,7 @@ public class SelectStudentController extends BaseController {
 		StudentDTO studentDTO = selectStudentService.queryStudentById(userId);
 		//组装邀请记录
 		TeacherStudent ts = new TeacherStudent();
+		ts.setUsername(studentDTO.getUsername());
 		ts.setStudentId(studentDTO.getUserId());
 		ts.setStudentName(studentDTO.getName());
 		ts.setClassName(studentDTO.getClassName());

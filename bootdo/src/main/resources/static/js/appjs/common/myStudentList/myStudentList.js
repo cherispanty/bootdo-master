@@ -68,7 +68,7 @@ function load() {
 						align: "center"
                     },
                     {
-						field : 'userId',
+						field : 'username',
 						title : '学号',
                         align : 'center'
 					},

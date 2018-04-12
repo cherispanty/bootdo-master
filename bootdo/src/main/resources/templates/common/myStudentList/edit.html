@@ -9,6 +9,8 @@
             <div class="ibox float-e-margins">
                 <div class="ibox-content">
                     <form class="form-horizontal m-t" id="signupForm">
+                        <input id="userId" name="userId" th:value="${stu.userId}"
+                               class="form-control" type="hidden">
                         <div class="form-group">
                             <label class="col-sm-3 control-label">学生：</label>
                             <div class="col-sm-8">
@@ -19,7 +21,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">学号：</label>
                             <div class="col-sm-8">
-                                <input id="userId" name="userId" th:value="${stu.userId}" readonly="readonly"
+                                <input id="username" name="username" th:value="${stu.username}" readonly="readonly"
                                        class="form-control" type="text">
                             </div>
                         </div>

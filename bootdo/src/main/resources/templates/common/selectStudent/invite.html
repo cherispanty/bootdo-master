@@ -11,6 +11,8 @@
                     <form class="form-horizontal m-t" id="signupForm">
                         <input id="teacherId" name="teacherId" th:value="${ts.teacherId}"
                                class="form-control" type="hidden">
+                        <input id="studentId" name="studentId" th:value="${ts.studentId}"
+                               class="form-control" type="hidden">
                         <div class="form-group">
                             <label class="col-sm-3 control-label">学生姓名：</label>
                             <div class="col-sm-8">
@@ -21,7 +23,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">学号：</label>
                             <div class="col-sm-8">
-                                <input id="studentId" name="studentId" th:value="${ts.studentId}" readonly="readonly"
+                                <input id="username" name="username" th:value="${ts.username}" readonly="readonly"
                                        class="form-control" type="text">
                             </div>
                         </div>

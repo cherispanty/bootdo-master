@@ -79,6 +79,7 @@
 	<select id="queryStudentById" parameterType="Long" resultType="com.bootdo.common.dto.StudentDTO">
 		SELECT
 			su.name,
+			su.username,
 			su.user_id,
 			sd.`name` className
 		FROM

@@ -5,11 +5,11 @@ package com.bootdo.common.dto;
  * @date 2018/3/28 20:29
  */
 public class StudentDTO {
-    private Long userId; //学号（sys-user:user_id）
+    private Long userId;
     private String name; //真实姓名
     private Long deptId;    //班级编号
     private String className;   //班级名称
-    private String username;    //昵称
+    private String username;    //学号（sys-user:user_id） 原本userId是学号的，有些地方可能还没修改过来
     private String graduateYear;    //毕业年份
     private String email;
     private String mobile;

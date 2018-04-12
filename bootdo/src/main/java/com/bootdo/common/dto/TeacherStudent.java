@@ -23,6 +23,9 @@ public class TeacherStudent {
     private String deptName;    //部门名
     private String researchDirection;   //研究方向
 
+    //add
+    private String username;    //学号！
+
     public Byte getType() {
         return type;
     }
@@ -135,6 +138,14 @@ public class TeacherStudent {
         this.leaveMessage = leaveMessage;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     @Override
     public String toString() {
         return "TeacherStudent{" +
@@ -152,6 +163,7 @@ public class TeacherStudent {
                 ", type=" + type +
                 ", deptName='" + deptName + '\'' +
                 ", researchDirection='" + researchDirection + '\'' +
+                ", username='" + username + '\'' +
                 '}';
     }
 }
