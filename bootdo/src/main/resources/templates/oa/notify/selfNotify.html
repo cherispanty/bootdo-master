@@ -21,9 +21,16 @@
 							<button class="btn btn-success" onclick="reLoad()">查询</button>
 						</div>
 						<div class="columns pull-right col-md-2 nopadding">
-							<input id="searchName" type="text" class="form-control"
-								placeholder="">
+							<input id="content" type="text" class="form-control"
+								placeholder="内容">
 						</div>
+                        <div class="columns pull-right  nopadding">
+                            <select class="form-control" style="width: 120px" id = "isRead">
+                                <option value="">是否阅读</option>
+                                <option value="0">未读</option>
+                                <option value="1">已读</option>
+                            </select>
+                        </div>
 					</div>
 					<table id="exampleTable" data-mobile-responsive="true">
 					</table>
