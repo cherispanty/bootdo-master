@@ -40,4 +40,7 @@ public interface NotifyRecordDao {
 	int batchRemoveByNotifbyId(Long[] notifyIds);
 
 	int changeRead(NotifyRecordDO notifyRecord);
+
+	int batchRead(Map<String, Object> map);
+
 }

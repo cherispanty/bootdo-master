@@ -120,6 +120,7 @@
 		</foreach>
 	</delete>
 
+
 	<select id="listByIds" resultType="com.bootdo.oa.domain.NotifyDO">
 		select
 		`id`,`type`,`title`,`content`,`files`,`status`,`create_by`,`create_date`,`update_by`,`update_date`,`remarks`,`del_flag`

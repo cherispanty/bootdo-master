@@ -71,7 +71,7 @@ function load() {
 						title : '内容'
 					},
 					{
-						visible : false,
+						visible : true,
 						field : 'files',
 						title : '附件'
 					},
@@ -138,6 +138,8 @@ function load() {
 function reLoad() {
 	$('#exampleTable').bootstrapTable('refresh');
 }
+
+
 function add() {
 	layer.open({
 		type : 2,
@@ -157,6 +159,7 @@ function read(id) {
 		area : [ '800px', '520px' ],
 		content : prefix + '/read/' + id // iframe的url
 	});
+
 }
 function remove(id) {
 	layer.confirm('确定要删除选中的记录？', {
@@ -213,4 +216,38 @@ function batchRemove() {
 			}
 		});
 	}, function() {});
+}
+
+function batchRead() {
+    var rows = $('#exampleTable').bootstrapTable('getSelections'); // 返回所有选择的行，当没有选择的记录时，返回一个空数组
+    if (rows.length == 0) {
+        layer.msg("请选择要标记的记录");
+        return;
+    }
+    layer.confirm("确认要标记这'" + rows.length + "'条数据为已读状态吗?", {
+        btn : [ '确定', '取消' ]
+        // 按钮
+    }, function() {
+        var ids = new Array();
+        // 遍历所有选择的行数据，取每条数据对应的ID
+        $.each(rows, function(i, row) {
+            ids[i] = row['id'];
+        });
+        console.log("ids:"+ids);
+        $.ajax({
+            type : 'POST',
+            data : {
+                "ids" : ids
+            },
+            url : prefix + '/batchRead',
+            success : function(r) {
+                if (r.code == 0) {
+                    layer.msg(r.msg);
+                    reLoad();
+                } else {
+                    layer.msg(r.msg);
+                }
+            }
+        });
+    }, function() {});
 }

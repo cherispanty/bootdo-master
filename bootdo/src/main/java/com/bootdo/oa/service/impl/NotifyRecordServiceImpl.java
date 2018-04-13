@@ -57,4 +57,9 @@ public class NotifyRecordServiceImpl implements NotifyRecordService {
 		return notifyRecordDao.changeRead(notifyRecord);
 	}
 
+	@Override
+	public int batchRead(Map<String, Object> map) {
+		return notifyRecordDao.batchRead(map);
+	}
+
 }

@@ -139,6 +139,16 @@
 		where notify_id = #{notifyId} and user_id = #{userId}
 	</update>
 
-
+	<update id="batchRead" parameterType="map">
+		UPDATE oa_notify_record
+		SET is_read = 1,read_date = #{readDate}
+		WHERE
+		user_id = #{userId}
+		AND notify_id IN
+		<foreach item="id" collection="ids" open="(" separator=","
+				 close=")">
+			#{id}
+		</foreach>
+	</update>
 
 </mapper>

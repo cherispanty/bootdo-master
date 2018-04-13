@@ -142,6 +142,25 @@ public class NotifyController extends BaseController {
 		return R.ok();
 	}
 
+	/**
+	 * 标记
+	 */
+	@PostMapping("/batchRead")
+	@ResponseBody
+//	@RequiresPermissions("oa:notify:batchRead")
+	public R batchRead(@RequestParam("ids[]") Long[] ids) {
+		if (Constant.DEMO_ACCOUNT.equals(getUsername())) {
+			return R.error(1, "演示系统不允许修改,完整体验请部署程序");
+		}
+		Map<String, Object> map = new HashMap<>();
+		map.put("ids",ids);
+		map.put("userId",getUserId());
+		map.put("readDate",new Date());
+		System.out.println("map:"+map.toString());
+		notifyRecordService.batchRead(map);
+		return R.ok();
+	}
+
 	@ResponseBody
 	@GetMapping("/message")
 	PageUtils message() {
@@ -169,7 +188,7 @@ public class NotifyController extends BaseController {
 	}
 
 	@GetMapping("/read/{id}")
-	@RequiresPermissions("oa:notify:edit")
+//	@RequiresPermissions("oa:notify:edit")
 	String read(@PathVariable("id") Long id, Model model) {
 		NotifyDO notify = notifyService.get(id);
 		//更改阅读状态

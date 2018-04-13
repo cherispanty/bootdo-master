@@ -116,6 +116,7 @@ public class NotifyServiceImpl implements NotifyService {
     }
 
 
+
     @Override
     public PageUtils selfList(Map<String, Object> map) {
         List<NotifyDTO> rows = notifyDao.listDTO(map);
