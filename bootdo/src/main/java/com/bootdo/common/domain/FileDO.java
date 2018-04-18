@@ -34,6 +34,11 @@ public class FileDO implements Serializable {
     //删除状态
     private Byte delFlag;
 
+    //add
+    //上传者学号
+    private String userNo;
+    //上传者身份
+    private String roleName;
 
     public FileDO() {
         super();
@@ -54,6 +59,14 @@ public class FileDO implements Serializable {
         this.name = name;
         this.userId = userId;
         this.userName = userName;
+    }
+
+    public String getUserNo() {
+        return userNo;
+    }
+
+    public void setUserNo(String userNo) {
+        this.userNo = userNo;
     }
 
     public String getUserName() {
@@ -102,6 +115,14 @@ public class FileDO implements Serializable {
 
     public void setDelFlag(Byte delFlag) {
         this.delFlag = delFlag;
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 
     /**
@@ -173,6 +194,8 @@ public class FileDO implements Serializable {
                 ", readStatus=" + readStatus +
                 ", teacherComment='" + teacherComment + '\'' +
                 ", delFlag=" + delFlag +
+                ", userNo='" + userNo + '\'' +
+                ", roleName='" + roleName + '\'' +
                 '}';
     }
 }

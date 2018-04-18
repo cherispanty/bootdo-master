@@ -22,6 +22,7 @@ $(function() {
     laydate({
         elem : '#createDate'
     });
+    loadType();
 	load();
 });
 
@@ -82,11 +83,11 @@ function load() {
 						//说明：传入后台的参数包括offset开始索引，limit步长，sort排序列，order：desc或者,以及所有列的键值对
 						limit : params.limit,
 						offset : params.offset,
-						userId: $('#userId').val(),
+                        userNo: $('#userNo').val(),
 						userName: $('#userName').val(),
 						name: $('#name').val(),
-                        createDate: $('#createDate').val()
-
+                        createDate: $('#createDate').val(),
+                        roleId: $('#roleId').val()
 					};
 				},
 				// //请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数，例如 toolbar 中的参数 如果
@@ -116,8 +117,13 @@ function load() {
                         align: "center",
 					},
                     {
-                        field : 'userId',
-                        title : '上传者编号',
+                        field : 'userNo',
+                        title : '工号/学号',
+                        align: "center",
+                    },
+                    {
+                        field : 'roleName',
+                        title : '身份',
                         align: "center",
                     },
 					{
@@ -166,6 +172,22 @@ function reLoad() {
 	$('#exampleTable').bootstrapTable('refresh');
 }
 
+function loadType(){
+    var html = "";
+    $.ajax({
+        url : '/common/dict/list/user_role',
+        success : function(data) {
+            //加载数据
+            for (var i = 0; i < data.length; i++) {
+                html += '<option value="' + data[i].value + '">' + data[i].name + '</option>'
+            }
+            $(".chosen-select").append(html);
+            $(".chosen-select").chosen({
+                maxHeight : 200
+            });
+        }
+    });
+}
 
 function add() {
 	layer.open({

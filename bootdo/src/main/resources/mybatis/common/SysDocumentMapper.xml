@@ -4,21 +4,26 @@
 <mapper namespace="com.bootdo.common.dao.SysDocumentDao">
     <select id="listAllFile" parameterType="map" resultType="com.bootdo.common.domain.FileDO">
         SELECT
-            id,
-            NAME,
-            user_id,
-            user_name,
-            type,
-            url,
-            create_date,
-            read_status,
-            teacher_comment,
-            del_flag
+            sf.id,
+            sf.NAME,
+            sf.user_id,
+            sf.user_name,
+            sf.type,
+            sf.url,
+            sf.create_date,
+            sf.read_status,
+            sf.teacher_comment,
+            sf.del_flag,
+            su.username userNo,
+            sr.role_name
         FROM
-            sys_file
+            sys_file sf
+        LEFT JOIN sys_user su ON su.user_id = sf.user_id
+        LEFT JOIN sys_user_role sur on sf.user_id = sur.user_id
+        LEFT JOIN sys_role sr on sr.role_id = sur.role_id
         <where>
-            <if test="userId != null and userId != ''">
-                and user_id like concat('%',#{userId},'%')
+            <if test="userNo != null and userNo != ''">
+                and su.username like concat('%',#{userNo},'%')
             </if>
             <if test="userName != null and userName.trim() != ''">
                 and user_name like concat('%',#{userName},'%')
@@ -28,6 +33,9 @@
             </if>
             <if test="createDate != null and createDate != ''">
                 and create_date LIKE concat('%',#{createDate},'%')
+            </if>
+            <if test="roleId != null and roleId != ''">
+                and sur.role_id = #{roleId}
             </if>
         </where>
         <choose>
@@ -46,10 +54,13 @@
         SELECT
         count(1)
         FROM
-        sys_file
+        sys_file sf
+        LEFT JOIN sys_user su ON su.user_id = sf.user_id
+        LEFT JOIN sys_user_role sur on sf.user_id = sur.user_id
+        LEFT JOIN sys_role sr on sr.role_id = sur.role_id
         <where>
-        <if test="userId != null and userId != ''">
-            and user_id like concat('%',#{userId},'%')
+        <if test="userNo != null and userNo != ''">
+            and su.username like concat('%',#{userNo},'%')
         </if>
         <if test="userName != null and userName.trim() != ''">
             and user_name like concat('%',#{userName},'%')
@@ -57,9 +68,12 @@
         <if test="name != null and name.trim() != ''">
             and name like concat('%',#{name},'%')
         </if>
-            <if test="createDate != null and createDate != ''">
-                and create_date LIKE concat('%',#{createDate},'%')
-            </if>
+        <if test="createDate != null and createDate != ''">
+            and create_date LIKE concat('%',#{createDate},'%')
+        </if>
+        <if test="roleId != null and roleId != ''">
+            and sur.role_id = #{roleId}
+        </if>
         </where>
     </select>
 

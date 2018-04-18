@@ -12,7 +12,7 @@
                     <br/>
 					<div class="fixed-table-toolbar">
 						<div class="form-group col-md-2">
-							<input id="userId" type="text" class="form-control"
+							<input id="userNo" type="text" class="form-control"
 								   placeholder="学号/工号">
 						</div>
 						<div class="form-group col-md-2">
@@ -27,7 +27,19 @@
 							<input type="text" class="laydate-icon layer-date form-control" id="createDate" name="createDate"  placeholder="上传时间"
 								   onclick="laydate({istime: true, format: 'YYYY-DD-MM'})" style="background-color: #fff;" readonly="readonly"/>
 						</div>
-
+						<!--<div class="form-group col-md-2">
+							<select class="form-control" id = "roleId">
+								<option value="">上传者身份</option>
+								<option value="59">老师</option>
+								<option value="60">学生</option>
+							</select>
+						</div>-->
+						<div class="form-group col-md-2">
+							<select data-placeholder="--上传者身份--" name="roleId" id="roleId"
+									class="form-control chosen-select" tabindex="2" required>
+								<option value="">--上传者身份--</option>
+							</select>
+						</div>
 					</div>
 					</div>
 						<div class="form-group col-md-2">
