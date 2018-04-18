@@ -186,7 +186,7 @@ function load() {
 						align : 'center',
 						formatter : function(value, row, index) {
 							console.log("row : "+JSON.stringify(JSON.stringify(row)));
-                            var e = '<a  class="btn btn-primary btn-sm" href="' + row.url + '" download="' + row.name + '"></i>下载</a>';
+                            var e = '<a  class="btn btn-primary btn-sm"  href="/common/myPaper/testDownload/' + row.id + '"></i>下载</a> ';
                             var f = '<button  class="btn btn-primary btn-sm" onclick="detail(\''
                                 + row.id
                                 + '\')"></i>审核录入</button> ';
