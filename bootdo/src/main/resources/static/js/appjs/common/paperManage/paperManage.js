@@ -83,8 +83,8 @@ function load() {
 						limit : params.limit,
 						offset : params.offset,
                         name: $('#name').val(),
-						studentId: $('#studentId').val(),
-						teacherId: $('#teacherId').val(),
+                        username: $('#username').val(),
+                        teacherName: $('#teacherName').val(),
                         createTime: $('#createTime').val(),
                         deptId: $('.chosen-select').val()
 					};

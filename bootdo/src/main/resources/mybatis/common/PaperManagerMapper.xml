@@ -34,8 +34,8 @@
 			<if test="name != null and name.trim() != ''">
 				and p.name like concat('%',#{name},'%')
 			</if>
-			<if test="studentId != null and studentId != ''">
-				and p.student_id like concat('%',#{studentId},'%')
+			<if test="username != null and username != ''">
+				and su2.username like concat('%',#{username},'%')
 			</if>
 			<if test="teacherId != null and teacherId != ''">
 				and p.teacher_id like concat('%',#{teacherId},'%')
@@ -45,6 +45,9 @@
 			</if>
 			<if test="deptId != null and deptId != ''">
 				and su2.dept_id = #{deptId}
+			</if>
+			<if test="teacherName != null and teacherName.trim() != ''">
+				and su1.name like concat('%',#{teacherName},'%')
 			</if>
 		</where>
 		<choose>
@@ -72,9 +75,9 @@
             <if test="name != null and name.trim() != ''">
                 and p.name like concat('%',#{name},'%')
             </if>
-            <if test="studentId != null and studentId != ''">
-                and p.student_id like concat('%',#{studentId},'%')
-            </if>
+			<if test="username != null and username != ''">
+				and su2.username like concat('%',#{username},'%')
+			</if>
             <if test="teacherId != null and teacherId != ''">
                 and p.teacher_id like concat('%',#{teacherId},'%')
             </if>
@@ -84,6 +87,9 @@
             <if test="deptId != null and deptId != ''">
                 and su2.dept_id = #{deptId}
             </if>
+			<if test="teacherName != null and teacherName.trim() != ''">
+				and su1.name like concat('%',#{teacherName},'%')
+			</if>
         </where>
     </select>
 
