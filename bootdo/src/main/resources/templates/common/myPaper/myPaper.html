@@ -31,8 +31,8 @@
 								   placeholder="论文名称">
 						</div>
 						<div class="form-group col-md-2">
-							<input id="createTime" type="text" class="form-control"
-								   placeholder="上传时间">
+							<input type="text" class="laydate-icon layer-date form-control" id="createTime" name="createTime"  placeholder="上传时间"
+								   onclick="laydate({istime: true, format: 'YYYY-DD-MM'})" style="background-color: #fff;" readonly="readonly"/>
 						</div>
 						<div class="form-group col-md-2">
 							<select class="form-control" id = "status">
@@ -78,6 +78,17 @@
 	<script src="/js/layui.js"></script>
 	<script src="/js/plugins/layer/layer.min.js"></script>
 
+	<script type="text/javascript" src="/js/bootstrap.min.js" ></script>
+	<script type="text/javascript" src="/js/plugins/iCheck/icheck.min.js"></script>
+	<script type="text/javascript" src="/js/plugins/cropper/cropper.min.js"></script>
+	<script type="text/javascript" src="/js/plugins/layer/laydate/laydate.js" ></script>
+	<script type="text/javascript" src="/js/plugins/distpicker/distpicker.data.min.js"></script>
+	<script type="text/javascript" src="/js/plugins/distpicker/distpicker.min.js"></script>
+	<script type="text/javascript" src="/js/appjs/sys/user/gg-bootdo.js"></script>
+	<!--校验插件-->
+	<script src="/js/plugins/validate/jquery.validate.min.js"></script>
+	<script src="/js/plugins/validate/jquery.validate.extend.js"></script>
+	<script src="/js/plugins/validate/messages_zh.min.js"></script>
 
 <script type="text/javascript">
     layui.use('upload', function () {

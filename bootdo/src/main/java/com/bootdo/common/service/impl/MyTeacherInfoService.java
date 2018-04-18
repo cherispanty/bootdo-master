@@ -1,6 +1,7 @@
 package com.bootdo.common.service.impl;
 
 import com.bootdo.common.dao.MyTeacherInfoDao;
+import com.bootdo.common.domain.TeacherStudentDO;
 import com.bootdo.common.dto.TeacherDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +25,7 @@ public class MyTeacherInfoService {
      * @param studentId
      * @return
      */
-    public List<Long> queryMyTeacherId(Long studentId) {
+    public List<TeacherStudentDO> queryMyTeacherId(Long studentId) {
         logger.info("MyTeacherInfoService.queryMyTeacherId()|studentId = {}",studentId);
         return myTeacherInfoDao.queryMyTeacherId(studentId);
     }

@@ -20,6 +20,9 @@ $(function() {
 	//	for (var selector in config) {
 	//		$(selector).chosen(config[selector]);
 	//	}
+    laydate({
+        elem : '#createDate'
+    });
 	load();
 });
 

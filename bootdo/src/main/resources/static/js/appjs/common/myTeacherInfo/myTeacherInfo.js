@@ -82,6 +82,19 @@ function load() {
                         align : 'center',
                         sortable : true
 					},
+                    {
+                        field : 'paperTitle',
+                        title : '所定论文题目',
+                        align : 'center',
+                        sortable : true,
+                        formatter : function(value, row, index) {
+                            if (value == '' || typeof value == 'undefined') {
+                                return '<span class="label label-warning">待确定</span>';
+                            } else {
+                                return '<span>' + value + '</span>';
+                            }
+                        }
+                    },
 					{
 						field : 'mobile',
 						title : '电话'
@@ -91,13 +104,12 @@ function load() {
 						title : '邮箱'
 					},
 					{
+						visible: false,
 						title : '操作',
 						field : 'id',
 						align : 'center',
 						formatter : function(value, row, index) {
-                            var e = '<button  class="btn btn-danger btn-sm" onclick="check(\''
-                                + row.id
-                                + '\')"></i>撤销申请</button> ';
+                            var e = '<button  class="btn btn-danger btn-sm" onclick="check(\'' + row.id + '\')"></i>撤销申请</button> ';
 							if(row.linkStatus == 0) {
                                 return e;
 							}else {

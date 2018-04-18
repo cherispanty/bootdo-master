@@ -20,6 +20,9 @@ $(function() {
 	//	for (var selector in config) {
 	//		$(selector).chosen(config[selector]);
 	//	}
+    laydate({
+        elem : '#createTime'
+    });
 	load();
 });
 
@@ -116,6 +119,11 @@ function load() {
 						title : '学生',
                         align: "center"
 					},
+                    {
+                        field : 'username',
+                        title : '学号',
+                        align: "center"
+                    },
                     {
                         field : 'className',
                         title : '班级',

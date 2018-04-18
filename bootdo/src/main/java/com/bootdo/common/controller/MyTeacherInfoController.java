@@ -1,5 +1,6 @@
 package com.bootdo.common.controller;
 
+import com.bootdo.common.domain.TeacherStudentDO;
 import com.bootdo.common.dto.StudentDTO;
 import com.bootdo.common.dto.TeacherDTO;
 import com.bootdo.common.dto.TeacherStudent;
@@ -41,8 +42,8 @@ public class MyTeacherInfoController {
     public PageUtils list() {
         logger.info("MyTeacherInfoController.list|开始查询我的导师");
         //查询我的导师是否存在
-        List<Long> idList = myTeacherInfoService.queryMyTeacherId(ShiroUtils.getUserId());
-        if(idList == null) {
+        List<TeacherStudentDO> tsList = myTeacherInfoService.queryMyTeacherId(ShiroUtils.getUserId());
+        if(tsList == null) {
             logger.info("我还没有导师，赶快去申请");
             return null;
         }
@@ -52,13 +53,16 @@ public class MyTeacherInfoController {
         }*/
 
         //拥有至少一位导师（我们要尽力避免出现超过一位老师的情况）
-        if(idList.size() > 0) {
+        if(tsList.size() > 0) {
             List<TeacherDTO> teacherList = new ArrayList<>();
-            for (Long tid: idList) {
-                TeacherDTO teacherDTO = myTeacherInfoService.queryMyTeacherByTeacherId(tid);
+            for (TeacherStudentDO ts: tsList) {
+                TeacherDTO teacherDTO = myTeacherInfoService.queryMyTeacherByTeacherId(ts.getTeacherId());
+                if(teacherDTO != null) {
+                    teacherDTO.setPaperTitle(ts.getPaperTitle());
+                }
                 teacherList.add(teacherDTO);
             }
-            PageUtils pageUtils = new PageUtils(teacherList,idList.size());
+            PageUtils pageUtils = new PageUtils(teacherList,tsList.size());
             return pageUtils;
         }
         return null;

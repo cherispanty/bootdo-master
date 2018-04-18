@@ -17,6 +17,8 @@ public class PaperDTO {
     private Long studentId;
     //学生姓名
     private String studentName;
+    //学生学号
+    private String username;
     //学生班级
     private String className;
     //上传路径
@@ -44,6 +46,13 @@ public class PaperDTO {
     //论文状态
     private Byte status;
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
     public Long getId() {
         return id;
@@ -197,6 +206,7 @@ public class PaperDTO {
                 ", name='" + name + '\'' +
                 ", studentId=" + studentId +
                 ", studentName='" + studentName + '\'' +
+                ", username='" + username + '\'' +
                 ", className='" + className + '\'' +
                 ", url='" + url + '\'' +
                 ", createTime='" + createTime + '\'' +

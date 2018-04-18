@@ -64,9 +64,9 @@ function load() {
 						width: '20%',
 						title : '标题',
 						formatter:function (value,row,index) {
-                            return '<a href="#" onclick="read(\''+ row.id+ '\')">'+row.title+'</a>';
+                            return '<a href="#" onclick="read(\'' + row.id + '\')">' + row.title + '</a>';
                         }
-					},
+                    },
 					{
 						field : 'content',
 						width: '30%',

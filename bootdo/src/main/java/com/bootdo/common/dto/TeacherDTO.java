@@ -18,6 +18,16 @@ public class TeacherDTO {
     private String mobile;      //手机号
     private String email;       //邮箱
 
+    //add
+    private String paperTitle;  //老师所定的论文题目
+
+    public String getPaperTitle() {
+        return paperTitle;
+    }
+
+    public void setPaperTitle(String paperTitle) {
+        this.paperTitle = paperTitle;
+    }
 
     public Integer getAlreadyNum() {
         return alreadyNum;
@@ -122,6 +132,7 @@ public class TeacherDTO {
                 ", status=" + status +
                 ", mobile='" + mobile + '\'' +
                 ", email='" + email + '\'' +
+                ", paperTitle='" + paperTitle + '\'' +
                 '}';
     }
 }

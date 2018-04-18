@@ -71,9 +71,9 @@ public class MyPaperController extends BaseController {
         String fileName = FileUtil.renameToUUID(name);
 		System.out.println("filename:"+fileName);
         //去除文件名后缀
-        int index = name.lastIndexOf('.');
-        name = name.substring(0, index);
-        System.out.println("去除后缀name:"+name);
+//        int index = name.lastIndexOf('.');
+//        name = name.substring(0, index);
+//        System.out.println("去除后缀name:"+name);
         Long studentId = ShiroUtils.getUserId();
         //获得指导老师id
         Long teacherId = myPaperService.queryMyteacherId(studentId);

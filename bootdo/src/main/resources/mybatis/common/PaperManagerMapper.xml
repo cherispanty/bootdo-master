@@ -22,6 +22,7 @@
 			p.type,
 			su1. NAME teacherName,
 			su2. NAME studentName,
+			su2.username,
             sd.name className
 		FROM
 			paper p

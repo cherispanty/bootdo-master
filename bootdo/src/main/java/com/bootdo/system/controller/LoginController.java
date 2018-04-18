@@ -37,7 +37,7 @@ public class LoginController extends BaseController {
 	@GetMapping({ "/", "" })
 	String welcome(Model model) {
 
-		return "redirect:/blog";
+		return "redirect:/login";
 	}
 
 	@Log("请求访问主页")
@@ -51,10 +51,10 @@ public class LoginController extends BaseController {
 			if(fileService.isExist(fileDO.getUrl())){
 				model.addAttribute("picUrl",fileDO.getUrl());
 			}else {
-				model.addAttribute("picUrl","/img/photo_s.jpg");
+				model.addAttribute("picUrl","/img/hnucm.jpg");
 			}
 		}else {
-			model.addAttribute("picUrl","/img/photo_s.jpg");
+			model.addAttribute("picUrl","/img/hnucm.jpg");
 		}
 		model.addAttribute("username", getUser().getUsername());
 		return "index_v1";

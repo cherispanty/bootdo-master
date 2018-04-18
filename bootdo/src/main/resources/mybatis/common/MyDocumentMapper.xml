@@ -14,7 +14,7 @@
 		  <if test="id != null and id != ''"> and id = #{id} </if>
 		  <if test="type != null and type != ''"> and type = #{type} </if>
 		  <if test="url != null and url != ''"> and url = #{url} </if>
-		  <if test="createDate != null and createDate != ''"> and create_date = #{createDate} </if>
+		  <if test="createDate != null and createDate != ''"> and create_date LIKE concat('%',#{createDate},'%') </if>
 		  <if test="name != null and name.trim() != ''"> and name = #{name} </if>
 		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
 			<if test="userName != null and userName.trim() != ''"> and user_name = #{userName} </if>
@@ -41,7 +41,7 @@
 			 <if test="id != null and id != ''"> and id = #{id} </if>
 			 <if test="type != null and type != ''"> and type = #{type} </if>
 			 <if test="url != null and url != ''"> and url = #{url} </if>
-			 <if test="createDate != null and createDate != ''"> and create_date = #{createDate} </if>
+			 <if test="createDate != null and createDate != ''"> and create_date LIKE concat('%',#{createDate},'%') </if>
 			 <if test="name != null and name.trim() != ''"> and name = #{name} </if>
 			 <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
 			 <if test="readStatus != null and readStatus != ''"> and read_status = #{readStatus} </if>
