@@ -69,4 +69,9 @@ public class MyPaperService {
         logger.info("MyPaperService.removePaper|id = {}",id);
         return myPaperDao.removePaper(id);
     }
+
+    public PaperDTO queryPaperById(Long id) {
+        logger.info("MyPaperServide.queryPaperById|id = {}",id );
+        return myPaperDao.queryPaperById(id);
+    }
 }

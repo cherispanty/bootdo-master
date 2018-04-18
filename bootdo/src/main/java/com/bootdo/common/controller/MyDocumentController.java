@@ -170,19 +170,14 @@ public class MyDocumentController extends BaseController {
 	}
 
 	@RequestMapping(value = "/testDownload/{id}", method = RequestMethod.GET)
-	public void testDownload(HttpServletResponse res,@PathVariable("id") String id) {
-		System.out.println("id:"+id);
-		System.out.println("res:"+res.toString());
-        id = id.replace("'", "");
-        id = id.replace("(","");
-        id = id.replace("","");
-        System.out.println("id:"+id);
-
+	public void testDownload(HttpServletResponse res,@PathVariable("id") String id) throws UnsupportedEncodingException {
 		//通过id获取文档信息
         FileDO file = mdsi.get(Long.parseLong(id));
-
+		System.out.println("file = "+file.toString());
         String fileName = file.getName();
-        String url = file.getUrl();
+        fileName = new String(fileName.getBytes(), "ISO-8859-1");
+        String originUrl = file.getUrl();
+        String url = originUrl.replace("/files", "");
         res.setHeader("content-type", "application/octet-stream");
 		res.setContentType("application/octet-stream");
 		res.setHeader("Content-Disposition", "attachment;filename=" + fileName);

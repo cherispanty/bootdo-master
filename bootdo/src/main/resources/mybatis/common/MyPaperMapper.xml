@@ -103,6 +103,12 @@
 		where id = #{id}
 	</update>
 
+	<select id="queryPaperById" parameterType="Long" resultType="com.bootdo.common.dto.PaperDTO">
+		select id,name,url
+		from paper
+		where id = #{id}
+	</select>
+
 	<sql id="BaseColumnList">
 		paper.id,
 		paper. NAME,

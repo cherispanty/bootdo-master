@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -92,6 +94,45 @@ public class MyPaperController extends BaseController {
             return R.ok().put("fileName",sysFile.getUrl());
         }
         return R.error();
+    }
+
+    @RequestMapping(value = "/testDownload/{id}", method = RequestMethod.GET)
+    public void testDownload(HttpServletResponse res, @PathVariable("id") String id) throws UnsupportedEncodingException {
+        //通过id获取论文信息
+        PaperDTO paper = myPaperService.queryPaperById(Long.parseLong(id));
+        System.out.println("paper = "+paper.toString());
+        String fileName = paper.getName();
+        fileName = new String(fileName.getBytes(), "ISO-8859-1");
+        String originUrl = paper.getUrl();
+        String url = originUrl.replace("/files", "");
+        res.setHeader("content-type", "application/octet-stream");
+        res.setContentType("application/octet-stream");
+        res.setHeader("Content-Disposition", "attachment;filename=" + fileName);
+        byte[] buff = new byte[1024];
+        BufferedInputStream bis = null;
+        OutputStream os = null;
+        try {
+            os = res.getOutputStream();
+            bis = new BufferedInputStream(new FileInputStream(new File(bootdoConfig.getUploadPath()
+                    + url)));
+            int i = bis.read(buff);
+            while (i != -1) {
+                os.write(buff, 0, buff.length);
+                os.flush();
+                i = bis.read(buff);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }  finally {
+            if (bis != null) {
+                try {
+                    bis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        System.out.println("success");
     }
 
     //查看论文明细

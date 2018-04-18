@@ -27,5 +27,7 @@ public interface MyPaperDao {
     Integer cancelPaper(Long id);
     //删除上传的论文
     Integer removePaper(Long id);
+    //通过id查询论文
+    PaperDTO queryPaperById(Long id);
 
 }
