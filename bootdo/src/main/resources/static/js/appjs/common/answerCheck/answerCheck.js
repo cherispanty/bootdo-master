@@ -80,8 +80,8 @@ function load() {
 						limit : params.limit,
 						offset : params.offset,
                         name: $('#name').val(),
-						studentId: $('#studentId').val(),
-						teacherId: $('#teacherId').val(),
+                        username: $('#username').val(),
+						teacherName: $('#teacherName').val(),
                         status: $('#status').val(),
                         deptId: $('.chosen-select').val()
 					};
@@ -117,7 +117,7 @@ function load() {
                         align: "center"
 					},
                     {
-                        field : 'studentId',
+                        field : 'username',
                         title : '学号',
                         align: "center"
                     },

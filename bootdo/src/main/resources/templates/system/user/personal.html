@@ -102,7 +102,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="gg-formGroup">
+                            <div class="gg-formGroup " >
                                 <div class="gg-formTitle">
                                     <em class="gg-star">*</em>
                                     <span>联系地址:</span>
@@ -111,19 +111,19 @@
                                     <input type="text" class="form-control" id="address" name="liveAddress" th:value="${user.liveAddress}" placeholder="请输入居住地址" />
                                 </div>
                             </div>
-                            <div class="gg-formGroup">
+                            <div class="gg-formGroup hidden">
                                 <div class="gg-formTitle">
                                     <em class="gg-star">*</em>
                                     <span>爱好:</span>
                                 </div>
                                 <div class="gg-formDetail">
-                                    <div class="checxbox i-checks" >
-                                        <input type="hidden" name="hobby" id="hobby"/>
-                                        <label th:each="hobby : ${hobbyList}">
-                                            <input type="checkbox" class="hobby"  th:value="${hobby.id}" th:text="${hobby.name}" th:checked="${hobby.remarks}=='true'"/>
-                                        </label>
-                                    </div>
+                                <div class="checxbox i-checks" >
+                                    <input type="hidden" name="hobby" id="hobby"/>
+                                    <label th:each="hobby : ${hobbyList}">
+                                        <input type="checkbox" class="hobby"  th:value="${hobby.id}" th:text="${hobby.name}" th:checked="${hobby.remarks}=='true'"/>
+                                    </label>
                                 </div>
+                            </div>
                             </div>
                         </form>
                         <div class="gg-btnGroup">

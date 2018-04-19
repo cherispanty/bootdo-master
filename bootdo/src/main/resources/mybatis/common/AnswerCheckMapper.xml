@@ -22,6 +22,7 @@
 			p.type,
 			su1. NAME teacherName,
 			su2. NAME studentName,
+			su2.username,
             sd.name className
 		FROM
 			paper p
@@ -36,11 +37,11 @@
 			<if test="name != null and name.trim() != ''">
 				and p.name like concat('%',#{name},'%')
 			</if>
-			<if test="studentId != null and studentId != ''">
-				and p.student_id like concat('%',#{studentId},'%')
+			<if test="username != null and username.trim() != ''">
+				and su2.username like concat('%',#{username},'%')
 			</if>
-			<if test="teacherId != null and teacherId != ''">
-				and p.teacher_id like concat('%',#{teacherId},'%')
+			<if test="teacherName != null and teacherName.trim() != ''">
+				and su1.name like concat('%',#{teacherName},'%')
 			</if>
 			<if test="status != null and status != ''">
 				and p.status = #{status}

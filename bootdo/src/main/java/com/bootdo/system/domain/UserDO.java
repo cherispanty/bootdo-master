@@ -62,6 +62,7 @@ public class UserDO implements Serializable {
     //老师研究方向
     private String researchDirection;
 
+
     public LocalDateTime getGraduateYear() {
         return graduateYear;
     }
