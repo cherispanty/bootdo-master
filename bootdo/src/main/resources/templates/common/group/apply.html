@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <form class="form-horizontal m-t" id="signupForm">
+                        <input id="teacherId" name="teacherId" th:value="${ts.teacherId}"
+                               class="form-control" type="hidden">
+                        <input id="studentId" name="studentId" th:value="${ts.studentId}"
+                               class="form-control" type="hidden">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">教师名：</label>
+                            <div class="col-sm-8">
+                                <input id="teacherName" name="teacherName" th:value="${ts.teacherName}" disabled="true"
+                                       class="form-control" type="text">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">部门院系：</label>
+                            <div class="col-sm-8">
+                                <input id="deptName" name="deptName" th:value="${ts.deptName}" disabled="true"
+                                       class="form-control" type="text">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">研究方向：</label>
+                            <div class="col-sm-8">
+                                <input id="researchDirection" name="researchDirection" th:value="${ts.researchDirection}" disabled="true"
+                                       class="form-control" type="text">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">申请留言：</label>
+                            <div class="col-sm-8">
+                                <input id="leaveMessage" name="leaveMessage"
+                                       th:value="${ts.leaveMessage}" class="form-control"
+                                       type="text">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-8 col-sm-offset-3">
+                                <button type="submit" class="btn btn-primary">申请</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="include::footer"></div>
+<script type="text/javascript" src="/js/appjs/common/selectTeacher/apply.js">
+</script>
+</body>
+</html>

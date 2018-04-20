@@ -111,6 +111,7 @@
 			p.`status`,
 			p.type,
 			su1. NAME studentName,
+			su1.username,
 			su2. NAME teacherName
 		FROM
 			paper p
